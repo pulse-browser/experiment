@@ -1,0 +1,206 @@
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at http://mozilla.org/MPL/2.0/.
+
+PROJECT_DIR = helix
+
+STANDALONE_MAKEFILE := 1
+# DIST_SUBDIR := mail  # Not sure why TB is not using this
+
+include $(moztopsrcdir)/config/rules.mk
+
+# Some files have been already bundled with xulrunner
+ifndef SYSTEM_LIBXUL
+MOZ_PKG_FATAL_WARNINGS = 1
+endif
+
+# When packaging an artifact build not all xpt files expected by the
+# packager will be present.
+ifdef MOZ_ARTIFACT_BUILDS
+MOZ_PKG_FATAL_WARNINGS =
+endif
+
+#DEFINES += -DPKG_LOCALE_MANIFEST=$(PROJECT_DIR)/installer/locale-manifest.in
+#MOZ_CHROME_LOCALE_ENTRIES=@RESPATH@/chrome/
+
+MOZ_PKG_DUPEFLAGS = \
+	-f $(moztopsrcdir)/browser/installer/allowed-dupes.mn \
+	$(NULL)
+
+#MOZ_NONLOCALIZED_PKG_LIST = \
+#	xpcom \
+#	$(PROJECT_DIR) \
+#	$(NULL)
+
+MOZ_LOCALIZED_PKG_LIST = $(AB_CD)
+
+DEFINES += -DMOZ_APP_NAME=$(MOZ_APP_NAME) -DPREF_DIR=$(PREF_DIR)
+
+ifdef NIGHTLY_BUILD
+DEFINES += -DNIGHTLY_BUILD=1
+endif
+
+ifdef MOZ_DEBUG
+DEFINES += -DMOZ_DEBUG=1
+endif
+
+ifeq ($(MOZ_WIDGET_TOOLKIT),gtk)
+DEFINES += -DMOZ_GTK=1
+endif
+
+ifdef MOZ_SYSTEM_NSPR
+DEFINES += -DMOZ_SYSTEM_NSPR=1
+endif
+
+ifdef MOZ_SYSTEM_NSS
+DEFINES += -DMOZ_SYSTEM_NSS=1
+endif
+
+ifdef MOZ_ARTIFACT_BUILDS
+DEFINES += -DMOZ_ARTIFACT_BUILDS=1
+DEFINES += -DMZLA_LIBRNP=1
+endif
+
+DEFINES += -DJAREXT=
+
+ifdef MOZ_ANGLE_RENDERER
+DEFINES += -DMOZ_ANGLE_RENDERER=$(MOZ_ANGLE_RENDERER)
+ifdef MOZ_D3DCOMPILER_VISTA_DLL
+DEFINES += -DMOZ_D3DCOMPILER_VISTA_DLL=$(MOZ_D3DCOMPILER_VISTA_DLL)
+endif
+endif
+
+ifdef MOZ_UPDATER
+DEFINES += -DMOZ_UPDATER=1
+endif
+
+DEFINES += -DMOZ_CHILD_PROCESS_NAME=$(MOZ_CHILD_PROCESS_NAME)
+
+# Set MSVC dlls version to package, if any.
+ifdef MOZ_NO_DEBUG_RTL
+ifdef WIN32_REDIST_DIR
+DEFINES += -DMOZ_PACKAGE_MSVC_DLLS=1
+DEFINES += -DMSVC_C_RUNTIME_DLL=$(MSVC_C_RUNTIME_DLL)
+DEFINES += -DMSVC_CXX_RUNTIME_DLL=$(MSVC_CXX_RUNTIME_DLL)
+endif
+ifdef WIN_UCRT_REDIST_DIR
+DEFINES += -DMOZ_PACKAGE_WIN_UCRT_DLLS=1
+endif
+endif
+
+ifneq (,$(filter WINNT Darwin Android,$(OS_TARGET)))
+DEFINES += -DMOZ_SHARED_MOZGLUE=1
+endif
+
+ifdef NECKO_WIFI
+DEFINES += -DNECKO_WIFI
+endif
+
+ifdef MOZ_BUNDLED_FONTS
+DEFINES += -DMOZ_BUNDLED_FONTS=1
+endif
+
+ifdef MAKENSISU
+DEFINES += -DHAVE_MAKENSISU=1
+endif
+
+ifdef MOZ_BACKGROUNDTASKS
+DEFINES += -DMOZ_BACKGROUNDTASKS=1
+endif
+
+ifdef MOZ_PREF_EXTENSIONS
+DEFINES += -DMOZ_PREF_EXTENSIONS=1
+endif
+
+ifeq (cocoa,$(MOZ_WIDGET_TOOLKIT))
+MOZ_PKG_MAC_DSSTORE=$(topsrcdir)/$(MOZ_BRANDING_DIRECTORY)/dsstore
+MOZ_PKG_MAC_BACKGROUND=$(topsrcdir)/$(MOZ_BRANDING_DIRECTORY)/background.png
+MOZ_PKG_MAC_ICON=$(topsrcdir)/$(MOZ_BRANDING_DIRECTORY)/disk.icns
+MOZ_PKG_MAC_EXTRA=--symlink '/Applications:/ '
+endif
+
+# The packager minifies two different types of files: non-JS (mostly property
+# files for l10n), and JS.  Setting MOZ_PACKAGER_MINIFY only minifies the
+# former.  We don't yet minify JS, due to concerns about debuggability.
+#
+# Also, the JS minification setup really only works correctly on Android:
+# we need extra setup to use the newly-built shell for Linux and Windows,
+# and Mac requires some extra care due to cross-compilation.
+MOZ_PACKAGER_MINIFY=1
+
+#NON_OMNIJAR_FILES = defaults/messenger/mailViews.dat
+
+UPLOAD_EXTRA_FILES = $(MOZ_BUILT_FROM_FILE)
+include $(moztopsrcdir)/toolkit/mozapps/installer/packager.mk
+
+ifeq (Darwin,$(OS_TARGET))
+BINPATH = $(_BINPATH)
+DEFINES += -DAPPNAME='$(_APPNAME)'
+else
+# Every other platform just winds up in dist/bin
+BINPATH = bin
+endif
+DEFINES += -DBINPATH='$(BINPATH)'
+
+ifeq (cocoa,$(MOZ_WIDGET_TOOLKIT))
+RESPATH = $(_RESPATH)
+else
+RESPATH = $(BINPATH)
+endif
+DEFINES += -DRESPATH='$(RESPATH)'
+
+LPROJ_ROOT = $(firstword $(subst -, ,$(AB_CD)))
+ifeq (cocoa,$(MOZ_WIDGET_TOOLKIT))
+ifeq (zh-TW,$(AB_CD))
+LPROJ_ROOT := $(subst -,_,$(AB_CD))
+endif
+endif
+DEFINES += -DLPROJ_ROOT=$(LPROJ_ROOT)
+
+ifdef MOZ_SYSTEM_ICU
+DEFINES += -DMOZ_SYSTEM_ICU
+endif
+
+ifdef CLANG_CXX
+DEFINES += -DCLANG_CXX
+endif
+ifdef CLANG_CL
+DEFINES += -DCLANG_CL
+endif
+
+ifdef LLVM_SYMBOLIZER
+DEFINES += -DLLVM_SYMBOLIZER=$(notdir $(LLVM_SYMBOLIZER))
+endif
+ifdef MOZ_CLANG_RT_ASAN_LIB_PATH
+DEFINES += -DMOZ_CLANG_RT_ASAN_LIB=$(notdir $(MOZ_CLANG_RT_ASAN_LIB_PATH))
+endif
+
+# XXX ajvincent disabled for now, as I don't have a complete picture, or if we even need this
+#libs::
+#	$(MAKE) -C $(PROJECT_DIR)/locales langpack
+
+ifeq (WINNT,$(OS_ARCH))
+PKGCOMP_FIND_OPTS =
+else
+PKGCOMP_FIND_OPTS = -L
+endif
+ifeq (Darwin, $(OS_ARCH))
+FINDPATH = $(_APPNAME)/Contents/MacOS
+else
+FINDPATH=bin
+endif
+
+package-compare:: $(MOZ_PKG_MANIFEST)
+	cd $(DIST); find $(PKGCOMP_FIND_OPTS) '$(FINDPATH)' -type f | sort > bin-list.txt
+	$(call py_action,preprocessor,$(DEFINES) $(ACDEFINES) $(MOZ_PKG_MANIFEST)) | grep '^$(BINPATH)' | sed -e 's/^\///' | sort > $(DIST)/pack-list.txt
+	-diff -u $(DIST)/pack-list.txt $(DIST)/bin-list.txt
+	rm -f $(DIST)/pack-list.txt $(DIST)/bin-list.txt
+
+# XXX ajvincent disabled for now, as I don't have a complete picture, or if we even need this
+## Overwrite the one made by Firefox with our own.
+#make-sourcestamp-file::
+#	$(PYTHON3) $(commtopsrcdir)/build/source_repos.py gen_sourcestamp > $(MOZ_SOURCESTAMP_FILE)
+
+ifdef ENABLE_WEBDRIVER
+DEFINES += -DENABLE_WEBDRIVER=1
+endif

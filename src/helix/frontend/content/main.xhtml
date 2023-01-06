@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<html
+  id="main"
+  xmlns:html="http://www.w3.org/1999/xhtml"
+  xmlns:xul="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+  xmlns="http://www.w3.org/1999/xhtml"
+  title="MyApp"
+  width="300"
+  height="300"
+>
+  <head>
+    <script>
+      const { Services } = ChromeUtils.import(
+        "resource://gre/modules/Services.jsm"
+      );
+
+      Services.scriptloader.loadSubScript(
+        "chrome://helix/content/main.js",
+        this
+      );
+    </script>
+  </head>
+
+  <html:body
+    xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+  >
+    <description>Hello World</description>
+    <separator />
+    <button id="show-more" label="More >>" oncommand="showMore()" />
+    <button
+      id="start-devtools"
+      label="Start Devtools"
+      oncommand="startDevtools()"
+    />
+    <separator />
+    <description id="more-text" hidden="true"
+      >This is a simple gecko example. It has support for lots of things that
+      browsers have, from html to (some parts of) webextensions</description
+    >
+
+    <html:div id="devtools-instructions" hidden="true">
+      <html:h2>To connect to the devtools server:</html:h2>
+      <html:ol>
+        <html:li>Open 'about:debugging' in Firefox or Pulse Browser</html:li>
+        <html:li>Open the setup tab</html:li>
+        <html:li
+          >Enter the following host inside of network locations
+          'localhost:<html:span id="devtools-port"></html:span>' and click
+          'Add'</html:li
+        >
+        <html:li>Click 'Connect' in the left sidebar</html:li>
+        <html:li>Click on the entry in the left sidebar</html:li>
+        <html:li>Click 'Open in Browser Toolbox'</html:li>
+      </html:ol>
+    </html:div>
+  </html:body>
+</html>
