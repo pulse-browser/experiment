@@ -1,0 +1,12 @@
+diff --git a/services/moz.build b/services/moz.build
+index 4ef95d88d209a3c902aa7d7dfc316686bbc69a6b..e460b94ee3775adf1bab28ba75aeece1456b7902 100644
+--- a/services/moz.build
++++ b/services/moz.build
+@@ -11,7 +11,6 @@ DIRS += [
+     "common",
+     "crypto",
+     "interfaces",
+-    "settings",
+ ]
+ 
+ # The automation dir is only included in nightlies and debug
