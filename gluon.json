@@ -1,0 +1,13 @@
+{
+  "name": "experiment",
+  "vendor": "Fushra",
+  "appId": "com.fushra.experiment-browser",
+  "binaryName": "experiment-browser",
+  "version": {
+    "product": "firefox",
+    "version": "108.0.2"
+  },
+  "buildOptions": {
+    "windowsUseSymbolicLinks": false
+  }
+}
