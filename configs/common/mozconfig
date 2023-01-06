@@ -7,6 +7,10 @@ export MOZ_APP_DISPLAYNAME="${name}"
 export MOZ_MACBUNDLE_ID=${appId}
 export MOZ_DISTRIBUTION_ID=${appId}
 
+ac_add_options --enable-project=helix
+ac_add_options --enable-application=helix
+ac_add_options --with-app-basename=helix
+
 # Uncomment if builds are too resource hungry
 # mk_add_options MOZ_MAKE_FLAGS="-j4"
 # ac_add_options --enable-linker=gold
