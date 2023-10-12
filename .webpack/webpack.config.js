@@ -6,6 +6,7 @@ import MiniCssExtractPlugin from 'mini-css-extract-plugin'
 
 export default (env, argv) => {
   const dev = argv.mode === 'development'
+  console.log(resolve(process.cwd(), 'tsconfig.json'))
 
   return [
     {

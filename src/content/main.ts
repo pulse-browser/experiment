@@ -1,7 +1,7 @@
 /// <reference types="gecko-types" />
 
-import { initDevTools } from './lib/devtools'
+import App from './App.svelte'
 
-console.log('hello world')
-
-initDevTools()
+const app = new App({
+  target: document.body,
+})
