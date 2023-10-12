@@ -2,28 +2,22 @@
   "name": "experiment",
   "version": "1.0.0",
   "description": "",
+  "type": "module",
   "main": "index.js",
   "scripts": {
-    "build": "gluon build",
-    "build:ui": "gluon build --ui",
-    "bs": "yarn build && yarn start",
-    "bus": "yarn build:ui && yarn start",
-    "start": "yarn clearStartupCache && gluon run",
-    "export": "gluon export-file",
-    "imp": "gluon import",
-    "clearProfile": "rm -rf engine/obj-x86_64-pc-linux-gnu/tmp/profile-default",
-    "clearStartupCache": "rm -rf engine/obj-x86_64-pc-linux-gnu/tmp/profile-default/startupCache",
-    "download": "gluon download",
-    "package": "gluon package",
-    "ff-version": "gluon ff-version",
-    "licenseCheck": "gluon license-check",
-    "gluon": "gluon",
-    "reset": "gluon reset"
+    "postinstall": "pnpm scripts:build && pnpm script:setup",
+    "scripts:build": "tsc -p ./tsconfig.scripts.json",
+    "script:setup": "node ./.scripts/setup.js",
+    "app:start": "./.store/rt/quark-runtime -no-remote"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "dependencies": {
-    "gluon-build": "1.0.0-rc.5"
+  "devDependencies": {
+    "@types/node": "^20.8.4",
+    "execa": "^8.0.1",
+    "kleur": "^4.1.5",
+    "nodejs-file-downloader": "^4.12.1",
+    "typescript": "^5.2.2"
   }
 }

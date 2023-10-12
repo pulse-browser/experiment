@@ -1,6 +1,4 @@
-
-.dotbuild/
-.gluon/
+.scripts/
+.store/
 engine/
-firefox-*/
 node_modules/
