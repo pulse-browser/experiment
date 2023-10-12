@@ -1,4 +1,4 @@
 .scripts/
 .store/
-engine/
+dist/
 node_modules/

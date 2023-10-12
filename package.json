@@ -8,16 +8,34 @@
     "postinstall": "pnpm scripts:build && pnpm script:setup",
     "scripts:build": "tsc -p ./tsconfig.scripts.json",
     "script:setup": "node ./.scripts/setup.js",
-    "app:start": "./.store/rt/quark-runtime -no-remote"
+    "app:start": "./.store/rt/quark-runtime -no-remote",
+    "dev": "webpack serve --mode development"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@tsconfig/svelte": "^5.0.2",
     "@types/node": "^20.8.4",
+    "copy-webpack-plugin": "^11.0.0",
+    "css-loader": "^6.8.1",
     "execa": "^8.0.1",
+    "gecko-types": "github:quark-platform/gecko-types",
+    "html-webpack-plugin": "^5.5.3",
     "kleur": "^4.1.5",
+    "mini-css-extract-plugin": "^2.7.6",
     "nodejs-file-downloader": "^4.12.1",
-    "typescript": "^5.2.2"
+    "prettier": "^3.0.3",
+    "prettier-plugin-organize-imports": "^3.2.3",
+    "prettier-plugin-svelte": "^3.0.3",
+    "style-loader": "^3.3.3",
+    "svelte": "^4.2.1",
+    "svelte-loader": "^3.1.9",
+    "svelte-preprocess": "^5.0.4",
+    "ts-loader": "^9.5.0",
+    "typescript": "^5.2.2",
+    "webpack": "^5.88.2",
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^4.15.1"
   }
 }
