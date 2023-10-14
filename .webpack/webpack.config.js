@@ -3,6 +3,7 @@ import { resolve } from 'node:path'
 
 import HtmlWebpackPlugin from 'html-webpack-plugin'
 import MiniCssExtractPlugin from 'mini-css-extract-plugin'
+import preprocess from 'svelte-preprocess'
 
 export default (env, argv) => {
   const dev = argv.mode === 'development'
@@ -50,6 +51,7 @@ export default (env, argv) => {
                 },
                 emitCss: !dev,
                 hotReload: dev,
+                preprocess: preprocess(),
               },
             },
           },
