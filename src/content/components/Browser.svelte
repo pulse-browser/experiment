@@ -5,9 +5,9 @@
     getBrowserRemoteType,
     setURI,
   } from '../lib/xul/browser'
+  import { domContentLoaded } from '../lib/xul/domevents'
 
   export let url: nsIURIType
-  let firstLoad = true
 
   let browserContainer: HTMLElement
 
@@ -17,42 +17,11 @@
     remoteType: getBrowserRemoteType(url),
   })
 
-  // TODO: Should we ensure this is delayed until onDOMContentLoaded() or eq
-  onMount(() => {
+  onMount(async () => {
     browserContainer.appendChild(browser)
-
+    await domContentLoaded.promise
     setURI(browser, url)
-    if (firstLoad) {
-      setTimeout(() => setURI(browser, url), 10)
-    }
-
-    //  let oa = resource.E10SUtils.predictOriginAttributes({ browser })
-    //  const { useRemoteTabs } = window.docShell.QueryInterface(Ci.nsILoadContext)
-    //  const remoteType = resource.E10SUtils.getRemoteTypeForURI(
-    //    url.spec,
-    //    useRemoteTabs /* is multi process browser */,
-    //    false /* fission */,
-    //    resource.E10SUtils.DEFAULT_REMOTE_TYPE,
-    //    null,
-    //    oa
-    //  )
-    //  browser.setAttribute('remoteType', remoteType)
   })
-
-  function loadUrl(url: string) {
-    console.log('load', url)
-    let loadURIOptions: Record<string, string> = {}
-    if (!loadURIOptions.triggeringPrincipal)
-      loadURIOptions.triggeringPrincipal =
-        Services.scriptSecurityManager.getSystemPrincipal()
-
-    if (!browser) {
-      console.warn(`goto was called before the browser with id was initialized`)
-      return
-    }
-
-    ;(browser as any).loadURI(url, loadURIOptions)
-  }
 
   onDestroy(() => {
     browser.remove()
