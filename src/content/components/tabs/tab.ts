@@ -1,3 +1,4 @@
+import { writable } from 'svelte/store'
 import {
   createBrowser,
   getBrowserRemoteType,
@@ -15,7 +16,7 @@ export class Tab {
   private uri: nsIURIType
   private browserElement: HTMLElement
 
-  public title: string = 'TODO'
+  public title = writable('...')
 
   constructor(uri: nsIURIType) {
     this.uri = uri
@@ -24,6 +25,10 @@ export class Tab {
     })
 
     this._id = (this.browserElement as any).browserId as number
+
+    this.browserElement.addEventListener('pagetitlechanged', () => {
+      this.title.set((this.browserElement as any).contentTitle)
+    })
   }
 
   public getId(): number {

@@ -47,6 +47,12 @@
     display: flex;
     flex-direction: column;
   }
+
+  .tabs {
+    display: flex;
+    gap: 0.25rem;
+  }
+
   .browsers {
     flex-grow: 1;
   }
