@@ -33,6 +33,7 @@ export default (env, argv) => {
         },
         client: {
           logging: 'verbose',
+          overlay: false,
         },
       },
       optimization: {

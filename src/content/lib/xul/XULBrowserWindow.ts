@@ -7,7 +7,7 @@ export class XULBrowserWindow {
   ])
 
   setOverLink(link: string): void {
-    throw new Error('Method not implemented.')
+    // TODO: Do something with information about link hover
   }
   onBeforeLinkTraversal(
     originalTarget: string,
@@ -24,10 +24,10 @@ export class XULBrowserWindow {
     direction: string,
     browser: Element,
   ): void {
-    throw new Error('Method not implemented.')
+    // TODO: Implement link tooltips
   }
   hideTooltip(): void {
-    throw new Error('Method not implemented.')
+    // TODO: Implment link tooltips
   }
   getTabCount() {
     throw new Error('Method not implemented.')

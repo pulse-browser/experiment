@@ -1,5 +1,7 @@
 /// <reference types="gecko-types" />
 
+import './global.css'
+
 import App from './App.svelte'
 
 // TODO: WTF is this and do we care

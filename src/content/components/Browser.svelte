@@ -1,40 +1,33 @@
 <script lang="ts">
-  import { onDestroy, onMount } from 'svelte'
-  import {
-    createBrowser,
-    getBrowserRemoteType,
-    setURI,
-  } from '../lib/xul/browser'
-  import { domContentLoaded } from '../lib/xul/domevents'
+  import { createEventDispatcher, onDestroy, onMount } from 'svelte'
+  import { Tab } from './tabs/tab'
 
-  export let url: nsIURIType
+  export let tab: Tab
+  export let selectedTab: number
 
   let browserContainer: HTMLElement
-
-  // Put everything here that needs to run **BEFORE** the browser is added
-  // to the dom
-  let browser: HTMLElement = createBrowser({
-    remoteType: getBrowserRemoteType(url),
-  })
+  const dispatch = createEventDispatcher()
 
   onMount(async () => {
-    browserContainer.appendChild(browser)
-    await domContentLoaded.promise
-    setURI(browser, url)
+    tab.setContainer(browserContainer)
+    dispatch('constructed')
   })
-
-  onDestroy(() => {
-    browser.remove()
-  })
-
-  // $: loadUrl(url)
+  onDestroy(() => tab.destroy())
 </script>
 
-<div bind:this={browserContainer} />
+<div
+  bind:this={browserContainer}
+  class="browser-container"
+  hidden={selectedTab != tab.getId()}
+/>
 
 <style>
+  .browser-container {
+    height: 100%;
+  }
+
   :global(browser) {
     width: 100%;
-    height: 300px;
+    height: 100%;
   }
 </style>
