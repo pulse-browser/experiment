@@ -7,7 +7,6 @@ import preprocess from 'svelte-preprocess'
 
 export default (env, argv) => {
   const dev = argv.mode === 'development'
-  console.log(resolve(process.cwd(), 'tsconfig.json'))
 
   return [
     {

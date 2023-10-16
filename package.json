@@ -9,8 +9,10 @@
     "scripts:build": "tsc -p ./tsconfig.scripts.json",
     "script:setup": "node ./.scripts/setup.js",
     "app:start": "./.store/rt/quark-runtime -no-remote",
-    "dev": "webpack serve --mode development",
-    "dev:slink": "rm --force ./.store/artifact.tar.bz2 && ln -s ../../experiment-runtime/dist/quark-runtime-1.0.0.en-US.linux-x86_64.tar.bz2 ./.store/artifact.tar.bz2"
+    "dev": "concurrently -c auto pnpm:dev-*",
+    "dev-content": "webpack serve --mode development",
+    "dev-modules": "tsc -w -p ./tsconfig.modules.json",
+    "rt:slink": "rm --force ./.store/artifact.tar.bz2 && ln -s ../../experiment-runtime/dist/quark-runtime-1.0.0.en-US.linux-x86_64.tar.bz2 ./.store/artifact.tar.bz2"
   },
   "keywords": [],
   "author": "",
@@ -18,6 +20,7 @@
   "devDependencies": {
     "@tsconfig/svelte": "^5.0.2",
     "@types/node": "^20.8.4",
+    "concurrently": "^8.2.1",
     "copy-webpack-plugin": "^11.0.0",
     "css-loader": "^6.8.1",
     "execa": "^8.0.1",
