@@ -8,7 +8,7 @@
  */
 
 import { existsSync } from 'fs'
-import { mkdir, readFile, rm, symlink } from 'fs/promises'
+import { mkdir, rm, symlink } from 'fs/promises'
 import { execa } from 'execa'
 
 import { downloadReleaseAsset, getLatestRelease } from './lib/releases.js'
@@ -17,8 +17,8 @@ import {
   ARTIFACT_RT_PATH,
   getArtifactFile,
   getDistFile,
-  getSrcFile,
 } from './lib/constants.js'
+import { linkFolder } from './lib/linker.js'
 
 const OWNER = 'pulse-browser'
 const REPO = 'experiment-runtime'
@@ -29,6 +29,7 @@ if (process.platform != 'linux') {
   failure('Artifact builds are only compiled for linux')
 }
 
+info('Retriving artifact info...')
 const release = await getLatestRelease(OWNER, REPO)
 const artifact = await downloadReleaseAsset(release, ARTIFACT_NAME)
 
@@ -67,21 +68,8 @@ const contentDirDist = getDistFile('browser_content')
 await rm(contentDir, { recursive: true, force: true })
 await symlink(contentDirDist, contentDir)
 
-// Now we want to link all of the modules to the correct location. Some notes:
-// - There is a module index file called `link.json`
-// - tsc will output modules in esm using the `.js` file name
-const linkFile = await readFile(getSrcFile('modules/link.json'), {
-  encoding: 'utf8',
-})
-const links = JSON.parse(linkFile)
-for (const link of links) {
-  const webpackFile = `${link}.js`
-  const geckoName = `${link}.sys.mjs`
-  const geckoPath = getArtifactFile(`modules/${geckoName}`)
-
-  if (existsSync(geckoPath)) await rm(geckoPath)
-  await symlink(getDistFile(`modules/${webpackFile}`), geckoPath)
-}
+await linkFolder('modules')
+await linkFolder('actors')
 
 info('')
 info('You are all set up!')

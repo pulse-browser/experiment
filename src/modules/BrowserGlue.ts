@@ -1,4 +1,4 @@
-/// <reference types="gecko-types" />
+/// <reference path="./link.d.ts" />
 
 import { lazyESModuleGetters } from 'resource://app/modules/TypedImportUtils.sys.mjs'
 

@@ -6,12 +6,13 @@
   "main": "index.js",
   "scripts": {
     "postinstall": "pnpm scripts:build && pnpm script:setup",
-    "scripts:build": "tsc -p ./tsconfig.scripts.json",
+    "scripts:build": "tsc -p ./tsconfigs/tsconfig.scripts.json",
     "script:setup": "node ./.scripts/setup.js",
     "app:start": "./.store/rt/quark-runtime -no-remote",
     "dev": "concurrently -c auto pnpm:dev-*",
     "dev-content": "webpack serve --mode development",
-    "dev-modules": "tsc -w -p ./tsconfig.modules.json",
+    "dev-modules": "tsc -w -p ./tsconfigs/tsconfig.modules.json",
+    "dev-actors": "tsc -w -p ./tsconfigs/tsconfig.actors.json",
     "rt:slink": "rm --force ./.store/artifact.tar.bz2 && ln -s ../../experiment-runtime/dist/quark-runtime-1.0.0.en-US.linux-x86_64.tar.bz2 ./.store/artifact.tar.bz2"
   },
   "keywords": [],
