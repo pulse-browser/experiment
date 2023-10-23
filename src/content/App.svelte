@@ -4,11 +4,7 @@
   import { Tab as TabData } from './components/tabs/tab'
   import { initDevTools } from './lib/devtools'
   import { resource } from './lib/resources'
-
-  const tabs = [
-    new TabData(resource.NetUtil.newURI('https://google.com')),
-    new TabData(resource.NetUtil.newURI('https://google.com')),
-  ]
+  import { tabs } from './lib/globalApi'
 
   let selectedTab = -1
 </script>
@@ -24,12 +20,12 @@
     >
   </div>
   <div class="tabs">
-    {#each tabs as tab}
+    {#each $tabs as tab}
       <Tab {tab} bind:selectedTab />
     {/each}
   </div>
   <div class="browsers">
-    {#each tabs as tab}
+    {#each $tabs as tab}
       <Browser
         {tab}
         {selectedTab}

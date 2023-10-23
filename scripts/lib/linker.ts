@@ -13,9 +13,9 @@ export async function linkFolder(folderName: string) {
   for (const link of links) {
     const distFileName = `${link}.js`
     const geckoName = `${link}.sys.mjs`
-    const geckoPath = getArtifactFile(`modules/${geckoName}`)
+    const geckoPath = getArtifactFile(`${folderName}/${geckoName}`)
 
     if (existsSync(geckoPath)) await rm(geckoPath)
-    await symlink(getDistFile(`modules/${distFileName}`), geckoPath)
+    await symlink(getDistFile(`${folderName}/${distFileName}`), geckoPath)
   }
 }

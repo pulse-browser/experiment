@@ -1,4 +1,4 @@
-import { writable } from 'svelte/store'
+import { writable, type Writable } from 'svelte/store'
 import {
   createBrowser,
   getBrowserRemoteType,
@@ -17,6 +17,7 @@ export class Tab {
   private browserElement: HTMLElement
 
   public title = writable('...')
+  public icon: Writable<string | null> = writable(null)
 
   constructor(uri: nsIURIType) {
     this.uri = uri

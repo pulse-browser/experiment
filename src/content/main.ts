@@ -1,6 +1,7 @@
 /// <reference types="gecko-types" />
 
 import './global.css'
+import './lib/globalApi'
 
 import App from './App.svelte'
 

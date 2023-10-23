@@ -1,4 +1,4 @@
-/// <reference path="./link.d.ts" />
+/// <reference path="../link.d.ts" />
 
 import { lazyESModuleGetters } from 'resource://app/modules/TypedImportUtils.sys.mjs'
 
@@ -10,10 +10,10 @@ const JS_PROCESS_ACTORS = {}
 const JS_WINDOW_ACTORS = {
   LinkHandler: {
     parent: {
-      moduleURI: 'resource://app/actors/LinkHandlerParent.jsm',
+      esModuleURI: 'resource://app/actors/LinkHandlerParent.sys.mjs',
     },
     child: {
-      moduleURI: 'resource://app/actors/LinkHandlerChild.jsm',
+      esModuleURI: 'resource://app/actors/LinkHandlerChild.sys.mjs',
       events: {
         DOMHeadElementParsed: {},
         DOMLinkAdded: {},

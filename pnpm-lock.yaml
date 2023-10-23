@@ -25,7 +25,7 @@ devDependencies:
     version: 8.0.1
   gecko-types:
     specifier: github:quark-platform/gecko-types
-    version: github.com/quark-platform/gecko-types/907bfa5e0e7568c3bc9c8d61104ecd086a9039b3
+    version: github.com/quark-platform/gecko-types/7107a76f9b7cac6145424f5584b981bb781e888e
   html-webpack-plugin:
     specifier: ^5.5.3
     version: 5.5.3(webpack@5.88.2)
@@ -3416,8 +3416,8 @@ packages:
       yargs-parser: 21.1.1
     dev: true
 
-  github.com/quark-platform/gecko-types/907bfa5e0e7568c3bc9c8d61104ecd086a9039b3:
-    resolution: {tarball: https://codeload.github.com/quark-platform/gecko-types/tar.gz/907bfa5e0e7568c3bc9c8d61104ecd086a9039b3}
+  github.com/quark-platform/gecko-types/7107a76f9b7cac6145424f5584b981bb781e888e:
+    resolution: {tarball: https://codeload.github.com/quark-platform/gecko-types/tar.gz/7107a76f9b7cac6145424f5584b981bb781e888e}
     name: gecko-types
     version: 1.0.0
     dev: true
