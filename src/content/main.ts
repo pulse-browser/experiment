@@ -1,5 +1,7 @@
 /// <reference types="gecko-types" />
 
+import 'remixicon/fonts/remixicon.css'
+
 import './global.css'
 import './lib/globalApi'
 

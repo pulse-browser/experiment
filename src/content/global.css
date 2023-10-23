@@ -1,5 +1,28 @@
+@import '@catppuccin/palette/style';
+
+/**
+ * Note that CSS color naming follows the same conventions that catppuccin uses
+ * https://github.com/catppuccin/catppuccin/blob/main/docs/style-guide.md
+ */
+:root {
+  --crust: var(--ctp-frappe-crust);
+  --mantle: var(--ctp-frappe-mantle);
+  --base: var(--ctp-frappe-base);
+  --surface: var(--surface-0);
+  --surface-0: var(--ctp-frappe-surface0);
+  --surface-1: var(--ctp-frappe-surface1);
+  --surface-2: var(--ctp-frappe-surface2);
+
+  --text: var(--ctp-frappe-text);
+  --subtext: var(--subtext-0);
+  --subtext-0: var(--ctp-frappe-subtext1);
+  --subtext-2: var(--ctp-frappe-subtext0);
+}
+
 body {
   margin: 0;
   height: 100vh;
   overflow: hidden;
+
+  background: var(--base);
 }

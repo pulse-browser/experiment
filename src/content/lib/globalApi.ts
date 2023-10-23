@@ -7,10 +7,24 @@ export const tabs = writable([
   new Tab(resource.NetUtil.newURI('https://google.com')),
 ])
 
+export function openTab(url = 'https://google.com') {
+  tabs.update((tabs) => [...tabs, new Tab(resource.NetUtil.newURI(url))])
+}
+
+export function closeTab(tab: Tab) {
+  tabs.update((tabs) => {
+    console.log(tab, tabs)
+    tab.destroy()
+    return tabs.filter((t) => t.getId() != tab.getId())
+  })
+}
+
 export const windowApi = {
+  closeTab,
+  openTab,
   setIcon: (browser: any, iconURL: string) =>
     tabs.update((tabs) => {
-      tabs.find((tab) => tab.getId() == browser.browserId)?.icon.set(iconURL)
+      tabs.find((tab) => tab.getTabId() == browser.browserId)?.icon.set(iconURL)
       return tabs
     }),
 }

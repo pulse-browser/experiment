@@ -1,10 +1,8 @@
 <script lang="ts">
   import Browser from './components/Browser.svelte'
   import Tab from './components/tabs/Tab.svelte'
-  import { Tab as TabData } from './components/tabs/tab'
   import { initDevTools } from './lib/devtools'
-  import { resource } from './lib/resources'
-  import { tabs } from './lib/globalApi'
+  import { tabs, openTab } from './lib/globalApi'
 
   let selectedTab = -1
 </script>
@@ -13,19 +11,18 @@
   <div class="toolbar">
     <button on:click={initDevTools}>Open dev tools</button>
     <button on:click={() => window.location.reload()}>Reload</button>
-    <button
-      on:click={() =>
-        tabs.push(new TabData(resource.NetUtil.newURI('https://google.com')))}
-      >New Tab</button
-    >
   </div>
   <div class="tabs">
-    {#each $tabs as tab}
+    {#each $tabs as tab (tab.getId())}
       <Tab {tab} bind:selectedTab />
     {/each}
+
+    <button on:click={() => openTab()} class="tabs__button">
+      <i class="ri-add-line ri-lg" />
+    </button>
   </div>
   <div class="browsers">
-    {#each $tabs as tab}
+    {#each $tabs as tab (tab.getId())}
       <Browser
         {tab}
         {selectedTab}
@@ -47,6 +44,20 @@
   .tabs {
     display: flex;
     gap: 0.25rem;
+  }
+
+  .tabs__button {
+    border: none;
+    background: none;
+    margin: 0.25rem 0;
+    border-radius: 0.5rem;
+
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+
+  .tabs__button:hover {
+    background: var(--surface);
   }
 
   .browsers {

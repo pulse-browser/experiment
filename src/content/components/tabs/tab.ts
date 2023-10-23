@@ -6,12 +6,15 @@ import {
 } from '../../lib/xul/browser'
 import { domContentLoaded } from '../../lib/xul/domevents'
 
+let localTabId = 0
+
 /**
  * This provides a consistent internal representation of a tab, including the browser elements
  * it contains & information derived from listeners about its current state
  */
 export class Tab {
-  private _id: number
+  private _id: number = ++localTabId
+  private tabId: number | undefined
 
   private uri: nsIURIType
   private browserElement: HTMLElement
@@ -25,8 +28,6 @@ export class Tab {
       remoteType: getBrowserRemoteType(uri),
     })
 
-    this._id = (this.browserElement as any).browserId as number
-
     this.browserElement.addEventListener('pagetitlechanged', () => {
       this.title.set((this.browserElement as any).contentTitle)
     })
@@ -36,9 +37,17 @@ export class Tab {
     return this._id
   }
 
+  /**
+   * Gecko's internal tab/browser id. Note that this is not always ready on first render, so
+   * you should use {@link this.getId()} for keys etc
+   */
+  public getTabId(): number {
+    return this.tabId || 0
+  }
+
   public async setContainer(container: HTMLElement) {
     container.appendChild(this.browserElement)
-    this._id = (this.browserElement as any).browserId as number
+    this.tabId = (this.browserElement as any).browserId as number
 
     // Load the URI once we are sure that the dom has fully loaded
     await domContentLoaded.promise
