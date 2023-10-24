@@ -19,7 +19,7 @@ export class Tab {
   private uri: nsIURIType
   private browserElement: HTMLElement
 
-  public title = writable('...')
+  public title = writable()
   public icon: Writable<string | null> = writable(null)
 
   constructor(uri: nsIURIType) {
@@ -27,6 +27,7 @@ export class Tab {
     this.browserElement = createBrowser({
       remoteType: getBrowserRemoteType(uri),
     })
+    this.title.set(this.uri.asciiHost)
 
     this.browserElement.addEventListener('pagetitlechanged', () => {
       this.title.set((this.browserElement as any).contentTitle)

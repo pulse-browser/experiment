@@ -38,6 +38,10 @@ export function getBrowserRemoteType(uri: nsIURIType) {
 
 export function createBrowser({ remoteType }: { remoteType?: string } = {}) {
   const browser = document.createXULElement('browser')
+  if (remoteType) {
+    browser.setAttribute('remoteType', remoteType)
+    browser.setAttribute('remote', true)
+  }
 
   for (const attribute in DEFAULT_BROWSER_ATTRIBUTES)
     browser.setAttribute(
@@ -48,10 +52,6 @@ export function createBrowser({ remoteType }: { remoteType?: string } = {}) {
     )
 
   if (useRemoteTabs) browser.setAttribute('maychangeremoteness', 'true')
-  if (remoteType) {
-    browser.setAttribute('remoteType', remoteType)
-    browser.setAttribute('remote', true)
-  }
 
   return browser
 }

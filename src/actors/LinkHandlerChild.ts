@@ -120,8 +120,6 @@ export class LinkHandlerChild extends JSWindowActorChild {
   }
 
   handleEvent(event) {
-    console.log('LinkHandlerChild', event)
-
     switch (event.type) {
       case 'pageshow':
         return this.onPageShow(event)

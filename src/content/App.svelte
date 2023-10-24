@@ -2,9 +2,7 @@
   import Browser from './components/Browser.svelte'
   import Tab from './components/tabs/Tab.svelte'
   import { initDevTools } from './lib/devtools'
-  import { tabs, openTab } from './lib/globalApi'
-
-  let selectedTab = -1
+  import { tabs, openTab, selectedTab } from './lib/globalApi'
 </script>
 
 <div class="content">
@@ -14,7 +12,7 @@
   </div>
   <div class="tabs">
     {#each $tabs as tab (tab.getId())}
-      <Tab {tab} bind:selectedTab />
+      <Tab {tab} bind:selectedTab={$selectedTab} />
     {/each}
 
     <button on:click={() => openTab()} class="tabs__button">
@@ -25,9 +23,9 @@
     {#each $tabs as tab (tab.getId())}
       <Browser
         {tab}
-        {selectedTab}
+        selectedTab={$selectedTab}
         on:constructed={(_) => {
-          if (selectedTab == -1) selectedTab = tab.getId()
+          if ($selectedTab == -1) selectedTab.set(tab.getId())
         }}
       />
     {/each}

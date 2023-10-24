@@ -2,7 +2,6 @@
 
 export class LinkHandlerParent extends JSWindowActorParent {
   receiveMessage(aMsg) {
-    console.log('LinkHandlerParent', aMsg, this)
     const win = this.browsingContext.topChromeWindow
 
     switch (aMsg.name) {

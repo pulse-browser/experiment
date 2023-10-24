@@ -12,6 +12,10 @@
 
 <div
   on:click={() => (selectedTab = tab.getId())}
+  on:mouseup={(e) => {
+    // When the middle mouse button is clicked, close this tab
+    if (e.button == 1) closeTab(tab)
+  }}
   class="tab"
   aria-selected={tab.getId() == selectedTab}
 >
