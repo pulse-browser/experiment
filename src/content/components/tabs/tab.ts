@@ -17,7 +17,7 @@ export class Tab {
   private _id: number = ++localTabId
   private tabId: number | undefined
 
-  private browserElement: HTMLElement
+  private browserElement: HTMLElement & any
   private progressListener = new TabProgressListener()
 
   // Publicly available data. Even though these are writable, updating them will not change
@@ -25,6 +25,9 @@ export class Tab {
   public title = writable()
   public icon: Writable<string | null> = writable(null)
   public uri: Writable<nsIURIType>
+
+  public canGoBack = writable(false)
+  public canGoForward = writable(false)
 
   constructor(uri: nsIURIType) {
     this.uri = writable(uri)
@@ -70,6 +73,8 @@ export class Tab {
       if (!event.aWebProgress.isTopLevel) return
 
       this.uri.set(event.aLocation)
+      this.canGoBack.set(this.browserElement.canGoBack)
+      this.canGoForward.set(this.browserElement.canGoForward)
     })
   }
 
@@ -90,6 +95,14 @@ export class Tab {
 
   public destroy() {
     this.browserElement.remove()
+  }
+
+  public goBack() {
+    this.browserElement.goBack()
+  }
+
+  public goForward() {
+    this.browserElement.goForward()
   }
 }
 

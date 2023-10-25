@@ -5,13 +5,20 @@
   export let tab: Tab
   let inputContent: string = ''
 
-  const { uri } = tab
+  const { uri, canGoBack, canGoForward } = tab
 
   const unbindedSetInputContent = (value: string) => (inputContent = value)
   $: unbindedSetInputContent($uri.asciiSpec)
 </script>
 
 <div class="toolbar">
+  <button disabled={!$canGoBack} on:click={() => tab.goBack()}>
+    <i class="ri-arrow-left-line" />
+  </button>
+  <button disabled={!$canGoForward} on:click={() => tab.goForward()}>
+    <i class="ri-arrow-right-line" />
+  </button>
+
   <input
     type="text"
     bind:value={inputContent}
