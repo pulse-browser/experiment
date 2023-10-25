@@ -17,6 +17,8 @@
   --subtext: var(--subtext-0);
   --subtext-0: var(--ctp-frappe-subtext1);
   --subtext-2: var(--ctp-frappe-subtext0);
+
+  --active-border: var(--ctp-frappe-lavender);
 }
 
 body {
