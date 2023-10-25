@@ -104,6 +104,10 @@ export class Tab {
   public goForward() {
     this.browserElement.goForward()
   }
+
+  public reload() {
+    this.browserElement.reload()
+  }
 }
 
 type TabProgressListenerEventDefaults = {
