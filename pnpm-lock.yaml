@@ -8,6 +8,9 @@ dependencies:
   '@catppuccin/palette':
     specifier: ^0.2.0
     version: 0.2.0
+  mitt:
+    specifier: ^3.0.1
+    version: 3.0.1
   remixicon:
     specifier: ^3.5.0
     version: 3.5.0
@@ -33,7 +36,7 @@ devDependencies:
     version: 8.0.1
   gecko-types:
     specifier: github:quark-platform/gecko-types
-    version: github.com/quark-platform/gecko-types/7107a76f9b7cac6145424f5584b981bb781e888e
+    version: github.com/quark-platform/gecko-types/74d64aa74360c2b2b92738ee8cf379ea05539af0
   html-webpack-plugin:
     specifier: ^5.5.3
     version: 5.5.3(webpack@5.88.2)
@@ -2043,6 +2046,10 @@ packages:
     resolution: {integrity: sha512-2yyAR8qBkN3YuheJanUpWC5U3bb5osDywNB8RzDVlDwDHbocAJveqqj1u8+SVD7jkWT4yvsHCpWqqWqAxb0zCA==}
     dev: true
 
+  /mitt@3.0.1:
+    resolution: {integrity: sha512-vKivATfr97l2/QBCYAkXYDbrIWPM2IIKEl7YPhjCvKlG3kE2gm+uBo6nEXK3M5/Ffh/FLpKExzOQ3JJoJGFKBw==}
+    dev: false
+
   /mkdirp@0.5.6:
     resolution: {integrity: sha512-FP+p8RB8OWpF3YZBCrP5gtADmtXApB5AMLn+vdyA+PyxCjrCs00mjyUozssO33cwDeT3wNGdLxJ5M//YqtHAJw==}
     hasBin: true
@@ -3432,8 +3439,8 @@ packages:
       yargs-parser: 21.1.1
     dev: true
 
-  github.com/quark-platform/gecko-types/7107a76f9b7cac6145424f5584b981bb781e888e:
-    resolution: {tarball: https://codeload.github.com/quark-platform/gecko-types/tar.gz/7107a76f9b7cac6145424f5584b981bb781e888e}
+  github.com/quark-platform/gecko-types/74d64aa74360c2b2b92738ee8cf379ea05539af0:
+    resolution: {tarball: https://codeload.github.com/quark-platform/gecko-types/tar.gz/74d64aa74360c2b2b92738ee8cf379ea05539af0}
     name: gecko-types
     version: 1.0.0
     dev: true

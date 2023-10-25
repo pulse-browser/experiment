@@ -1,8 +1,12 @@
 <script lang="ts">
   import Browser from './components/Browser.svelte'
   import Tab from './components/tabs/Tab.svelte'
+  import Toolbar from './components/toolbar/Toolbar.svelte'
+
   import { initDevTools } from './lib/devtools'
   import { tabs, openTab, selectedTab } from './lib/globalApi'
+
+  $: currentTab = $tabs.find((tab) => tab.getId() == $selectedTab)
 </script>
 
 <div class="content">
@@ -19,6 +23,11 @@
       <i class="ri-add-line ri-lg" />
     </button>
   </div>
+
+  {#if currentTab}
+    <Toolbar tab={currentTab} />
+  {/if}
+
   <div class="browsers">
     {#each $tabs as tab (tab.getId())}
       <Browser
