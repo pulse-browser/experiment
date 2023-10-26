@@ -10,6 +10,7 @@ const DEFAULT_BROWSER_ATTRIBUTES = {
   message: 'true',
   messagemanagergroup: 'browsers',
   type: 'content',
+  contextmenu: 'browser_context_menu',
 } as const
 
 export function setURI(browser: any, uri: nsIURIType) {

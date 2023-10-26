@@ -1,1 +1,6 @@
-["LinkHandlerChild", "LinkHandlerParent"]
+[
+  "ContextMenuChild",
+  "ContextMenuParent",
+  "LinkHandlerChild",
+  "LinkHandlerParent"
+]

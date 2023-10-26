@@ -8,6 +8,22 @@ const lazy = lazyESModuleGetters({
 
 const JS_PROCESS_ACTORS = {}
 const JS_WINDOW_ACTORS = {
+  ContextMenu: {
+    parent: {
+      esModuleURI: 'resource://app/actors/ContextMenuParent.sys.mjs',
+    },
+
+    child: {
+      esModuleURI: 'resource://app/actors/ContextMenuChild.sys.mjs',
+      events: {
+        contextmenu: { mozSystemGroup: true },
+      },
+    },
+
+    messageManagerGroups: ['browsers'],
+    allFrames: true,
+  },
+
   LinkHandler: {
     parent: {
       esModuleURI: 'resource://app/actors/LinkHandlerParent.sys.mjs',

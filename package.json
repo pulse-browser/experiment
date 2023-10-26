@@ -48,5 +48,10 @@
     "@catppuccin/palette": "^0.2.0",
     "mitt": "^3.0.1",
     "remixicon": "^3.5.0"
+  },
+  "pnpm": {
+    "patchedDependencies": {
+      "svelte@4.2.1": "patches/svelte@4.2.1.patch"
+    }
   }
 }

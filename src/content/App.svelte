@@ -1,5 +1,6 @@
 <script lang="ts">
   import Browser from './components/Browser.svelte'
+  import BrowserContextMenu from './components/contextMenus/BrowserContextMenu.svelte'
   import Tab from './components/tabs/Tab.svelte'
   import Toolbar from './components/toolbar/Toolbar.svelte'
 
@@ -40,6 +41,8 @@
     {/each}
   </div>
 </div>
+
+<BrowserContextMenu />
 
 <style>
   .content {

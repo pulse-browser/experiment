@@ -1,0 +1,20 @@
+diff --git a/src/runtime/internal/dom.js b/src/runtime/internal/dom.js
+index 9e1fd7e261ec5efc5ddbe1a30205e7f66cefcfb1..367a2e080c8ae0045c8ccc0602ffdde4e1ccfa6a 100644
+--- a/src/runtime/internal/dom.js
++++ b/src/runtime/internal/dom.js
+@@ -278,6 +278,7 @@ export function destroy_each(iterations, detaching) {
+  * @returns {HTMLElementTagNameMap[K]}
+  */
+ export function element(name) {
++  if (name.startsWith('xul:')) return document.createXULElement(name.replace('xul:', ''))
+ 	return document.createElement(name);
+ }
+ 
+@@ -288,6 +289,7 @@ export function element(name) {
+  * @returns {HTMLElementTagNameMap[K]}
+  */
+ export function element_is(name, is) {
++  if (name.startsWith('xul:')) return document.createXULElement(name.replace('xul:', ''), { is })
+ 	return document.createElement(name, { is });
+ }
+ 

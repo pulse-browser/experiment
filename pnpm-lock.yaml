@@ -4,6 +4,11 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+patchedDependencies:
+  svelte@4.2.1:
+    hash: cm43hmf4gczhssi3isoosy53r4
+    path: patches/svelte@4.2.1.patch
+
 dependencies:
   '@catppuccin/palette':
     specifier: ^0.2.0
@@ -66,7 +71,7 @@ devDependencies:
     version: 3.3.3(webpack@5.88.2)
   svelte:
     specifier: ^4.2.1
-    version: 4.2.1
+    version: 4.2.1(patch_hash=cm43hmf4gczhssi3isoosy53r4)
   svelte-loader:
     specifier: ^3.1.9
     version: 3.1.9(svelte@4.2.1)
@@ -2416,7 +2421,7 @@ packages:
       svelte: ^3.2.0 || ^4.0.0-next.0
     dependencies:
       prettier: 3.0.3
-      svelte: 4.2.1
+      svelte: 4.2.1(patch_hash=cm43hmf4gczhssi3isoosy53r4)
     dev: true
 
   /prettier@3.0.3:
@@ -2957,7 +2962,7 @@ packages:
     peerDependencies:
       svelte: '>=3.19.0'
     dependencies:
-      svelte: 4.2.1
+      svelte: 4.2.1(patch_hash=cm43hmf4gczhssi3isoosy53r4)
     dev: true
 
   /svelte-loader@3.1.9(svelte@4.2.1):
@@ -2966,7 +2971,7 @@ packages:
       svelte: ^3.0.0 || ^4.0.0-next.0
     dependencies:
       loader-utils: 2.0.4
-      svelte: 4.2.1
+      svelte: 4.2.1(patch_hash=cm43hmf4gczhssi3isoosy53r4)
       svelte-dev-helper: 1.1.9
       svelte-hmr: 0.14.12(svelte@4.2.1)
     dev: true
@@ -3015,11 +3020,11 @@ packages:
       postcss: 8.4.31
       sorcery: 0.11.0
       strip-indent: 3.0.0
-      svelte: 4.2.1
+      svelte: 4.2.1(patch_hash=cm43hmf4gczhssi3isoosy53r4)
       typescript: 5.2.2
     dev: true
 
-  /svelte@4.2.1:
+  /svelte@4.2.1(patch_hash=cm43hmf4gczhssi3isoosy53r4):
     resolution: {integrity: sha512-LpLqY2Jr7cRxkrTc796/AaaoMLF/1ax7cto8Ot76wrvKQhrPmZ0JgajiWPmg9mTSDqO16SSLiD17r9MsvAPTmw==}
     engines: {node: '>=16'}
     dependencies:
@@ -3037,6 +3042,7 @@ packages:
       magic-string: 0.30.4
       periscopic: 3.1.0
     dev: true
+    patched: true
 
   /tapable@2.2.1:
     resolution: {integrity: sha512-GNzQvQTOIP6RyTfE2Qxb8ZVlNmw0n88vp1szwWRimP02mnTsx3Wtn5qRdqY9w2XduFNUgvOwhNnQsjwCp+kqaQ==}
