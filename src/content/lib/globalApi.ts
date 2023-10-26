@@ -6,7 +6,7 @@ import { Tab } from '../components/tabs/tab'
 import { resource } from './resources'
 
 export const browserContextMenuInfo = writable<ContextMenuInfo>({
-  position: { x: 0, y: 0 },
+  position: { screenX: 0, screenY: 0, inputSource: 0 },
 })
 
 let internalSelectedTab = -1
@@ -49,7 +49,7 @@ export const windowApi = {
   showContextMenu: (menuInfo: ContextMenuInfo) => {
     browserContextMenuInfo.set(menuInfo)
 
-    const event = document.createEvent('MouseEvent')
+    const event = document.createEvent('MouseEvent') as any
     event.initNSMouseEvent(
       'contextmenu',
       true,
@@ -70,7 +70,7 @@ export const windowApi = {
       menuInfo.position.inputSource,
     )
 
-    const contextMenu = document.getElementById('browser_context_menu')
+    const contextMenu = document.getElementById('browser_context_menu') as any
     contextMenu.openPopupAtScreen(
       menuInfo.position.screenX,
       menuInfo.position.screenY,
