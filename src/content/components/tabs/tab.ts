@@ -6,6 +6,7 @@ import {
 } from '../../lib/xul/browser'
 import { domContentLoaded } from '../../lib/xul/domevents'
 import mitt from 'mitt'
+import { spinLock } from '../../lib/spinlock'
 
 export let lastTabAction = { id: -1, before: false }
 
@@ -92,6 +93,8 @@ export class Tab {
   public async goToUri(uri: nsIURIType) {
     // Load the URI once we are sure that the dom has fully loaded
     await domContentLoaded.promise
+    // Wait for browser to initialize
+    await spinLock(() => this.browserElement.mInitialized)
     setURI(this.browserElement, uri)
   }
 
