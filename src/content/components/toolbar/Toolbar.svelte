@@ -1,6 +1,8 @@
 <script lang="ts">
   import { resource } from '../../lib/resources'
   import type { Tab } from '../tabs/tab'
+  import HamburgerMenu from './HamburgerMenu.svelte'
+  import ToolbarButton from './ToolbarButton.svelte'
 
   export let tab: Tab
   let inputContent: string = ''
@@ -12,23 +14,15 @@
 </script>
 
 <div class="toolbar">
-  <button
-    class="toolbar__button"
-    disabled={!$canGoBack}
-    on:click={() => tab.goBack()}
-  >
+  <ToolbarButton disabled={!$canGoBack} on:click={() => tab.goBack()}>
     <i class="ri-arrow-left-line" />
-  </button>
-  <button class="toolbar__button" on:click={() => tab.reload()}>
+  </ToolbarButton>
+  <ToolbarButton on:click={() => tab.reload()}>
     <i class="ri-refresh-line" />
-  </button>
-  <button
-    class="toolbar__button"
-    disabled={!$canGoForward}
-    on:click={() => tab.goForward()}
-  >
+  </ToolbarButton>
+  <ToolbarButton disabled={!$canGoForward} on:click={() => tab.goForward()}>
     <i class="ri-arrow-right-line" />
-  </button>
+  </ToolbarButton>
 
   <div class="toolbar__spacer" />
 
@@ -43,6 +37,8 @@
   />
 
   <div class="toolbar__spacer" />
+
+  <HamburgerMenu />
 </div>
 
 <style>
@@ -57,17 +53,6 @@
   .toolbar * {
     border: none;
     background: none;
-  }
-
-  .toolbar__button {
-    margin: 0;
-    border-radius: 0.5rem;
-    width: 2.5rem;
-    height: 2.5rem;
-  }
-
-  .toolbar__button:hover {
-    background: var(--surface-1);
   }
 
   .toolbar__urlbar {

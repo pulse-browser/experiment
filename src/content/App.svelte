@@ -16,10 +16,6 @@
 </script>
 
 <div class="content">
-  <div class="toolbar">
-    <button on:click={initDevTools}>Open dev tools</button>
-    <button on:click={() => window.location.reload()}>Reload</button>
-  </div>
   <div class="tabs" on:drop|preventDefault>
     {#each $tabs as tab (tab.getId())}
       <Tab {tab} bind:selectedTab={$selectedTab} />
