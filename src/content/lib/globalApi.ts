@@ -19,7 +19,11 @@ export const tabs = writable([
 ])
 
 export function openTab(url = 'https://google.com') {
-  tabs.update((tabs) => [...tabs, new Tab(resource.NetUtil.newURI(url))])
+  tabs.update((tabs) => {
+    const newTab = new Tab(resource.NetUtil.newURI(url))
+    selectedTab.set(newTab.getId())
+    return [...tabs, newTab]
+  })
 }
 
 export function closeTab(tab: Tab) {
