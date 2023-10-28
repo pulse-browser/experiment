@@ -24,9 +24,22 @@ export function openTab(url = 'https://google.com') {
 
 export function closeTab(tab: Tab) {
   tabs.update((tabs) => {
-    console.log(tab, tabs)
+    const tabIndex = tabs.findIndex((t) => t.getId() == t.getId())
+    const filtered = tabs.filter((t) => t.getId() != tab.getId())
+
+    if (filtered.length == 0) {
+      window.close()
+      return []
+    }
+
+    if (filtered[tabIndex]) {
+      selectedTab.set(filtered[tabIndex].getId())
+    } else {
+      selectedTab.set(filtered[tabIndex - 1].getId())
+    }
+
     tab.destroy()
-    return tabs.filter((t) => t.getId() != tab.getId())
+    return filtered
   })
 }
 
@@ -36,6 +49,40 @@ export function runOnCurrentTab(method: (tab: Tab) => void) {
     if (currentTab) method(currentTab)
     return tabs
   })
+}
+
+export function moveTabBefore(toMoveId: number, targetId: number) {
+  tabs.update((tabs) => {
+    const toMoveIndex = tabs.findIndex((tab) => tab.getId() == toMoveId)
+    const targetIndex = Math.max(
+      tabs.findIndex((tab) => tab.getId() == targetId) - 1,
+      0,
+    )
+
+    // If we do in-place modifications with tabs, svelte won't notice the
+    // change
+    const newTabs = [...tabs]
+    insertAndShift(newTabs, toMoveIndex, targetIndex)
+    return newTabs
+  })
+}
+
+export function moveTabAfter(toMoveId: number, targetId: number) {
+  tabs.update((tabs) => {
+    const toMoveIndex = tabs.findIndex((tab) => tab.getId() == toMoveId)
+    const targetIndex = tabs.findIndex((tab) => tab.getId() == targetId)
+
+    // If we do in-place modifications with tabs, svelte won't notice the
+    // change
+    const newTabs = [...tabs]
+    insertAndShift(newTabs, toMoveIndex, targetIndex)
+    return newTabs
+  })
+}
+
+function insertAndShift<T>(arr: T[], from: number, to: number) {
+  const cutOut = arr.splice(from, 1)[0]
+  arr.splice(to, 0, cutOut)
 }
 
 export const windowApi = {

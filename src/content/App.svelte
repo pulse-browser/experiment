@@ -8,6 +8,11 @@
   import { tabs, openTab, selectedTab } from './lib/globalApi'
 
   $: currentTab = $tabs.find((tab) => tab.getId() == $selectedTab)
+  // We don't care about the order that browers are rendered in the dom, but we
+  // want to allow tab reordering. This should stop unnessisary updates
+  $: sortedBrowers = [...$tabs].sort(
+    (tabA, tabB) => tabA.getId() - tabB.getId()
+  )
 </script>
 
 <div class="content">
@@ -15,7 +20,7 @@
     <button on:click={initDevTools}>Open dev tools</button>
     <button on:click={() => window.location.reload()}>Reload</button>
   </div>
-  <div class="tabs">
+  <div class="tabs" on:drop|preventDefault>
     {#each $tabs as tab (tab.getId())}
       <Tab {tab} bind:selectedTab={$selectedTab} />
     {/each}
@@ -30,7 +35,7 @@
   {/if}
 
   <div class="browsers">
-    {#each $tabs as tab (tab.getId())}
+    {#each sortedBrowers as tab (tab.getId())}
       <Browser
         {tab}
         selectedTab={$selectedTab}

@@ -7,6 +7,8 @@ import {
 import { domContentLoaded } from '../../lib/xul/domevents'
 import mitt from 'mitt'
 
+export let lastTabAction = { id: -1, before: false }
+
 let localTabId = 0
 
 /**
@@ -22,7 +24,7 @@ export class Tab {
 
   // Publicly available data. Even though these are writable, updating them will not change
   // the state of the browser element
-  public title = writable()
+  public title = writable('')
   public icon: Writable<string | null> = writable(null)
   public uri: Writable<nsIURIType>
 
