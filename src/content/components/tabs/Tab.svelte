@@ -63,7 +63,7 @@
     display: flex;
     align-items: center;
 
-    cursor: pointer;
+    cursor: default;
   }
 
   .tab[aria-selected='true'] {
