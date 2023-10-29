@@ -9,6 +9,7 @@
 
 import { existsSync } from 'fs'
 import { mkdir, rm, symlink } from 'fs/promises'
+import { join } from 'node:path'
 import { execa } from 'execa'
 
 import { downloadReleaseAsset, getLatestRelease } from './lib/releases.js'
@@ -67,6 +68,11 @@ const contentDir = getArtifactFile('chrome/browser/content/browser')
 const contentDirDist = getDistFile('browser_content')
 await rm(contentDir, { recursive: true, force: true })
 await symlink(contentDirDist, contentDir)
+
+const settingsDir = join(contentDir, 'settings')
+const settingsDirDist = getDistFile('settings')
+await rm(settingsDir, { recursive: true, force: true })
+await symlink(settingsDirDist, settingsDir)
 
 await linkFolder('modules')
 await linkFolder('actors')

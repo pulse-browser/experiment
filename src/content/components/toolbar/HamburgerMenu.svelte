@@ -17,6 +17,18 @@
 
 <xul:panel bind:this={panel} class="panel">
   <div class="panel__container">
+    <HamburgerMenuItem
+      on:click={() =>
+        Services.ww.openWindow(
+          window,
+          'chrome://browser/content/settings/index.html',
+          '_blank',
+          'chrome,dialog=yes,all',
+          null
+        )}
+    >
+      Settings
+    </HamburgerMenuItem>
     <HamburgerMenuItem on:click={initDevTools}>
       Open Dev Tools
     </HamburgerMenuItem>
@@ -40,4 +52,3 @@
     margin: -0.25rem 0;
   }
 </style>
-
