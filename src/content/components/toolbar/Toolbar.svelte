@@ -7,7 +7,9 @@
   export let tab: Tab
   let inputContent: string = ''
 
-  const { uri, canGoBack, canGoForward } = tab
+  $: uri = tab.uri
+  $: canGoBack = tab.canGoBack
+  $: canGoForward = tab.canGoForward
 
   const unbindedSetInputContent = (value: string) => (inputContent = value)
   $: unbindedSetInputContent($uri.asciiSpec)

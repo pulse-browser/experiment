@@ -4,7 +4,6 @@
   import Tab from './components/tabs/Tab.svelte'
   import Toolbar from './components/toolbar/Toolbar.svelte'
 
-  import { initDevTools } from './lib/devtools'
   import { tabs, openTab, selectedTab } from './lib/globalApi'
 
   $: currentTab = $tabs.find((tab) => tab.getId() == $selectedTab)
