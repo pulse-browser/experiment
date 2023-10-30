@@ -46,6 +46,7 @@
   },
   "dependencies": {
     "@catppuccin/palette": "^0.2.0",
+    "fp-ts": "^2.16.1",
     "mitt": "^3.0.1",
     "remixicon": "^3.5.0"
   },
