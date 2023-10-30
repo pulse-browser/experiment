@@ -1,4 +1,8 @@
+let sidebarItemCounter = 0
+
 export class SidebarItemData {
+  counter = sidebarItemCounter++
+
   container: HTMLDivElement
   title: string
   id: string

@@ -14,7 +14,7 @@ export default (env, argv) => {
   ]
 }
 
-const sharedSettings = (name, srcDir, distName, dev) => ({
+const sharedSettings = (name, srcDir, distName, dev, hot = true) => ({
   name,
   entry: {
     main: './' + join(srcDir, 'main.ts'),
@@ -30,7 +30,7 @@ const sharedSettings = (name, srcDir, distName, dev) => ({
 
   devtool: 'inline-source-map',
   devServer: {
-    hot: true,
+    hot,
     allowedHosts: ['all'],
     devMiddleware: {
       writeToDisk: true,

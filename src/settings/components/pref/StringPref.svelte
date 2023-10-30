@@ -1,0 +1,34 @@
+<script lang="ts">
+  export let pref: string
+  let value: string = Services.prefs.getStringPref(pref, '')
+</script>
+
+<div class="pref">
+  <div class="pref__label"><slot /></div>
+  <input
+    bind:value
+    type="text"
+    class="pref__value"
+    on:keyup={() => Services.prefs.setStringPref(pref, value)}
+  />
+</div>
+
+<style>
+  .pref {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .pref__label {
+    font-weight: 700;
+  }
+
+  .pref__value {
+    border: none;
+    background-color: var(--surface-1);
+    border-radius: 0.5rem;
+    padding: 0.5rem 1rem;
+  }
+</style>
+

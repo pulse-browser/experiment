@@ -8,18 +8,28 @@
   let container: HTMLDivElement
 
   onMount(() => {
-    sidebarItems.push(new SidebarItemData(container, title))
+    const sidebarItem = new SidebarItemData(container, title)
+    sidebarItems.push(sidebarItem)
+
+    return () =>
+      (sidebarItems = sidebarItems.filter(
+        (item) => item.counter != sidebarItem.counter
+      ))
   })
 </script>
 
-<div bind:this={container}>
-  <h2>{title}</h2>
-
-  <div class="testPadding" />
+<div bind:this={container} class="category">
+  <h2 class="category__title">{title}</h2>
+  <slot />
 </div>
 
 <style>
-  .testPadding {
-    height: 140vh;
+  .category {
+    margin-bottom: 4rem;
+  }
+
+  .category__title {
+    font-size: 1.5rem;
+    margin: 0;
   }
 </style>
