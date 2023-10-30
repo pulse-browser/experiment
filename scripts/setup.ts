@@ -18,6 +18,7 @@ import {
   ARTIFACT_RT_PATH,
   getArtifactFile,
   getDistFile,
+  getSrcFile,
 } from './lib/constants.js'
 import { linkFolder } from './lib/linker.js'
 
@@ -73,6 +74,12 @@ const settingsDir = join(contentDir, 'settings')
 const settingsDirDist = getDistFile('settings')
 await rm(settingsDir, { recursive: true, force: true })
 await symlink(settingsDirDist, settingsDir)
+
+// Link preference file
+const prefFile = getArtifactFile('defaults/pref/prefs.js')
+const prefFileSrc = getSrcFile('prefs.js')
+await rm(prefFile, { recursive: true, force: true })
+await symlink(prefFileSrc, prefFile)
 
 await linkFolder('modules')
 await linkFolder('actors')

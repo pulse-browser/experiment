@@ -1,4 +1,12 @@
 {
   "semi": false,
-  "singleQuote": true
+  "singleQuote": true,
+  "overrides": [
+    {
+      "file": "src/prefs.js",
+      "options": {
+        "semi": true
+      }
+    }
+  ]
 }
