@@ -1,4 +1,5 @@
 <script>
+  import { initDevTools } from '../../lib/devtools'
   import {
     closeTab,
     openTab,
@@ -10,6 +11,17 @@
 </script>
 
 <xul:keyset>
+  <!-- Browser --->
+  <Keybinding
+    pref="browser.keybinds.toolbox"
+    on:command={() => initDevTools()}
+  />
+  <Keybinding
+    pref="browser.keybinds.chrome.reload"
+    on:command={() => window.location.reload()}
+  />
+
+  <!-- Tabs & Websites --->
   <Keybinding pref="browser.keybinds.newTab" on:command={() => openTab()} />
   <Keybinding
     pref="browser.keybinds.closeTab"

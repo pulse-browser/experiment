@@ -1,6 +1,9 @@
 // This is roughly equivelent to `user.js` or `firefox.js`
 
 // Default keybinds
+pref('browser.keybinds.toolbox', 'accel+alt+shift+I');
+pref('browser.keybinds.chrome.reload', 'accel+alt+shift+R');
+
 pref('browser.keybinds.newTab', 'accel+T');
 pref('browser.keybinds.closeTab', 'accel+W');
 pref('browser.keybinds.nextTab', 'accel+VK_TAB');

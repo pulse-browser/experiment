@@ -11,6 +11,15 @@
 
 <div class="categories">
   <Category bind:sidebarItems title="Keybinds">
+    <SubCategory title="Browser">
+      <StringPref pref="browser.keybinds.toolbox">
+        Open browser toolbox
+      </StringPref>
+      <StringPref pref="browser.keybinds.chrome.reload">
+        Reload browser chrome
+      </StringPref>
+    </SubCategory>
+
     <SubCategory title="Tabs & Websites">
       <StringPref pref="browser.keybinds.newTab">New Tab</StringPref>
       <StringPref pref="browser.keybinds.closeTab">Close Active Tab</StringPref>
