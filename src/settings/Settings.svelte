@@ -5,17 +5,23 @@
   import { SidebarItemData, Sidebar } from './components/sidebar'
 
   let sidebarItems: SidebarItemData[] = []
-  $: console.log(sidebarItems)
 </script>
 
 <Sidebar {sidebarItems} />
 
 <div class="categories">
-  <Category bind:sidebarItems title="Test Category" />
-  <Category bind:sidebarItems title="Test Category 2" />
   <Category bind:sidebarItems title="Keybinds">
     <SubCategory title="Tabs & Websites">
       <StringPref pref="browser.keybinds.newTab">New Tab</StringPref>
+      <StringPref pref="browser.keybinds.closeTab">Close Active Tab</StringPref>
+      <StringPref pref="browser.keybinds.nextTab">Next tab</StringPref>
+      <StringPref pref="browser.keybinds.previousTab">Previous Tab</StringPref>
+
+      {#each [1, 2, 3, 4, 5, 6, 7, 8] as tabNum}
+        <StringPref pref={`browser.keybinds.tab${tabNum}`}
+          >Jump to tab {tabNum}</StringPref
+        >
+      {/each}
     </SubCategory>
   </Category>
   <Category bind:sidebarItems title="Advanced">

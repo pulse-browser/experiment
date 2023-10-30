@@ -47,10 +47,41 @@ export function closeTab(tab: Tab) {
   })
 }
 
-export function runOnCurrentTab(method: (tab: Tab) => void) {
-  tabs.update((tabs) => {
-    const currentTab = tabs.find((t) => t.getTabId() == internalSelectedTab)
-    if (currentTab) method(currentTab)
+function getCurrent(): Tab | undefined {
+  let tab
+
+  tabs.update(tabs => {
+    tab = tabs.find(t => t.getId() == internalSelectedTab)
+    return tabs
+  })
+
+  return tab
+}
+
+export function runOnCurrentTab<R>(method: (tab: Tab) => R): R | void {
+  const currentTab = getCurrent()
+  if (currentTab) return method(currentTab)
+}
+
+export function getCurrentTabIndex(): number {
+  let tabIndex = 0
+
+  tabs.update(tabs => {
+    tabIndex = tabs.findIndex(tab => tab.getId() == internalSelectedTab)
+    return tabs
+  })
+
+  return tabIndex
+}
+
+export function setCurrentTabIndex(index: number) {
+  tabs.update(tabs => {
+    // Wrap the index
+    if (index < 0) index = tabs.length - 1
+    if (index >= tabs.length) index = 0
+
+    selectedTab.set(tabs[index].getId())
+
     return tabs
   })
 }
