@@ -6,10 +6,11 @@
 
 import 'remixicon/fonts/remixicon.css'
 
-import './global.css'
+import '../global.css'
+import './browser.css'
 import './lib/globalApi'
 
-import App from './App.svelte'
+import App from './Browser.svelte'
 import { initializeShortcuts } from './lib/shortcuts'
 
 // TODO: WTF is this and do we care

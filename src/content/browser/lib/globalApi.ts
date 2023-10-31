@@ -4,7 +4,7 @@
 
 import { writable } from 'svelte/store'
 
-import type { ContextMenuInfo } from '../../actors/ContextMenu.types'
+import type { ContextMenuInfo } from '../../../actors/ContextMenu.types'
 
 import { Tab } from '../components/tabs/tab'
 import { resource } from './resources'
