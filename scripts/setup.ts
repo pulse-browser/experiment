@@ -71,11 +71,13 @@ await rm(omnijar)
 info('Setting up symlinks...')
 const contentDir = getArtifactFile('chrome/browser/content/browser')
 const contentDirDist = getDistFile('browser_content')
+await mkdir(contentDirDist, { recursive: true })
 await rm(contentDir, { recursive: true, force: true })
 await symlink(contentDirDist, contentDir)
 
 const settingsDir = join(contentDir, 'settings')
 const settingsDirDist = getDistFile('settings')
+await mkdir(contentDirDist, { recursive: true })
 await rm(settingsDir, { recursive: true, force: true })
 await symlink(settingsDirDist, settingsDir)
 
