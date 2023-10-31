@@ -63,14 +63,20 @@ export async function downloadReleaseAsset(
   // Write out a new line so that progress doesn't overwrite exising logs
   process.stdout.write('\n' + asset.browser_download_url)
 
+  let printIndex = 0
   const downloader = new (dl.default as any)({
     url: asset.browser_download_url,
     fileName: 'artifact.tar.bz2',
     directory: STORE_PATH,
     onProgress(percentage: string, _chunk: object, remainingSize: number) {
-      // Clear the current line & write out the process
-      process.stdout.clearLine(0)
-      process.stdout.cursorTo(0)
+      printIndex = (printIndex + 1) % 50
+      if (printIndex != 0) return
+
+      // Clear the current line & write out the process. This does not work in CI
+      if (process.stdout.clearLine) { 
+        process.stdout.clearLine(0)
+        process.stdout.cursorTo(0)
+      }
       process.stdout.write(
         `${bold().blue(
           'INFO ',
