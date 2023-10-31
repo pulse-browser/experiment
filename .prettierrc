@@ -3,7 +3,7 @@
   "singleQuote": true,
   "overrides": [
     {
-      "file": "src/prefs.js",
+      "files": "src/prefs.js",
       "options": {
         "semi": true
       }

@@ -1,3 +1,7 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+
 import { writable } from 'svelte/store'
 
 import type { ContextMenuInfo } from '../../actors/ContextMenu.types'
@@ -50,8 +54,8 @@ export function closeTab(tab: Tab) {
 function getCurrent(): Tab | undefined {
   let tab
 
-  tabs.update(tabs => {
-    tab = tabs.find(t => t.getId() == internalSelectedTab)
+  tabs.update((tabs) => {
+    tab = tabs.find((t) => t.getId() == internalSelectedTab)
     return tabs
   })
 
@@ -66,8 +70,8 @@ export function runOnCurrentTab<R>(method: (tab: Tab) => R): R | void {
 export function getCurrentTabIndex(): number {
   let tabIndex = 0
 
-  tabs.update(tabs => {
-    tabIndex = tabs.findIndex(tab => tab.getId() == internalSelectedTab)
+  tabs.update((tabs) => {
+    tabIndex = tabs.findIndex((tab) => tab.getId() == internalSelectedTab)
     return tabs
   })
 
@@ -75,7 +79,7 @@ export function getCurrentTabIndex(): number {
 }
 
 export function setCurrentTabIndex(index: number) {
-  tabs.update(tabs => {
+  tabs.update((tabs) => {
     // Wrap the index
     if (index < 0) index = tabs.length - 1
     if (index >= tabs.length) index = 0
