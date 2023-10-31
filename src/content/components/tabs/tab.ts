@@ -127,7 +127,7 @@ export class Tab {
 
     this.findbar.update((findbar) => {
       if (findbar) {
-        findbar.removeAttribute('hidden')
+        ;(findbar as any).open()
         return findbar
       }
 
@@ -140,7 +140,7 @@ export class Tab {
 
     await new Promise((r) => requestAnimationFrame(r))
     findbar.browser = this.browserElement
-    findbar.removeAttribute('hidden')
+    findbar.open()
   }
 }
 
