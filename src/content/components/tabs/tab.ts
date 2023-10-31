@@ -33,6 +33,8 @@ export class Tab {
   public icon: Writable<string | null> = writable(null)
   public uri: Writable<nsIURIType>
 
+  public findbar: Writable<HTMLElement | undefined> = writable(undefined)
+
   public canGoBack = writable(false)
   public canGoForward = writable(false)
 
@@ -116,6 +118,29 @@ export class Tab {
 
   public reload() {
     this.browserElement.reload()
+  }
+
+  public showFindBar() {
+    if (!this.browserElement) {
+      throw new Error('Browser not initialized when adding findbar')
+    }
+
+    this.findbar.update((findbar) => {
+      if (findbar) {
+        findbar.removeAttribute('hidden')
+        return findbar
+      }
+
+      return document.createXULElement('findbar')
+    })
+  }
+
+  public async setupFindbar(container: HTMLElement, findbar: any) {
+    container.append(findbar)
+
+    await new Promise((r) => requestAnimationFrame(r))
+    findbar.browser = this.browserElement
+    findbar.removeAttribute('hidden')
   }
 }
 

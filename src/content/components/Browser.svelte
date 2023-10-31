@@ -17,6 +17,9 @@
     dispatch('constructed')
   })
   onDestroy(() => tab.destroy())
+
+  $: findbar = tab.findbar
+  $: $findbar && tab.setupFindbar(browserContainer, $findbar)
 </script>
 
 <div
@@ -28,10 +31,11 @@
 <style>
   .browser-container {
     height: 100%;
+    display: flex;
+    flex-direction: column;
   }
 
   :global(browser) {
-    width: 100%;
-    height: 100%;
+    flex-grow: 1;
   }
 </style>

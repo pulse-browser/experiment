@@ -45,5 +45,8 @@
       on:command={() => setCurrentTabIndex(tabNum - 1)}
     />
   {/each}
+  <Keybinding
+    pref={`browser.keybinds.findInPage`}
+    on:command={() => runOnCurrentTab((tab) => tab.showFindBar())}
+  />
 </xul:keyset>
-

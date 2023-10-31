@@ -73,7 +73,7 @@ export async function downloadReleaseAsset(
       if (printIndex != 0) return
 
       // Clear the current line & write out the process. This does not work in CI
-      if (process.stdout.clearLine) { 
+      if (process.stdout.clearLine) {
         process.stdout.clearLine(0)
         process.stdout.cursorTo(0)
       }

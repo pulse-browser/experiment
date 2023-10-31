@@ -35,6 +35,7 @@
           >Jump to tab {tabNum}</StringPref
         >
       {/each}
+      <StringPref pref="browser.keybinds.findInPage">Find In Page</StringPref>
     </SubCategory>
   </Category>
   <Category bind:sidebarItems title="Advanced">
