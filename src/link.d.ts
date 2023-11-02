@@ -11,3 +11,13 @@ declare module 'resource://app/modules/FaviconLoader.sys.mjs' {
 declare module 'resource://app/modules/TypedImportUtils.sys.mjs' {
   export const lazyESModuleGetters: typeof import('./modules/TypedImportUtils').lazyESModuleGetters
 }
+
+declare interface MozESMExportFile {
+  TypedImportUtils: 'resource://app/modules/TypedImportUtils.sys.mjs'
+}
+
+declare interface MozESMExportType {
+  TypedImportUtils: typeof import('./modules/TypedImportUtils')
+}
+
+declare var Cr: Record<string, nsresult>

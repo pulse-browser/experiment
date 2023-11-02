@@ -9,6 +9,9 @@
 
   let panel: any
   let button: any
+
+  const openDialogWindowAction = (url: string) => () =>
+    Services.ww.openWindow(window, url, '_blank', 'chrome,dialog=yes,all', null)
 </script>
 
 <!-- Positioning docs: https://udn.realityripple.com/docs/Archive/Mozilla/XUL/PopupGuide/Positioning  --->
@@ -22,16 +25,18 @@
 <xul:panel bind:this={panel} class="panel">
   <div class="panel__container">
     <HamburgerMenuItem
-      on:click={() =>
-        Services.ww.openWindow(
-          window,
-          'chrome://browser/content/settings/index.html',
-          '_blank',
-          'chrome,dialog=yes,all',
-          null
-        )}
+      on:click={openDialogWindowAction(
+        'chrome://browser/content/settings/index.html'
+      )}
     >
       Settings
+    </HamburgerMenuItem>
+    <HamburgerMenuItem
+      on:click={openDialogWindowAction(
+        'chrome://browser/content/bookmarks/index.html'
+      )}
+    >
+      Bookmarks
     </HamburgerMenuItem>
     <HamburgerMenuItem on:click={initDevTools}>
       Open Dev Tools

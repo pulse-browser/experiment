@@ -23,6 +23,7 @@ export default (env, argv) => {
     [
       { title: 'Browser', folder: 'browser', outFolder: '' },
       { title: 'Settings', folder: 'settings', outFolder: 'settings' },
+      { title: 'Bookmarks', folder: 'bookmarks', outFolder: 'bookmarks' },
     ],
     dev,
   )
@@ -51,6 +52,7 @@ const sharedSettings = (contentFiles, dev) => {
     output: {
       path: getDistFile('browser_content'),
       filename: '[name].js',
+      publicPath: 'chrome://browser/content/',
       clean: true,
     },
     resolve: {

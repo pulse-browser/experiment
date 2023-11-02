@@ -3,20 +3,15 @@
    - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
 
 <script lang="ts">
-  import { resource } from '../../lib/resources'
   import type { Tab } from '../tabs/tab'
   import HamburgerMenu from './HamburgerMenu.svelte'
   import ToolbarButton from './ToolbarButton.svelte'
+  import Omnibox from './omnibox/Omnibox.svelte'
 
   export let tab: Tab
-  let inputContent: string = ''
 
-  $: uri = tab.uri
   $: canGoBack = tab.canGoBack
   $: canGoForward = tab.canGoForward
-
-  const unbindedSetInputContent = (value: string) => (inputContent = value)
-  $: unbindedSetInputContent($uri.asciiSpec)
 </script>
 
 <div class="toolbar">
@@ -32,15 +27,7 @@
 
   <div class="toolbar__spacer" />
 
-  <input
-    class="toolbar__urlbar"
-    type="text"
-    bind:value={inputContent}
-    on:keydown={(e) => {
-      console.log(e)
-      if (e.key === 'Enter') tab.goToUri(resource.NetUtil.newURI(inputContent))
-    }}
-  />
+  <Omnibox {tab} />
 
   <div class="toolbar__spacer" />
 
@@ -59,18 +46,6 @@
   .toolbar * {
     border: none;
     background: none;
-  }
-
-  .toolbar__urlbar {
-    flex-grow: 1;
-    border-radius: 0.5rem;
-    height: 2.5rem;
-    padding: 0 1rem;
-    background: var(--base);
-  }
-
-  .toolbar__urlbar:focus {
-    outline: solid var(--active-border);
   }
 
   .toolbar__spacer {

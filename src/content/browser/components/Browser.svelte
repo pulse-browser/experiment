@@ -35,6 +35,10 @@
     flex-direction: column;
   }
 
+  .browser-container[hidden] {
+    display: none;
+  }
+
   :global(browser) {
     flex-grow: 1;
   }

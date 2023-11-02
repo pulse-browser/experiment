@@ -1,1 +1,2 @@
-["BrowserGlue", "FaviconLoader", "TypedImportUtils"]
+["BrowserGlue", "ExtBookmarkAPI", "FaviconLoader", "TypedImportUtils"]
+
