@@ -11,6 +11,10 @@ import {
 import { domContentLoaded } from '../../lib/xul/domevents'
 import mitt from 'mitt'
 import { spinLock } from '../../lib/spinlock'
+import {
+  viewableWritable,
+  type ViewableWritable,
+} from '../../../shared/svelteUtils'
 
 export let lastTabAction = { id: -1, before: false }
 
@@ -33,7 +37,8 @@ export class Tab {
   public icon: Writable<string | null> = writable(null)
   public uri: Writable<nsIURIType>
 
-  public findbar: Writable<HTMLElement | undefined> = writable(undefined)
+  public findbar: ViewableWritable<HTMLElement | undefined> =
+    viewableWritable(undefined)
 
   public canGoBack = writable(false)
   public canGoForward = writable(false)
@@ -125,14 +130,14 @@ export class Tab {
       throw new Error('Browser not initialized when adding findbar')
     }
 
-    this.findbar.update((findbar) => {
-      if (findbar) {
-        ;(findbar as any).open()
-        return findbar
-      }
+    const findbar = this.findbar.readOnce()
+    if (findbar) {
+      if (findbar.hidden) (findbar as any).open()
+      else (findbar as any).close()
+      return
+    }
 
-      return document.createXULElement('findbar')
-    })
+    this.findbar.update((_) => document.createXULElement('findbar'))
   }
 
   public async setupFindbar(container: HTMLElement, findbar: any) {
@@ -140,7 +145,7 @@ export class Tab {
 
     await new Promise((r) => requestAnimationFrame(r))
     findbar.browser = this.browserElement
-    findbar.open()
+    this.showFindBar()
   }
 }
 

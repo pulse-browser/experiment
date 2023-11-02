@@ -8,6 +8,7 @@ import type { ContextMenuInfo } from '../../../actors/ContextMenu.types'
 
 import { Tab } from '../components/tabs/tab'
 import { resource } from './resources'
+import { viewableWritable } from '../../shared/svelteUtils'
 
 export const browserContextMenuInfo = writable<ContextMenuInfo>({
   position: { screenX: 0, screenY: 0, inputSource: 0 },
@@ -17,7 +18,7 @@ let internalSelectedTab = -1
 export const selectedTab = writable(-1)
 selectedTab.subscribe((v) => (internalSelectedTab = v))
 
-export const tabs = writable([
+export const tabs = viewableWritable([
   new Tab(resource.NetUtil.newURI('https://google.com')),
   new Tab(resource.NetUtil.newURI('https://google.com')),
 ])
@@ -52,14 +53,7 @@ export function closeTab(tab: Tab) {
 }
 
 function getCurrent(): Tab | undefined {
-  let tab
-
-  tabs.update((tabs) => {
-    tab = tabs.find((t) => t.getId() == internalSelectedTab)
-    return tabs
-  })
-
-  return tab
+  return tabs.readOnce().find((t) => t.getId() == internalSelectedTab)
 }
 
 export function runOnCurrentTab<R>(method: (tab: Tab) => R): R | void {
@@ -68,26 +62,17 @@ export function runOnCurrentTab<R>(method: (tab: Tab) => R): R | void {
 }
 
 export function getCurrentTabIndex(): number {
-  let tabIndex = 0
-
-  tabs.update((tabs) => {
-    tabIndex = tabs.findIndex((tab) => tab.getId() == internalSelectedTab)
-    return tabs
-  })
-
-  return tabIndex
+  return tabs.readOnce().findIndex((tab) => tab.getId() == internalSelectedTab)
 }
 
 export function setCurrentTabIndex(index: number) {
-  tabs.update((tabs) => {
-    // Wrap the index
-    if (index < 0) index = tabs.length - 1
-    if (index >= tabs.length) index = 0
+  const allTabs = tabs.readOnce()
 
-    selectedTab.set(tabs[index].getId())
+  // Wrap the index
+  if (index < 0) index = allTabs.length - 1
+  if (index >= allTabs.length) index = 0
 
-    return tabs
-  })
+  selectedTab.set(allTabs[index].getId())
 }
 
 export function moveTabBefore(toMoveId: number, targetId: number) {
@@ -128,10 +113,10 @@ export const windowApi = {
   closeTab,
   openTab,
   setIcon: (browser: any, iconURL: string) =>
-    tabs.update((tabs) => {
-      tabs.find((tab) => tab.getTabId() == browser.browserId)?.icon.set(iconURL)
-      return tabs
-    }),
+    tabs
+      .readOnce()
+      .find((tab) => tab.getTabId() == browser.browserId)
+      ?.icon.set(iconURL),
   showContextMenu: (menuInfo: ContextMenuInfo) => {
     browserContextMenuInfo.set(menuInfo)
 
