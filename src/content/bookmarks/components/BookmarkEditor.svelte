@@ -16,7 +16,6 @@
 
   export let fullTree: Writable<Promise<TreeNode[]>>
   export let selectedBookmark: TreeNode
-  export let selectedBookmarkId: string | undefined
 
   let id: string
   let title: string
