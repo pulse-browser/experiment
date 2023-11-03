@@ -35,7 +35,7 @@ export function openTab(uri: nsIURIType = newTabUri()) {
 
 export function closeTab(tab: Tab) {
   tabs.update((tabs) => {
-    const tabIndex = tabs.findIndex((t) => t.getId() == t.getId())
+    const tabIndex = tabs.findIndex((t) => t.getId() == tab.getId())
     const filtered = tabs.filter((t) => t.getId() != tab.getId())
 
     if (filtered.length == 0) {
