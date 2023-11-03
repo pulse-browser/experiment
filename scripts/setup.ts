@@ -75,12 +75,6 @@ await mkdir(contentDirDist, { recursive: true })
 await rm(contentDir, { recursive: true, force: true })
 await symlink(contentDirDist, contentDir)
 
-const settingsDir = join(contentDir, 'settings')
-const settingsDirDist = getDistFile('settings')
-await mkdir(contentDirDist, { recursive: true })
-await rm(settingsDir, { recursive: true, force: true })
-await symlink(settingsDirDist, settingsDir)
-
 // Link preference file
 const prefFile = getArtifactFile('defaults/pref/prefs.js')
 const prefFileSrc = getSrcFile('prefs.js')

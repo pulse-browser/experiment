@@ -26,6 +26,7 @@ exports.default = (env, argv) => {
       { title: 'Browser', folder: 'browser', outFolder: '' },
       { title: 'Settings', folder: 'settings', outFolder: 'settings' },
       { title: 'Bookmarks', folder: 'bookmarks', outFolder: 'bookmarks' },
+      { title: 'Credits', folder: 'credits', outFolder: 'credits' },
     ],
     dev,
   )
@@ -145,6 +146,9 @@ const sharedSettings = (contentFiles, dev) => {
 
         includePackages: () =>
           ['@catppuccin/palette', 'remixicon'].map(absolutePackage),
+
+        unacceptableLicenseTest: (licenseIdentifier) =>
+          ['GPL', 'AGPL', 'LGPL', 'NGPL'].includes(licenseIdentifier),
       }),
     ],
 

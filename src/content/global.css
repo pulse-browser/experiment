@@ -27,10 +27,12 @@
 }
 
 body {
-  margin: 0;
-
   background: var(--base);
   color: var(--text);
+}
+
+body {
+  margin: 0;
 }
 
 input:focus {

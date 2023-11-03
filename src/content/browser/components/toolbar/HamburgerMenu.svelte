@@ -4,6 +4,8 @@
 
 <script lang="ts">
   import { initDevTools } from '../../lib/devtools'
+  import { openTab } from '../../lib/globalApi'
+  import { resource } from '../../lib/resources'
   import HamburgerMenuItem from './HamburgerMenuItem.svelte'
   import ToolbarButton from './ToolbarButton.svelte'
 
@@ -37,6 +39,14 @@
       )}
     >
       Bookmarks
+    </HamburgerMenuItem>
+    <HamburgerMenuItem
+      on:click={() =>
+        openTab(
+          resource.NetUtil.newURI('chrome://browser/content/credits/index.html')
+        )}
+    >
+      Credits
     </HamburgerMenuItem>
     <HamburgerMenuItem on:click={initDevTools}>
       Open Dev Tools

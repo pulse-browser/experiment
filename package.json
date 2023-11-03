@@ -54,7 +54,8 @@
   "dependencies": {
     "@catppuccin/palette": "^0.2.0",
     "mitt": "^3.0.1",
-    "remixicon": "^3.5.0"
+    "remixicon": "^3.5.0",
+    "snarkdown": "^2.0.0"
   },
   "pnpm": {
     "patchedDependencies": {
