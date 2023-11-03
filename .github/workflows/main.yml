@@ -19,7 +19,7 @@ jobs:
         uses: pnpm/action-setup@v2
         with:
           version: 8
-          run_install: true
+          run_install: false
       - name: Get pnpm store directory
         shell: bash
         run: |
@@ -32,6 +32,8 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
 
+      - name: Install dependencies & RT
+        run: pnpm install
       - name: Check licenses
         run: pnpm script:license-check
 
@@ -51,7 +53,7 @@ jobs:
         uses: pnpm/action-setup@v2
         with:
           version: 8
-          run_install: true
+          run_install: false
       - name: Get pnpm store directory
         shell: bash
         run: |
@@ -64,6 +66,8 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
 
+      - name: Install dependencies & RT
+        run: pnpm install
       - name: Build
         run: pnpm build
 
