@@ -37,7 +37,7 @@ jobs:
 
   build:
     name: Build
-    depends-on: license_check
+    needs: [license_check]
     runs-on: ubuntu-latest
 
     steps:
