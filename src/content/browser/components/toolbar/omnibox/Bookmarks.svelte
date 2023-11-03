@@ -9,6 +9,8 @@
   import {
     create,
     type BookmarkTreeNode,
+    update,
+    remove,
   } from '../../../../shared/ExtBookmarkAPI'
 
   export let tab: Tab
@@ -30,8 +32,29 @@
       url: tab.uri.readOnce().asciiSpec,
     })) as BookmarkTreeNode
 
-    console.log(bookmark)
     tab.bookmarkInfo.set(bookmark)
+
+    panel.hidePopup()
+  }
+
+  async function updateBookmark() {
+    if (!$bookmarkInfo) {
+      throw new Error("Cannot update a bookmark that doesn't exist ")
+    }
+
+    const bookmark = await update($bookmarkInfo.id, { title: name })
+    bookmarkInfo.set(bookmark as BookmarkTreeNode)
+
+    panel.hidePopup()
+  }
+
+  async function removeBookmark() {
+    if (!$bookmarkInfo) {
+      throw new Error("Cannot remove a bookmark that doesn't exist ")
+    }
+
+    await remove($bookmarkInfo.id)
+    bookmarkInfo.set(null)
 
     panel.hidePopup()
   }
@@ -53,10 +76,15 @@
     <TextInput>Tags</TextInput>
 
     <div class="bookmark-panel__buttons">
-      <Button kind="secondary" on:click={() => panel.hidePopup()}>
-        Cancel
-      </Button>
-      <Button kind="primary" on:click={createBookmark}>Save</Button>
+      {#if $bookmarkInfo}
+        <Button kind="secondary" on:click={removeBookmark}>Delete</Button>
+        <Button kind="primary" on:click={updateBookmark}>Update</Button>
+      {:else}
+        <Button kind="secondary" on:click={() => panel.hidePopup()}>
+          Cancel
+        </Button>
+        <Button kind="primary" on:click={createBookmark}>Create</Button>
+      {/if}
     </div>
   </div>
 </xul:panel>
