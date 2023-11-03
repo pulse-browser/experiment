@@ -23,6 +23,10 @@ const BOOKMARKS_TYPES_TO_API_TYPES_MAP = new Map<any, BookmarkType>([
   [TYPE_SEPARATOR, 'separator'],
 ])
 
+const API_TYPES_TO_BOOKMARKS_TYPES_MAP = new Map(
+  [...BOOKMARKS_TYPES_TO_API_TYPES_MAP.entries()].map(([k, v]) => [v, k]),
+)
+
 export type BookmarkType = 'bookmark' | 'folder' | 'separator'
 
 interface TreeNodeBase {
@@ -94,7 +98,9 @@ export async function getTree(
 }
 
 const convertBookmarks = (result: any): TreeNode => {
-  const type = BOOKMARKS_TYPES_TO_API_TYPES_MAP.get(result.typeCode)
+  const type = BOOKMARKS_TYPES_TO_API_TYPES_MAP.get(
+    result.typeCode || result.type,
+  )
   const treeNode: TreeNodeBase = {
     id: result.guid,
     title: lazy.Bookmarks.getLocalizedTitle(result) || '',
@@ -111,7 +117,7 @@ const convertBookmarks = (result: any): TreeNode => {
       ...treeNode,
       type: 'bookmark',
       parentId: result.parentGuid as string,
-      url: result.uri as string,
+      url: result.url ? result.url.href : result.uri,
     }
     return bookmark
   }
@@ -147,4 +153,61 @@ export const search = (
 ) =>
   (lazy.Bookmarks.search(query) as Promise<any[]>).then((results) =>
     results.map(convertBookmarks),
+  )
+
+export interface CreateDetails {
+  index: number
+  parentId: string
+  title: string
+  type: BookmarkType
+  url: string
+}
+
+export const ensureNotRoot = (id: string): string => {
+  if (id === lazy.Bookmarks.rootGuid)
+    throw new Error('The root bookmark cannot be modified')
+
+  return id
+}
+
+export function create(options: Partial<CreateDetails>): Promise<TreeNode> {
+  const info: Record<string, any> = {
+    title: options.title,
+    index: options.index,
+    parentGuid: options.parentId
+      ? ensureNotRoot(options.parentId)
+      : lazy.Bookmarks.unfiledGuid,
+    type: options.type
+      ? API_TYPES_TO_BOOKMARKS_TYPES_MAP.get(options.type)
+      : options.url
+      ? TYPE_BOOKMARK
+      : TYPE_FOLDER,
+  }
+
+  if (info.type === TYPE_BOOKMARK) info.url = options.url
+
+  return lazy.Bookmarks.insert(info).then(convertBookmarks)
+}
+
+export function get(id: string): Promise<TreeNode> {
+  return lazy.Bookmarks.fetch(id).then(convertBookmarks)
+}
+
+export const update = (
+  id: string,
+  changes: Partial<{ title: string; url: string }>,
+): Promise<TreeNode> =>
+  lazy.Bookmarks.update({
+    guid: ensureNotRoot(id),
+    title: changes.title,
+    url: changes.url,
+  }).then(convertBookmarks)
+
+export const remove = (
+  id: string,
+  removeNonEmptyFolders = false,
+): Promise<void> =>
+  lazy.Bookmarks.remove(
+    { guid: ensureNotRoot(id) },
+    { preventRemovalOfNonEmptyFolders: !removeNonEmptyFolders },
   )

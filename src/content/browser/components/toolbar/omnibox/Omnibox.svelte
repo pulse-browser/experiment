@@ -3,67 +3,42 @@
    - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
 
 <script lang="ts">
-  import {
-    search,
-    type BookmarkTreeNode,
-  } from '../../../../shared/ExtBookmarkAPI'
-  import { Button } from '../../../../shared/components'
-  import TextInput from '../../../../shared/components/TextInput.svelte'
+  import { onMount } from 'svelte'
   import { resource } from '../../../lib/resources'
   import type { Tab } from '../../tabs/tab'
+  import Bookmarks from './Bookmarks.svelte'
 
   export let tab: Tab
 
-  let panel: any
-  let bookmarkButton: any
   let inputContent: string = ''
+  let inputElement: HTMLInputElement
 
   $: uri = tab.uri
 
-  const unbindedSetInputContent = (value: string) => (inputContent = value)
+  const unbindedSetInputContent = (value: string) => {
+    inputContent = value
+    if (tab.tabJustOpened && inputElement) {
+      inputElement.focus()
+      inputElement.select()
+      tab.tabJustOpened = false
+    }
+  }
   $: unbindedSetInputContent($uri.asciiSpec)
-
-  $: bookmarkResults = search({ url: $uri.asciiSpec })
-  $: bookmarkInfo = bookmarkResults.then((bookmarks) =>
-    bookmarks.length > 0 ? (bookmarks[0] as BookmarkTreeNode) : undefined
-  )
 </script>
 
 <div class="omnibox">
   <input
     class="toolbar__urlbar"
     type="text"
+    bind:this={inputElement}
     bind:value={inputContent}
     on:keydown={(e) => {
-      console.log(e)
       if (e.key === 'Enter') tab.goToUri(resource.NetUtil.newURI(inputContent))
     }}
   />
 
-  {#await bookmarkInfo then bookmark}
-    <button
-      bind:this={bookmarkButton}
-      on:click={() => panel.openPopup(bookmarkButton, 'bottomright topright')}
-    >
-      <i class={bookmark ? 'ri-bookmark-fill' : 'ri-bookmark-line'} />
-    </button>
-  {/await}
+  <Bookmarks {tab} />
 </div>
-
-<xul:panel bind:this={panel} class="bookmark-panel">
-  <div class="bookmark-panel__container">
-    <h1>Add bookmark</h1>
-
-    <TextInput>Name</TextInput>
-    <!-- TODO: Location -->
-    <TextInput>Tags</TextInput>
-
-    <div class="bookmark-panel__buttons">
-      <Button kind="secondary">Cancel</Button>
-      <Button kind="primary">Save</Button>
-    </div>
-  </div>
-</xul:panel>
 
 <style>
   * {
@@ -86,29 +61,5 @@
 
   .toolbar__urlbar:focus {
     outline: solid var(--active-border);
-  }
-
-  .bookmark-panel {
-    --panel-border-radius: 1rem;
-    --panel-background: var(--surface);
-    --panel-color: var(--text);
-  }
-
-  .bookmark-panel h1 {
-    margin: 0;
-    margin-bottom: 0.25rem;
-    font-size: 1.5rem;
-  }
-
-  .bookmark-panel__container {
-    padding: 1rem;
-    padding-top: 0.5rem;
-  }
-
-  .bookmark-panel__buttons {
-    display: flex;
-    justify-content: flex-end;
-    gap: 0.5rem;
-    margin-top: 0.75rem;
   }
 </style>

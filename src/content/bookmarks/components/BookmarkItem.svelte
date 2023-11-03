@@ -6,6 +6,8 @@
   import type { TreeNode } from '../../shared/ExtBookmarkAPI'
 
   export let node: TreeNode
+  export let selectedBookmark: string | undefined
+
   let opened = false
 </script>
 
@@ -13,11 +15,17 @@
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <div
   class="bookmark-item"
-  on:click={() => (opened = !opened)}
-  aria-selected={opened}
+  on:click={() => {
+    opened = !opened
+    selectedBookmark = node.id
+  }}
+  aria-selected={selectedBookmark == node.id}
 >
   <div class="arrow">
-    <i class={opened ? 'ri-arrow-down-s-line' : 'ri-arrow-right-s-line'} />
+    <i
+      class={opened ? 'ri-arrow-down-s-line' : 'ri-arrow-right-s-line'}
+      hidden={node.type != 'folder'}
+    />
   </div>
   <div class="icon">
     {#if node.type === 'folder'}
@@ -33,7 +41,7 @@
 
 <div class="bookmark-children" hidden={!opened}>
   {#each node.children || [] as child}
-    <svelte:self bind:node={child} />
+    <svelte:self bind:node={child} bind:selectedBookmark />
   {/each}
 </div>
 
@@ -41,6 +49,7 @@
   .bookmark-item {
     display: flex;
     gap: 0.5rem;
+    cursor: pointer;
   }
 
   .arrow {
@@ -49,6 +58,10 @@
   }
 
   .bookmark-item[aria-selected='true'] {
-    background-color: color-mix(in srgb, var(--active) 20%, transparent);
+    background-color: var(--surface);
+  }
+
+  .bookmark-children {
+    margin-left: 0.5rem;
   }
 </style>

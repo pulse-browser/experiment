@@ -10,6 +10,14 @@
   export let selectedBookmark: string | undefined
 </script>
 
-{#each tree as node}
-  <BookmarkItem bind:node />
-{/each}
+<div class="container">
+  {#each tree as node}
+    <BookmarkItem bind:node bind:selectedBookmark />
+  {/each}
+</div>
+
+<style>
+  .container {
+    flex-grow: 1;
+  }
+</style>

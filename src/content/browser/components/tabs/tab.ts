@@ -15,6 +15,7 @@ import {
   viewableWritable,
   type ViewableWritable,
 } from '../../../shared/svelteUtils'
+import { search, type BookmarkTreeNode } from '../../../shared/ExtBookmarkAPI'
 
 export let lastTabAction = { id: -1, before: false }
 
@@ -34,8 +35,9 @@ export class Tab {
   // Publicly available data. Even though these are writable, updating them will not change
   // the state of the browser element
   public title = writable('')
-  public icon: Writable<string | null> = writable(null)
-  public uri: Writable<nsIURIType>
+  public icon: ViewableWritable<string | null> = viewableWritable(null)
+  public uri: ViewableWritable<nsIURIType>
+  public bookmarkInfo: Writable<BookmarkTreeNode | null> = writable(null)
 
   public findbar: ViewableWritable<HTMLElement | undefined> =
     viewableWritable(undefined)
@@ -43,8 +45,13 @@ export class Tab {
   public canGoBack = writable(false)
   public canGoForward = writable(false)
 
+  /**
+   * This is used by the omnibox to determine if text input should be focused.
+   */
+  public tabJustOpened = true
+
   constructor(uri: nsIURIType) {
-    this.uri = writable(uri)
+    this.uri = viewableWritable(uri)
     this.goToUri(uri)
     this.browserElement = createBrowser({
       remoteType: getBrowserRemoteType(uri),
@@ -55,11 +62,18 @@ export class Tab {
       this.title.set((this.browserElement as any).contentTitle)
     })
 
+    this.uri.subscribe(async (uri) =>
+      this.bookmarkInfo.set(
+        await search({ url: uri.spec }).then((r) =>
+          r.length > 0 ? (r[0] as BookmarkTreeNode) : null,
+        ),
+      ),
+    )
+
     this.browserElement.addEventListener(
       'DidChangeBrowserRemoteness',
       (e: any) => {
         const browser = e.target
-        console.log('chanedRemoteness', e)
         // TODO: Does this leak memory?
         this.progressListener.filter = undefined
         this.progressListener = new TabProgressListener()
@@ -82,7 +96,6 @@ export class Tab {
   }
 
   protected useProgressListener() {
-    this.progressListener.events.on('*', console.debug)
     this.progressListener.events.on('locationChange', (event) => {
       if (!event.aWebProgress.isTopLevel) return
 

@@ -7,6 +7,8 @@
 </script>
 
 <script lang="ts">
+  export let value: string = ''
+
   const id = gId++
 
   $: labelId = `text-input-${id}`
@@ -14,7 +16,7 @@
 
 <div class="text-input__container">
   <label class="text-input__label" for={labelId}><slot /></label>
-  <input type="text" class="text-input" id={labelId} />
+  <input type="text" class="text-input" id={labelId} bind:value on:keyup />
 </div>
 
 <style>
