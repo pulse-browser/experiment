@@ -12,7 +12,7 @@
 
   let lastDragIsBefore: undefined | boolean
 
-  const { title, icon } = tab
+  const { title, icon, uri } = tab
 
   $: tab.getId() == selectedTab && (document.title = $title)
 
@@ -50,8 +50,10 @@
   aria-selected={tab.getId() == selectedTab}
   draggable="true"
 >
-  <img class="tab__icon" src={$icon} />
-  <span>{$title}</span>
+  {#if $icon}
+    <img class="tab__icon" src={$icon} />
+  {/if}
+  <span>{$title || $uri.asciiSpec}</span>
   <button class="tab__close" on:click={() => closeTab(tab)}>
     <i class="ri-close-line" />
   </button>
