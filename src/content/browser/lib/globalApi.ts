@@ -18,14 +18,16 @@ let internalSelectedTab = -1
 export const selectedTab = writable(-1)
 selectedTab.subscribe((v) => (internalSelectedTab = v))
 
-export const tabs = viewableWritable([
-  new Tab(resource.NetUtil.newURI('https://google.com')),
-  new Tab(resource.NetUtil.newURI('https://google.com')),
-])
+const uriPref = (pref: string) => (): nsIURIType =>
+  resource.NetUtil.newURI(Services.prefs.getStringPref(pref, 'about:blank'))
+const newTabUri = uriPref('browser.newtab.default')
+const newWindowUri = uriPref('browser.newwindow.default')
 
-export function openTab(url = 'https://google.com') {
+export const tabs = viewableWritable([new Tab(newWindowUri())])
+
+export function openTab(uri: nsIURIType = newTabUri()) {
   tabs.update((tabs) => {
-    const newTab = new Tab(resource.NetUtil.newURI(url))
+    const newTab = new Tab(uri)
     selectedTab.set(newTab.getId())
     return [...tabs, newTab]
   })

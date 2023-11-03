@@ -4,6 +4,10 @@
 
 // This is roughly equivelent to `user.js` or `firefox.js`
 
+// Home settings
+pref('browser.newwindow.default', 'about:blank');
+pref('browser.newtab.default', 'https://web.tabliss.io/');
+
 // Default keybinds
 pref('browser.keybinds.toolbox', 'accel+alt+shift+I');
 pref('browser.keybinds.chrome.reload', 'accel+alt+shift+R');

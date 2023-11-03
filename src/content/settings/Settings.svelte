@@ -14,6 +14,13 @@
 <Sidebar {sidebarItems} />
 
 <div class="categories">
+  <Category bind:sidebarItems title="Home">
+    <SubCategory title="New Windows & Tabs">
+      <StringPref pref="browser.newwindow.default">Window page</StringPref>
+      <StringPref pref="browser.newtab.default">New tab page</StringPref>
+    </SubCategory>
+  </Category>
+
   <Category bind:sidebarItems title="Keybinds">
     <SubCategory title="Browser">
       <StringPref pref="browser.keybinds.toolbox">
