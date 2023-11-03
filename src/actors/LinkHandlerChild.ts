@@ -6,8 +6,27 @@
 
 import { FaviconLoader } from 'resource://app/modules/FaviconLoader.sys.mjs'
 
+declare global {
+  interface Document {
+    documentURIObject: nsIURIType
+  }
+
+  interface HTMLElement {
+    ownerGlobal: any
+  }
+}
+
+type DOMLinkAdded = Event & { target: HTMLLinkElement; type: 'DOMLinkAdded' }
+type DOMHeadParsed = Event & {
+  target: HTMLHeadElement
+  type: 'DOMHeadElementParsed'
+}
+type PageShow = PageTransitionEvent & { type: 'pageshow' }
+type PageHide = PageTransitionEvent & { type: 'pagehide' }
+
 export class LinkHandlerChild extends JSWindowActorChild {
-  iconLoader = new FaviconLoader(this)
+  iconLoader: import('../modules/FaviconLoader.ts').FaviconLoader =
+    new FaviconLoader(this) as any
   loadedTabIcon = false
 
   /**
@@ -24,25 +43,25 @@ export class LinkHandlerChild extends JSWindowActorChild {
     }
   }
 
-  onPageShow(event) {
+  onPageShow(event: PageShow) {
     if (event.target != this.document) return
     this.fetchRootFavicon()
     if (this.iconLoader) this.iconLoader.onPageShow()
   }
 
-  onPageHide(event) {
+  onPageHide(event: PageHide) {
     if (event.target != this.document) return
     if (this.iconLoader) this.iconLoader.onPageHide()
     this.loadedTabIcon = false
   }
 
-  onHeadParsed(event) {
+  onHeadParsed(event: DOMHeadParsed) {
     if (event.target.ownerDocument != this.document) return
     this.fetchRootFavicon()
     if (this.iconLoader) this.iconLoader.onPageShow()
   }
 
-  onLinkEvent(event) {
+  onLinkEvent(event: DOMLinkAdded) {
     let link = event.target
     // Ignore sub-frames (bugs 305472, 479408).
     if (link.ownerGlobal != this.contentWindow) {
@@ -60,7 +79,7 @@ export class LinkHandlerChild extends JSWindowActorChild {
     // whole content
     let iconAdded = false
     let searchAdded = false
-    let rels = {}
+    let rels: Record<string, boolean> = {}
     for (let relString of rel.split(/\s+/)) {
       rels[relString] = true
     }
@@ -87,7 +106,7 @@ export class LinkHandlerChild extends JSWindowActorChild {
           if (this.iconLoader.addIconFromLink(link, isRichIcon)) {
             iconAdded = true
             if (!isRichIcon) {
-              this.seenTabIcon = true
+              this.loadedTabIcon = true
             }
           }
           break
@@ -123,7 +142,7 @@ export class LinkHandlerChild extends JSWindowActorChild {
     }
   }
 
-  handleEvent(event) {
+  handleEvent(event: PageShow | PageHide | DOMHeadParsed | DOMLinkAdded) {
     switch (event.type) {
       case 'pageshow':
         return this.onPageShow(event)

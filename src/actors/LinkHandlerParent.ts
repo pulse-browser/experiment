@@ -5,7 +5,7 @@
 /// <reference path="../link.d.ts" />
 
 export class LinkHandlerParent extends JSWindowActorParent {
-  receiveMessage(aMsg) {
+  receiveMessage(aMsg: any) {
     const win = this.browsingContext.topChromeWindow
 
     switch (aMsg.name) {

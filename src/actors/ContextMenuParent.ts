@@ -4,13 +4,17 @@
 
 import type { ContextMenuInfo } from './ContextMenu.types'
 
+type ContextMenuEvent = {
+  name: 'contextmenu'
+  data: ContextMenuInfo
+  target: ContextMenuParent
+}
+
 export class ContextMenuParent extends JSWindowActorParent {
-  receiveMessage(event) {
-    if (event.name == 'contentmenu') {
-      const data: ContextMenuInfo = event.data
-      const win = (event.target as ContextMenuParent).browsingContext
-        .embedderElement.ownerGlobal
-      win.windowApi.showContextMenu(data)
+  receiveMessage(event: ContextMenuEvent) {
+    if (event.name == 'contextmenu') {
+      const win = event.target.browsingContext.embedderElement.ownerGlobal
+      win.windowApi.showContextMenu(event.data)
     }
   }
 }

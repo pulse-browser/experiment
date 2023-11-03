@@ -721,7 +721,7 @@ export class FaviconLoader {
     return false
   }
 
-  addDefaultIcon(pageUri: nsIURLType) {
+  addDefaultIcon(pageUri: nsIURIType) {
     // Currently ImageDocuments will just load the default favicon, see bug
     // 403651 for discussion.
     this.iconInfos.push({

@@ -1,6 +1,7 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+/// <reference path="../link.d.ts" />
 
 import { lazyESModuleGetters } from 'resource://app/modules/TypedImportUtils.sys.mjs'
 import type { ContextMenuInfo } from './ContextMenu.types'
@@ -10,14 +11,14 @@ const lazy = lazyESModuleGetters({
 })
 
 export class ContextMenuChild extends JSWindowActorChild {
-  handleEvent(event) {
+  handleEvent(event: MouseEvent & { inputSource: number }) {
     let data: {
       position: ContextMenuInfo['position']
     } & Partial<ContextMenuInfo> = {
       position: {
-        screenX: event.screenX as number,
-        screenY: event.screenY as number,
-        inputSource: event.inputSource as number,
+        screenX: event.screenX,
+        screenY: event.screenY,
+        inputSource: event.inputSource,
       },
     }
 
@@ -28,6 +29,6 @@ export class ContextMenuChild extends JSWindowActorChild {
       data.textSelection = selectionInfo.fullText
     }
 
-    this.sendAsyncMessage('contentmenu', data satisfies ContextMenuInfo)
+    this.sendAsyncMessage('contextmenu', data satisfies ContextMenuInfo)
   }
 }
