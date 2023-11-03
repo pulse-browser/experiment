@@ -49,6 +49,7 @@
     <iframe
       src="about:config"
       style="width: 100%; height: calc(100vh - 4rem); border: none"
+      title="Advanced settings"
     />
   </Category>
 </div>

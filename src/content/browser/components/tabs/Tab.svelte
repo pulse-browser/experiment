@@ -37,6 +37,7 @@
   }
 </script>
 
+<!-- svelte-ignore a11y-click-events-have-key-events -->
 <div
   on:click={() => (selectedTab = tab.getId())}
   on:mouseup={(e) => {
@@ -47,14 +48,20 @@
     e.dataTransfer?.setData('text/plain', tab.getId().toString())}
   on:dragover={dragOver}
   class="tab"
+  role="tab"
+  tabindex={tab.getId()}
   aria-selected={tab.getId() == selectedTab}
   draggable="true"
 >
   {#if $icon}
-    <img class="tab__icon" src={$icon} />
+    <img class="tab__icon" src={$icon} alt="favicon" />
   {/if}
   <span>{$title || $uri.asciiSpec}</span>
-  <button class="tab__close" on:click={() => closeTab(tab)}>
+  <button
+    class="tab__close"
+    on:click={() => closeTab(tab)}
+    on:keydown={(e) => e.key === 'Enter' && closeTab(tab)}
+  >
     <i class="ri-close-line" />
   </button>
 </div>

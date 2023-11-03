@@ -26,7 +26,6 @@
 
     {#if selectedBookmark}
       <BookmarkEditor
-        bind:selectedBookmarkId
         {fullTree}
         {selectedBookmark}
         on:delete={() => {

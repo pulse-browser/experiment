@@ -9,6 +9,7 @@
 
 <div class="pref">
   <div class="pref__label"><slot /></div>
+  <!-- svelte-ignore missing-declaration -->
   <input
     bind:value
     type="text"
@@ -35,4 +36,3 @@
     padding: 0.5rem 1rem;
   }
 </style>
-

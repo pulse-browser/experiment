@@ -20,11 +20,11 @@
 </script>
 
 <div class="content">
+  <!-- svelte-ignore a11y-no-static-element-interactions -->
   <div class="tabs" on:drop|preventDefault>
     {#each $tabs as tab (tab.getId())}
       <Tab {tab} bind:selectedTab={$selectedTab} />
     {/each}
-
     <button on:click={() => openTab()} class="tabs__button">
       <i class="ri-add-line ri-lg" />
     </button>
