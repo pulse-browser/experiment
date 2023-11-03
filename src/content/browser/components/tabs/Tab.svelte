@@ -72,11 +72,18 @@
     margin: 0.25rem 0;
     font-size: 1.25rem;
     border-radius: 0.5rem;
+    max-width: 16rem;
 
     display: flex;
     align-items: center;
 
     cursor: default;
+  }
+
+  .tab span {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
   }
 
   .tab[aria-selected='true'] {
@@ -105,6 +112,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-shrink: 0;
 
     cursor: pointer;
   }

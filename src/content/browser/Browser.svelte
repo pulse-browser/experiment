@@ -60,6 +60,7 @@
   .tabs {
     display: flex;
     gap: 0.25rem;
+    overflow-x: scroll;
   }
 
   .tabs__button {
