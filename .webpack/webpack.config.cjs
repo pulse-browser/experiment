@@ -1,13 +1,15 @@
 // @ts-check
-import { join, resolve } from 'node:path'
+const { join, resolve } = require('node:path')
 
-import HtmlWebpackPlugin from 'html-webpack-plugin'
-import MiniCssExtractPlugin from 'mini-css-extract-plugin'
-import preprocess from 'svelte-preprocess'
-
-import { getDistFile } from '../.scripts/lib/constants.js'
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const WebpackLicensePlugin = require('webpack-license-plugin')
+const preprocess = require('svelte-preprocess')
 
 const HTML_TEMPLATE_FILE = './src/content/index.html'
+
+const getDistFile = (file) => resolve('dist', file)
+const absolutePackage = (file) => resolve('node_modules', file)
 
 /**
  * @typedef {object} ContentFile
@@ -16,7 +18,7 @@ const HTML_TEMPLATE_FILE = './src/content/index.html'
  * @property {string} outFolder
  */
 
-export default (env, argv) => {
+exports.default = (env, argv) => {
   const dev = argv.mode === 'development'
 
   return sharedSettings(
@@ -59,7 +61,7 @@ const sharedSettings = (contentFiles, dev) => {
       extensions: ['.ts', '.mjs', '.js', '.svelte'],
     },
 
-    devtool: 'inline-source-map',
+    devtool: dev ? 'inline-source-map' : 'source-map',
     devServer: {
       hot: true,
       allowedHosts: ['all'],
@@ -71,9 +73,16 @@ const sharedSettings = (contentFiles, dev) => {
         overlay: false,
       },
     },
-    optimization: {
-      runtimeChunk: true,
-    },
+    optimization: dev
+      ? {
+          runtimeChunk: 'single',
+        }
+      : {
+          runtimeChunk: 'single',
+          splitChunks: {
+            chunks: 'all',
+          },
+        },
 
     module: {
       rules: [
@@ -128,6 +137,14 @@ const sharedSettings = (contentFiles, dev) => {
       new MiniCssExtractPlugin({
         filename: '[name].css',
         chunkFilename: '[id].css',
+      }),
+      new WebpackLicensePlugin({
+        licenseOverrides: {
+          'remixicon@3.5.0': 'Apache-2.0',
+        },
+
+        includePackages: () =>
+          ['@catppuccin/palette', 'remixicon'].map(absolutePackage),
       }),
     ],
 

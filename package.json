@@ -10,6 +10,10 @@
     "script:setup": "node ./.scripts/setup.js",
     "script:license-check": "node ./.scripts/license-check.js",
     "app:start": "./.store/rt/quark-runtime -no-remote",
+    "build": "rm -rf dist && concurrently -c auto pnpm:build-*",
+    "build-content": "webpack --mode production",
+    "build-modules": "tsc -p ./tsconfigs/tsconfig.modules.json",
+    "build-actors": "tsc -p ./tsconfigs/tsconfig.actors.json",
     "dev": "concurrently -c auto pnpm:dev-*",
     "dev-content": "webpack serve --mode development",
     "dev-modules": "tsc -w -p ./tsconfigs/tsconfig.modules.json",
@@ -42,13 +46,13 @@
     "svelte-preprocess": "^5.0.4",
     "ts-loader": "^9.5.0",
     "typescript": "^5.2.2",
-    "webpack": "^5.88.2",
+    "webpack": "^5.89.0",
     "webpack-cli": "^5.1.4",
-    "webpack-dev-server": "^4.15.1"
+    "webpack-dev-server": "^4.15.1",
+    "webpack-license-plugin": "^4.4.2"
   },
   "dependencies": {
     "@catppuccin/palette": "^0.2.0",
-    "fp-ts": "^2.16.1",
     "mitt": "^3.0.1",
     "remixicon": "^3.5.0"
   },
