@@ -6,13 +6,14 @@
   import { type Tab } from './tab'
   import { closeTab, moveTabBefore, moveTabAfter } from '../../lib/globalApi'
   import type { DragEventHandler } from 'svelte/elements'
+  import Spinner from '../../../shared/components/Spinner.svelte'
 
   export let tab: Tab
   export let selectedTab: number
 
   let lastDragIsBefore: undefined | boolean
 
-  const { title, icon, uri } = tab
+  const { title, icon, uri, loading } = tab
 
   $: tab.getId() == selectedTab && (document.title = $title)
 
@@ -53,8 +54,12 @@
   aria-selected={tab.getId() == selectedTab}
   draggable="true"
 >
-  {#if $icon}
-    <img class="tab__icon" src={$icon} alt="favicon" />
+  {#if $loading}
+    <div class="tab__start-item">
+      <Spinner />
+    </div>
+  {:else if $icon}
+    <img class="tab__icon tab__start-item" src={$icon} alt="favicon" />
   {/if}
   <span>{$title || $uri.asciiSpec}</span>
   <button
@@ -121,9 +126,14 @@
     background: var(--surface-2);
   }
 
+  .tab__start-item {
+    margin-right: 0.5rem;
+    /* The spinner uses em to size, we can resize it with font size */
+    font-size: 1rem;
+  }
+
   .tab__icon {
     height: 1.5rem;
     width: 1.5rem;
-    margin-right: 0.5rem;
   }
 </style>

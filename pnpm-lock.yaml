@@ -13,6 +13,9 @@ dependencies:
   '@catppuccin/palette':
     specifier: ^0.2.0
     version: 0.2.0
+  fnts:
+    specifier: ^2.0.1
+    version: 2.0.1(typescript@5.2.2)
   mitt:
     specifier: ^3.0.1
     version: 3.0.1
@@ -1421,6 +1424,17 @@ packages:
       locate-path: 5.0.0
       path-exists: 4.0.0
     dev: true
+
+  /fnts@2.0.1(typescript@5.2.2):
+    resolution: {integrity: sha512-pg5jBjtTdWMen8OzFKd0gPOHgnvAzm0ndKKrGT4xYZYBSobDLhqLSf2tnDpmdPuPvV3rMwae0lOmmvOJ+l1VNg==}
+    peerDependencies:
+      typescript: '>=4.7'
+    peerDependenciesMeta:
+      typescript:
+        optional: true
+    dependencies:
+      typescript: 5.2.2
+    dev: false
 
   /follow-redirects@1.15.3:
     resolution: {integrity: sha512-1VzOtuEM8pC9SFU1E+8KfTjZyMztRsgEfwQl44z8A25uy13jSzTj6dyK2Df52iV0vgHCfBwLhDWevLn95w5v6Q==}
@@ -3213,7 +3227,6 @@ packages:
     resolution: {integrity: sha512-mI4WrpHsbCIcwT9cF4FZvr80QUeKvsUsUvKDoR+X/7XHQH98xYD8YHZg7ANtz2GtZt/CBq2QJ0thkGJMHfqc1w==}
     engines: {node: '>=14.17'}
     hasBin: true
-    dev: true
 
   /undici-types@5.25.3:
     resolution: {integrity: sha512-Ga1jfYwRn7+cP9v8auvEXN1rX3sWqlayd4HP7OKk4mZWylEmu3KzXDUGrQUN6Ol7qo1gPvB2e5gX6udnyEPgdA==}

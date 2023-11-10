@@ -45,6 +45,9 @@ export class Tab {
   public canGoBack = writable(false)
   public canGoForward = writable(false)
 
+  public loading = writable(false)
+  public loadingProgress = writable(0)
+
   /**
    * This is used by the omnibox to determine if text input should be focused.
    */
@@ -99,10 +102,15 @@ export class Tab {
     this.progressListener.events.on('locationChange', (event) => {
       if (!event.aWebProgress.isTopLevel) return
 
+      this.icon.set(null)
+
       this.uri.set(event.aLocation)
       this.canGoBack.set(this.browserElement.canGoBack)
       this.canGoForward.set(this.browserElement.canGoForward)
     })
+
+    this.progressListener.events.on('progressPercent', this.loadingProgress.set)
+    this.progressListener.events.on('loadingChange', this.loading.set)
   }
 
   public async setContainer(container: HTMLElement) {
@@ -173,6 +181,8 @@ type TabProgressListenerEvent = {
     aLocation: nsIURIType
     aFlags: number
   } & TabProgressListenerEventDefaults
+  progressPercent: number
+  loadingChange: boolean
 }
 
 let progressListenerCounter = 0
@@ -199,6 +209,10 @@ class TabProgressListener
     )
   }
 
+  /**
+   * This request is identical to {@link onProgressChange64}. The only
+   * difference is that the c++ impl uses `long long`s instead of `long`s
+   */
   onProgressChange64(
     aWebProgress: nsIWebProgressType,
     aRequest: nsIRequestType,
@@ -207,7 +221,14 @@ class TabProgressListener
     aCurTotalProgress: number,
     aMaxTotalProgress: number,
   ): void {
-    console.log('onProgressChange64')
+    return this.onProgressChange(
+      aWebProgress,
+      aRequest,
+      aCurSelfProgress,
+      aMaxSelfProgress,
+      aCurTotalProgress,
+      aMaxTotalProgress,
+    )
   }
 
   onRefreshAttempted(
@@ -225,8 +246,22 @@ class TabProgressListener
     aStateFlags: number,
     aStatus: number,
   ): void {
-    console.log('onStateChange')
+    if (!aWebProgress.isTopLevel) return
+    if (
+      aStateFlags & Ci.nsIWebProgressListener.STATE_START &&
+      aStateFlags & Ci.nsIWebProgressListener.STATE_IS_NETWORK
+    ) {
+      this.events.emit('loadingChange', true)
+    }
+
+    if (
+      aStateFlags & Ci.nsIWebProgressListener.STATE_STOP &&
+      aStateFlags & Ci.nsIWebProgressListener.STATE_IS_NETWORK
+    ) {
+      this.events.emit('loadingChange', false)
+    }
   }
+
   onProgressChange(
     aWebProgress: nsIWebProgressType,
     aRequest: nsIRequestType,
@@ -235,8 +270,13 @@ class TabProgressListener
     aCurTotalProgress: number,
     aMaxTotalProgress: number,
   ): void {
-    console.log('onProgressChange')
+    if (!aWebProgress || !aWebProgress.isTopLevel) return
+    this.events.emit(
+      'progressPercent',
+      aMaxTotalProgress !== 0 ? aCurTotalProgress / aMaxTotalProgress : 0,
+    )
   }
+
   onLocationChange(
     aWebProgress: nsIWebProgressType,
     aRequest: nsIRequestType,
