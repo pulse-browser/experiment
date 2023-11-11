@@ -13,7 +13,6 @@
 
 import { existsSync } from 'fs'
 import { mkdir, rm, symlink } from 'fs/promises'
-import { join } from 'node:path'
 import { execa } from 'execa'
 
 import { downloadReleaseAsset, getLatestRelease } from './lib/releases.js'
@@ -25,6 +24,7 @@ import {
   getSrcFile,
 } from './lib/constants.js'
 import { linkFolder } from './lib/linker.js'
+import { setupFiles } from './lib/files.js'
 
 const OWNER = 'pulse-browser'
 const REPO = 'experiment-runtime'
@@ -83,6 +83,9 @@ await symlink(prefFileSrc, prefFile)
 
 await linkFolder('modules')
 await linkFolder('actors')
+
+info('Setting up files...')
+await setupFiles()
 
 info('')
 info('You are all set up!')

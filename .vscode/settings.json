@@ -1,4 +1,7 @@
 {
   "files.autoSave": "afterDelay",
-  "files.autoSaveDelay": 120000
+  "files.autoSaveDelay": 120000,
+  "files.associations": {
+    "*.manifest.append": "chrome-manifest"
+  }
 }

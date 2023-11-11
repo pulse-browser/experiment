@@ -5,6 +5,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const WebpackLicensePlugin = require('webpack-license-plugin')
 const preprocess = require('svelte-preprocess')
+const CopyWebpackPlugin = require('copy-webpack-plugin')
 
 const HTML_TEMPLATE_FILE = './src/content/index.html'
 
@@ -149,6 +150,14 @@ const sharedSettings = (contentFiles, dev) => {
 
         unacceptableLicenseTest: (licenseIdentifier) =>
           ['GPL', 'AGPL', 'LGPL', 'NGPL'].includes(licenseIdentifier),
+      }),
+      new CopyWebpackPlugin({
+        patterns: [
+          {
+            from: 'static',
+            to: getDistFile('browser_content'),
+          },
+        ],
       }),
     ],
 
