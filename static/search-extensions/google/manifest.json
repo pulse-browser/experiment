@@ -9,7 +9,6 @@
     }
   },
   "hidden": true,
-  "default_locale": "en",
   "icons": {
     "16": "favicon.ico"
   },
@@ -21,13 +20,6 @@
       "search_url": "https://www.google.com/search",
       "search_form": "https://www.google.com/search",
       "suggest_url": "https://www.google.com/complete/search?client=fushra&q={searchTerms}",
-      "params": [
-        {
-          "name": "channel",
-          "condition": "pref",
-          "pref": "google_channel_row"
-        }
-      ],
       "search_url_get_params": "client=fushra&q={searchTerms}"
     }
   }

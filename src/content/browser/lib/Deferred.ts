@@ -14,7 +14,7 @@ export class Deferred<T, E = unknown> {
    * If the value is a Promise then the associated promise assumes the state
    * of Promise passed as value.
    */
-  resolve: null | ((val: T) => void) = null
+  resolve!: (val: T) => void
 
   /* A method to reject the assocaited Promise with the value passed.
    * If the promise is already settled it does nothing.
@@ -23,7 +23,7 @@ export class Deferred<T, E = unknown> {
    * Generally its an Error object. If however a Promise is passed, then the Promise
    * itself will be the reason for rejection no matter the state of the Promise.
    */
-  reject: null | ((err: E) => void) = null
+  reject!: (err: E) => void
 
   /* A newly created Pomise object.
    * Initially in pending state.

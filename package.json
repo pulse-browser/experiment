@@ -19,7 +19,7 @@
     "dev-content": "webpack serve --mode development",
     "dev-modules": "tsc -w -p ./tsconfigs/tsconfig.modules.json",
     "dev-actors": "tsc -w -p ./tsconfigs/tsconfig.actors.json",
-    "rt:slink": "rm --force ./.store/artifact.tar.bz2 && ln -s ../../experiment-runtime/dist/quark-runtime-1.0.0.en-US.linux-x86_64.tar.bz2 ./.store/artifact.tar.bz2",
+    "rt:slink": "rm --force ./.store/artifact.tar.bz2 && ln -s ../../experiment-runtime/dist/experiment-runtime-1.0.0.en-US.linux-x86_64.tar.bz2 ./.store/artifact.tar.bz2",
     "format": "pnpm script:license-check --fix && prettier . --write"
   },
   "keywords": [],
