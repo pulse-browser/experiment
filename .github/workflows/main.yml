@@ -71,6 +71,9 @@ jobs:
       - name: Build
         run: pnpm build
 
+      - name: Run tests
+        run: pnpm script:unit-test
+
       - name: De-symlink
         run: rsync .store/rt/ rt_dist/ -a --copy-links
       - name: Upload artifact
