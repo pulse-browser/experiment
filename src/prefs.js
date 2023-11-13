@@ -8,6 +8,9 @@
 pref('browser.newwindow.default', 'about:blank');
 pref('browser.newtab.default', 'https://web.tabliss.io/');
 
+// Search settings
+pref('browser.search.engine.default', 'google@search.fushra.com');
+
 // Default keybinds
 pref('browser.keybinds.toolbox', 'accel+alt+shift+I');
 pref('browser.keybinds.chrome.reload', 'accel+alt+shift+R');

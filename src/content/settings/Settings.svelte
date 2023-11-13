@@ -3,13 +3,19 @@
    - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
 
 <script lang="ts">
-  import { SEARCH_ENGINE_PREF } from '../shared/search/constants'
+  import {
+    DEFAULT_SEARCH_ENGINE,
+    SEARCH_ENGINE_PREF,
+  } from '../shared/search/constants'
+  import { searchService } from '../shared/search/search'
   import Category from './components/Category.svelte'
   import SubCategory from './components/SubCategory.svelte'
+  import SelectPref from './components/pref/SelectPref.svelte'
   import StringPref from './components/pref/StringPref.svelte'
   import { SidebarItemData, Sidebar } from './components/sidebar'
 
   let sidebarItems: SidebarItemData[] = []
+  const searchEngines: Promise<any[]> = searchService.getSearchEngines()
 </script>
 
 <Sidebar {sidebarItems} />
@@ -24,7 +30,17 @@
 
   <Category bind:sidebarItems title="Search">
     <SubCategory title="Default Search Engine">
-      <StringPref pref={SEARCH_ENGINE_PREF}>Default search engine</StringPref>
+      {#await searchEngines then searchEngines}
+        <SelectPref
+          items={searchEngines.map((engine) => ({
+            value: engine._extensionID,
+            label: engine._name,
+            icon: engine.iconURI.spec,
+          }))}
+          pref={SEARCH_ENGINE_PREF}
+          defaultValue={DEFAULT_SEARCH_ENGINE}>Default search engine</SelectPref
+        >
+      {/await}
     </SubCategory>
   </Category>
 
