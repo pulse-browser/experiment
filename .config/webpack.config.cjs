@@ -28,7 +28,6 @@ exports.default = (env, argv) => {
       { title: 'Settings', folder: 'settings', outFolder: 'settings' },
       { title: 'Bookmarks', folder: 'bookmarks', outFolder: 'bookmarks' },
       { title: 'Credits', folder: 'credits', outFolder: 'credits' },
-      { title: 'Unit Tests', folder: 'tests', outFolder: 'tests' },
     ],
     dev,
   )
