@@ -72,7 +72,9 @@ jobs:
         run: pnpm build
 
       - name: Run tests
-        run: pnpm script:unit-test
+        uses: coactions/setup-xvfb@v1
+        with:
+          run: pnpm script:unit-test
 
       - name: De-symlink
         run: rsync .store/rt/ rt_dist/ -a --copy-links

@@ -31,9 +31,16 @@ new App()
   })
   .listen(TEST_PORT)
 
-if (!shouldWatch)
+if (!shouldWatch) {
   testProcess = execa('./.store/rt/quark-runtime', [
     '--no-remote',
     '--chrome',
     TEST_RUNNER_URL,
   ])
+
+  // Timeout to ensure that tests actually start
+  setTimeout(() => {
+    testProcess?.kill()
+    exit(1)
+  }, 10_000)
+}
