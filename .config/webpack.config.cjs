@@ -28,6 +28,7 @@ exports.default = (env, argv) => {
       { title: 'Settings', folder: 'settings', outFolder: 'settings' },
       { title: 'Bookmarks', folder: 'bookmarks', outFolder: 'bookmarks' },
       { title: 'Credits', folder: 'credits', outFolder: 'credits' },
+      { title: 'Test runner', folder: 'tests', outFolder: 'tests' },
     ],
     dev,
   )
@@ -61,6 +62,9 @@ const sharedSettings = (contentFiles, dev) => {
     },
     resolve: {
       extensions: ['.ts', '.mjs', '.js', '.svelte'],
+      alias: {
+        '@shared': resolve('src/content/shared'),
+      },
     },
 
     devtool: dev ? 'inline-source-map' : 'source-map',
@@ -122,6 +126,10 @@ const sharedSettings = (contentFiles, dev) => {
         {
           test: /\.(png|jpe?g|gif|svg|webp)$/i,
           type: 'asset/resource',
+        },
+        {
+          test: /\.txt$/,
+          type: 'asset/source',
         },
       ],
     },

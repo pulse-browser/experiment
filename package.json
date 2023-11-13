@@ -9,6 +9,7 @@
     "scripts:build": "tsc -p ./tsconfigs/tsconfig.scripts.json",
     "script:setup": "node ./.scripts/setup.js",
     "script:license-check": "node ./.scripts/license-check.js",
+    "script:unit-test": "node ./.scripts/unit-test.js",
     "app:start": "MOZ_ENABLE_WAYLAND=1 ./.store/rt/quark-runtime -no-remote",
     "app:startX": "./.store/rt/quark-runtime -no-remote",
     "build": "rm -rf dist && concurrently -c auto pnpm:build-*",
@@ -28,6 +29,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@tinyhttp/app": "^2.2.1",
     "@tsconfig/svelte": "^5.0.2",
     "@types/node": "^20.8.4",
     "concurrently": "^8.2.1",
@@ -52,7 +54,8 @@
     "webpack": "^5.89.0",
     "webpack-cli": "^5.1.4",
     "webpack-dev-server": "^4.15.1",
-    "webpack-license-plugin": "^4.4.2"
+    "webpack-license-plugin": "^4.4.2",
+    "zora": "^5.2.0"
   },
   "dependencies": {
     "@catppuccin/palette": "^0.2.0",
@@ -65,5 +68,17 @@
     "patchedDependencies": {
       "svelte@4.2.1": "patches/svelte@4.2.1.patch"
     }
+  },
+  "prettier": {
+    "semi": false,
+    "singleQuote": true,
+    "overrides": [
+      {
+        "files": "src/prefs.js",
+        "options": {
+          "semi": true
+        }
+      }
+    ]
   }
 }

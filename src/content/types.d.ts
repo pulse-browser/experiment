@@ -13,3 +13,9 @@ declare module '*.txt' {
 declare interface Window {
   windowApi: typeof import('./lib/globalApi').windowApi
 }
+
+declare interface NodeModule {
+  hot?: {
+    dispose: (cb: () => void) => void
+  }
+}

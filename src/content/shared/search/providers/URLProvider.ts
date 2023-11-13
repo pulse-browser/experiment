@@ -6,7 +6,7 @@ import { Provider, type ProviderResult } from '../provider'
 import tld from './data/tld.txt'
 
 const URL_REGEX =
-  /^^(?<protocol>https?:\/\/)?(?<domain>(\w+\.)+(?<tld>\w+))(?<path>\/.*)?$$/gm
+  /^^(?<protocol>https?:\/\/)?(?<domain>(\w+\.)+(?<tld>\w+))(?<path>\/.*)?$$/m
 const tlds = tld
   .split('\n')
   .filter((tld) => tld.length > 0 && !tld.startsWith('#'))
@@ -17,14 +17,15 @@ export class URLProvider extends Provider {
     if (match === null) return []
 
     const { protocol, domain, tld, path } = match.groups || {}
-    const uri = `${protocol ?? 'https://'}${domain}.${tld}${path ?? ''}`
+    const uri = `${protocol || 'https://'}${domain}${path || ''}`
 
     // If it is not a valid tld, don't show it
-    if (!tlds.includes(tld)) return []
+    if (!tlds.includes(tld.toUpperCase())) return []
 
     return [
       {
         title: uri,
+        // @ts-ignore
         url: Services.io.newURI(uri),
         icon: `chrome://branding/content/icon32.png`,
       },

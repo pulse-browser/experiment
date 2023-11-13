@@ -4,9 +4,16 @@
     "target": "es2022",
     "allowArbitraryExtensions": true,
     "paths": {
-      /* "~/*": ["./src/*"] */
+      "@shared/*": [
+        "./src/content/shared/*"
+      ]
     }
   },
-  "include": ["src/content/**/*"],
-  "exclude": ["node_modules/*", "public/*"]
+  "include": [
+    "src/content/**/*"
+  ],
+  "exclude": [
+    "node_modules/*",
+    "public/*"
+  ]
 }
