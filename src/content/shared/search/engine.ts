@@ -3,7 +3,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 import type { AddonSearchEngine } from 'resource://gre/modules/AddonSearchEngine.sys.mjs'
-import { Deferred } from '../../browser/lib/Deferred'
+import { Deferred } from '../Deferred'
 import { lazyESModuleGetters } from '../TypedImportUtilities'
 import {
   SEARCH_ENGINE_IDS,
@@ -16,7 +16,7 @@ const lazy = lazyESModuleGetters({
   SearchUtils: 'resource://gre/modules/SearchUtils.sys.mjs',
 })
 
-class SearchService {
+class SearchEngineService {
   private initPromise: Deferred<void> | undefined
 
   private searchEngines: Deferred<AddonSearchEngine[]> = new Deferred()
@@ -81,4 +81,4 @@ class SearchService {
   }
 }
 
-export const searchService = new SearchService()
+export const searchEngineService = new SearchEngineService()
