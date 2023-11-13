@@ -48,7 +48,7 @@
         {/if} <a href={pkg.source}>NPM</a>, License: {pkg.license}
       </p>
 
-      {@html snarkdown(pkg.licenseText)}
+      {@html snarkdown(pkg.licenseText || 'No license text provided')}
     </div>
   {/each}
 {/await}
