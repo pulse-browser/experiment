@@ -3,22 +3,24 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 import type { AddonSearchEngine } from 'resource://gre/modules/AddonSearchEngine.sys.mjs'
-import { Deferred } from '../Deferred'
-import { lazyESModuleGetters } from '../../../shared/TypedImportUtilities'
+import { Deferred } from '../../browser/lib/Deferred'
+import { lazyESModuleGetters } from '../TypedImportUtilities'
+import {
+  SEARCH_ENGINE_IDS,
+  SEARCH_ENGINE_PREF,
+  DEFAULT_SEARCH_ENGINE,
+} from './constants'
 
 const lazy = lazyESModuleGetters({
   AddonSearchEngine: 'resource://gre/modules/AddonSearchEngine.sys.mjs',
   SearchUtils: 'resource://gre/modules/SearchUtils.sys.mjs',
 })
 
-const SEARCH_ENGINE_IDS = [
-  'ddg@search.fushra.com',
-  'google@search.fushra.com',
-] as const
-
 class SearchService {
   private initPromise: Deferred<void> | undefined
+
   private searchEngines: Deferred<AddonSearchEngine[]> = new Deferred()
+  private defaultEngine: Deferred<AddonSearchEngine> = new Deferred()
 
   constructor() {}
 
@@ -45,7 +47,6 @@ class SearchService {
 
     const locale = lazy.SearchUtils.DEFAULT_TAG
     const engines: AddonSearchEngine[] = []
-
     for (const extensionID of SEARCH_ENGINE_IDS) {
       const engine = new (lazy.AddonSearchEngine as any)({
         isAppProvided: true,
@@ -55,14 +56,28 @@ class SearchService {
 
       engines.push(engine)
     }
-
     this.searchEngines.resolve(engines)
+
+    const defaultEngineId = Services.prefs.getStringPref(
+      SEARCH_ENGINE_PREF,
+      DEFAULT_SEARCH_ENGINE,
+    )
+    const defaultEngine = engines.find(
+      (engine: any) => engine._extensionID === defaultEngineId,
+    )!
+    this.defaultEngine.resolve(defaultEngine)
+
     this.initPromise.resolve()
   }
 
   async getSearchEngines() {
     await this.init()
     return await this.searchEngines.promise
+  }
+
+  async getDefaultEngine() {
+    await this.init()
+    return await this.defaultEngine.promise
   }
 }
 

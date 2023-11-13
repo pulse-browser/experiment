@@ -3,6 +3,7 @@
    - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
 
 <script lang="ts">
+  import { SEARCH_ENGINE_PREF } from '../shared/search/constants'
   import Category from './components/Category.svelte'
   import SubCategory from './components/SubCategory.svelte'
   import StringPref from './components/pref/StringPref.svelte'
@@ -18,6 +19,12 @@
     <SubCategory title="New Windows & Tabs">
       <StringPref pref="browser.newwindow.default">Window page</StringPref>
       <StringPref pref="browser.newtab.default">New tab page</StringPref>
+    </SubCategory>
+  </Category>
+
+  <Category bind:sidebarItems title="Search">
+    <SubCategory title="Default Search Engine">
+      <StringPref pref={SEARCH_ENGINE_PREF}>Default search engine</StringPref>
     </SubCategory>
   </Category>
 
