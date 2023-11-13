@@ -13,7 +13,7 @@
     "app:start": "MOZ_ENABLE_WAYLAND=1 ./.store/rt/quark-runtime -no-remote",
     "app:startX": "./.store/rt/quark-runtime -no-remote",
     "build": "rm -rf dist && concurrently -c auto pnpm:build-*",
-    "build-content": "webpack --mode production -c ./.config/webpack.conf.cjs",
+    "build-content": "webpack --mode production -c ./.config/webpack.config.cjs",
     "build-modules": "tsc -p ./tsconfigs/tsconfig.modules.json",
     "build-actors": "tsc -p ./tsconfigs/tsconfig.actors.json",
     "dev": "concurrently -c auto pnpm:dev-*",
