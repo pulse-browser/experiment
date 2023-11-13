@@ -3,13 +3,14 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 import { writable, type Writable } from 'svelte/store'
+import mitt from 'mitt'
+
 import {
   createBrowser,
   getBrowserRemoteType,
   setURI,
 } from '../../lib/xul/browser'
 import { domContentLoaded } from '../../lib/xul/domevents'
-import mitt from 'mitt'
 import { spinLock } from '../../lib/spinlock'
 import {
   viewableWritable,

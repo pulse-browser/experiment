@@ -10,7 +10,9 @@ import { walkDirectory } from './lib/fs.js'
 import { autoFix, isValidLicense } from './lib/license.js'
 import { failure } from './lib/logging.js'
 
-const IGNORED_FILES = new RegExp('.*\\.(json|patch|md|jpeg|png|gif|tiff|ico)')
+const IGNORED_FILES = new RegExp(
+  '.*\\.(json|patch|md|jpeg|png|gif|tiff|ico|txt)',
+)
 
 const shouldFix = argv.includes('--fix')
 const filesToCheck = [

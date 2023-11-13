@@ -71,6 +71,11 @@ jobs:
       - name: Build
         run: pnpm build
 
+      - name: Run tests
+        uses: coactions/setup-xvfb@v1
+        with:
+          run: pnpm script:unit-test
+
       - name: De-symlink
         run: rsync .store/rt/ rt_dist/ -a --copy-links
       - name: Upload artifact

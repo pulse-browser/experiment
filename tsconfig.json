@@ -4,7 +4,7 @@
     "target": "es2022",
     "allowArbitraryExtensions": true,
     "paths": {
-      /* "~/*": ["./src/*"] */
+      "@shared/*": ["./src/content/shared/*"]
     }
   },
   "include": ["src/content/**/*"],

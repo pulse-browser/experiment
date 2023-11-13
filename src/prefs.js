@@ -37,3 +37,6 @@ pref('accessibility.typeaheadfind', false);
 pref('accessibility.typeaheadfind.timeout', 5000);
 pref('accessibility.typeaheadfind.linksonly', false);
 pref('accessibility.typeaheadfind.flashBar', 1);
+
+// Enable firefox compat
+pref('general.useragent.compatMode.firefox', true);

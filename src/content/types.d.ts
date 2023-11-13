@@ -5,6 +5,17 @@
 /// <reference types="gecko-types" />
 /// <reference types="svelte" />
 
+declare module '*.txt' {
+  const contents: string
+  export = contents
+}
+
 declare interface Window {
   windowApi: typeof import('./lib/globalApi').windowApi
+}
+
+declare interface NodeModule {
+  hot?: {
+    dispose: (cb: () => void) => void
+  }
 }

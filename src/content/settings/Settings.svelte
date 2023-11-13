@@ -7,7 +7,7 @@
     DEFAULT_SEARCH_ENGINE,
     SEARCH_ENGINE_PREF,
   } from '../shared/search/constants'
-  import { searchService } from '../shared/search/search'
+  import { searchEngineService } from '../shared/search/engine'
   import Category from './components/Category.svelte'
   import SubCategory from './components/SubCategory.svelte'
   import SelectPref from './components/pref/SelectPref.svelte'
@@ -15,7 +15,9 @@
   import { SidebarItemData, Sidebar } from './components/sidebar'
 
   let sidebarItems: SidebarItemData[] = []
-  const searchEngines: Promise<any[]> = searchService.getSearchEngines()
+  const searchEngines: Promise<any[]> = import('../shared/search/engine').then(
+    (search) => search.searchEngineService.getSearchEngines()
+  )
 </script>
 
 <Sidebar {sidebarItems} />
