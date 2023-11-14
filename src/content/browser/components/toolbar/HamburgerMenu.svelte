@@ -28,14 +28,14 @@
   <div class="panel__container">
     <HamburgerMenuItem
       on:click={openDialogWindowAction(
-        'chrome://browser/content/settings/index.html'
+        'chrome://browser/content/settings/index.html',
       )}
     >
       Settings
     </HamburgerMenuItem>
     <HamburgerMenuItem
       on:click={openDialogWindowAction(
-        'chrome://browser/content/bookmarks/index.html'
+        'chrome://browser/content/bookmarks/index.html',
       )}
     >
       Bookmarks
@@ -43,7 +43,9 @@
     <HamburgerMenuItem
       on:click={() =>
         openTab(
-          resource.NetUtil.newURI('chrome://browser/content/credits/index.html')
+          resource.NetUtil.newURI(
+            'chrome://browser/content/credits/index.html',
+          ),
         )}
     >
       Credits

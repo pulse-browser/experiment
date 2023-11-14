@@ -16,7 +16,7 @@
 
   let sidebarItems: SidebarItemData[] = []
   const searchEngines: Promise<any[]> = import('../shared/search/engine').then(
-    (search) => search.searchEngineService.getSearchEngines()
+    (search) => search.searchEngineService.getSearchEngines(),
   )
 </script>
 

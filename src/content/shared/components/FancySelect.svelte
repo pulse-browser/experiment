@@ -13,8 +13,8 @@
   onMount(
     () =>
       (menulist.selectedIndex = items.findIndex(
-        (item) => item.value == selected
-      ))
+        (item) => item.value == selected,
+      )),
   )
   $: menulist &&
     (menulist.selectedIndex = items.findIndex((item) => item.value == selected))

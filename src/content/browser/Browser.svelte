@@ -15,7 +15,7 @@
   // We don't care about the order that browers are rendered in the dom, but we
   // want to allow tab reordering. This should stop unnessisary updates
   $: sortedBrowers = [...$tabs].sort(
-    (tabA, tabB) => tabA.getId() - tabB.getId()
+    (tabA, tabB) => tabA.getId() - tabB.getId(),
   )
 </script>
 

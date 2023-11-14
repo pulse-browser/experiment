@@ -16,7 +16,7 @@
       licenseText: string
     }[]
   > = fetch('chrome://browser/content/oss-licenses.json').then((res) =>
-    res.json()
+    res.json(),
   )
 </script>
 

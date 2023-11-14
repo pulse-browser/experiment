@@ -9,15 +9,15 @@
 
   export let pref: string
   let keybind: Keybind = keybindFromString(
-    Services.prefs.getStringPref(pref, '')
+    Services.prefs.getStringPref(pref, ''),
   ).unwrap()
 
   onMount(() => {
     const observer = observable(
       () =>
         (keybind = keybindFromString(
-          Services.prefs.getStringPref(pref, '')
-        ).unwrap())
+          Services.prefs.getStringPref(pref, ''),
+        ).unwrap()),
     )
 
     Services.prefs.addObserver(pref, observer)

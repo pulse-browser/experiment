@@ -20,6 +20,15 @@
 
   $: uri = tab.uri
 
+  async function generateSuggestions() {
+    const { suggestions: suggestionsMethod } = await suggestionsModule
+    suggestions = await suggestionsMethod(inputContent)
+    selectedSuggestion = Math.max(
+      Math.min(selectedSuggestion, suggestions.length - 1),
+      0,
+    )
+  }
+
   const unbindedSetInputContent = (value: string) => {
     inputContent = value
     if (tab.tabJustOpened && inputElement) {
@@ -48,19 +57,22 @@
         aria-owns="omnibox__suggestions-list"
         bind:this={inputElement}
         bind:value={inputContent}
-        on:focusin={() => (showFocus = true)}
+        on:focusin={() => {
+          showFocus = true
+          generateSuggestions()
+        }}
         on:blur|capture={() =>
           setTimeout(() => (showFocus = false) && (suggestions = []), 100)}
         on:keyup={async (e) => {
           if (e.key === 'Enter')
             return tab.goToUri(
-              resource.NetUtil.newURI(suggestions[selectedSuggestion].url)
+              resource.NetUtil.newURI(suggestions[selectedSuggestion].url),
             )
           if (e.key === 'ArrowDown') {
             e.preventDefault()
             selectedSuggestion = Math.min(
               selectedSuggestion + 1,
-              suggestions.length - 1
+              suggestions.length - 1,
             )
             return
           }
@@ -70,12 +82,7 @@
             return
           }
 
-          const { suggestions: suggestionsMethod } = await suggestionsModule
-          suggestions = await suggestionsMethod(inputContent)
-          selectedSuggestion = Math.max(
-            Math.min(selectedSuggestion, suggestions.length - 1),
-            0
-          )
+          await generateSuggestions()
         }}
       />
 

@@ -17,7 +17,7 @@
 
     return () =>
       (sidebarItems = sidebarItems.filter(
-        (item) => item.counter != sidebarItem.counter
+        (item) => item.counter != sidebarItem.counter,
       ))
   })
 </script>
