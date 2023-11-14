@@ -30,7 +30,10 @@
     }
 
     // Unfocus on spec change
-    if (inputElement) inputElement.blur()
+    if (inputElement && suggestions.length != 0) {
+      inputElement.blur()
+      suggestions = []
+    }
   }
   $: unbindedSetInputContent($uri.asciiSpec)
 </script>
@@ -46,9 +49,9 @@
         bind:this={inputElement}
         bind:value={inputContent}
         on:focusin={() => (showFocus = true)}
-        on:blur={() => (showFocus = false)}
+        on:blur|capture={() =>
+          setTimeout(() => (showFocus = false) && (suggestions = []), 100)}
         on:keyup={async (e) => {
-          console.log(e, selectedSuggestion)
           if (e.key === 'Enter')
             return tab.goToUri(
               resource.NetUtil.newURI(suggestions[selectedSuggestion].url)
@@ -94,10 +97,9 @@
           aria-posinset={index}
           aria-setsize={suggestions.length}
           aria-selected={index === selectedSuggestion}
-          on:click|preventDefault={(_) => {
+          on:click={(_) => {
             tab.goToUri(resource.NetUtil.newURI(suggestion.url))
             inputElement.blur()
-            showFocus = false
           }}
         >
           {suggestion.title}
@@ -146,6 +148,7 @@
   .suggestion {
     padding: 0.5rem 1rem;
     border-radius: 0.25rem;
+    cursor: pointer;
   }
 
   .suggestion:hover {
