@@ -5,9 +5,15 @@
 <script lang="ts">
   export let disabled = false
   export let button: HTMLButtonElement | undefined = undefined
+  export let kind: 'toolbar' | 'page-icon' = 'toolbar'
 </script>
 
-<button class="toolbar__button" bind:this={button} on:click {disabled}>
+<button
+  class={`toolbar__button toolbar__button--${kind}`}
+  bind:this={button}
+  on:click
+  {disabled}
+>
   <slot />
 </button>
 
@@ -20,6 +26,13 @@
     border-radius: 0.5rem;
     width: 2.5rem;
     height: 2.5rem;
+  }
+
+  .toolbar__button--page-icon {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 0.25rem;
+    padding: 0;
   }
 
   .toolbar__button:hover:not(:disabled) {

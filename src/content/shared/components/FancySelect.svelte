@@ -24,7 +24,6 @@
   class="menulist"
   bind:this={menulist}
   on:command={(e) => {
-    console.log(e)
     selected = e.target.value
   }}
 >

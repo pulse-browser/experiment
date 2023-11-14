@@ -5,17 +5,47 @@
 import { Provider, ResultPriority, type ProviderResult } from '../provider'
 import tld from './data/tld.txt'
 
-const URL_REGEX =
-  /^^(?<protocol>https?:\/\/)?(?<domain>(\w+\.)+(?<tld>\w+))(?<path>\/.*)?$$/m
+const HTTPS_REGEX =
+  /^(?<protocol>https?:\/\/)?(?<domain>(\w+\.)+(?<tld>\w+))(?<path>\/.*)?$/m
+const CHROME_REGEX = /^chrome:\/\/.+$/m
 const tlds = tld
   .split('\n')
   .filter((tld) => tld.length > 0 && !tld.startsWith('#'))
+
+/**
+ * Checks if a query would match against the URL checker. For use with other
+ * providers
+ * @param query The query to check
+ * @returns If the query is a url or not
+ */
+export function isUrlLike(query: string): boolean {
+  if (CHROME_REGEX.test(query)) return true
+  const match = HTTPS_REGEX.exec(query)
+  if (match === null) return false
+
+  const { tld } = match.groups || {}
+
+  // If it is not a valid tld, don't show it
+  if (!tlds.includes(tld.toUpperCase())) return false
+  return true
+}
 
 export class URLProvider extends Provider {
   public providerPriority = 0
 
   public async getResults(query: string): Promise<ProviderResult[]> {
-    const match = URL_REGEX.exec(query)
+    // Check against chrome urls
+    if (CHROME_REGEX.test(query))
+      return [
+        {
+          title: query,
+          url: query,
+          icon: `chrome://branding/content/icon32.png`,
+          priority: ResultPriority.CRITICAL,
+        },
+      ]
+
+    const match = HTTPS_REGEX.exec(query)
     if (match === null) return []
 
     const { protocol, domain, tld, path } = match.groups || {}
@@ -27,8 +57,7 @@ export class URLProvider extends Provider {
     return [
       {
         title: uri,
-        // @ts-ignore
-        url: Services.io.newURI(uri),
+        url: uri,
         icon: `chrome://branding/content/icon32.png`,
         priority: ResultPriority.CRITICAL,
       },

@@ -21,7 +21,12 @@ export async function manageTests(
     await tests()
 
     let log = ''
-    const reporter = createTAPReporter({ log: (s) => (log += s + '\n') })
+    const reporter = createTAPReporter({
+      log: (s) => {
+        log += s + '\n'
+        TEST_OUTPUT.innerHTML = log
+      },
+    })
     await report({ reporter })
     TEST_OUTPUT.innerHTML = log
 

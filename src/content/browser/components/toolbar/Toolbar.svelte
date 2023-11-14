@@ -37,7 +37,7 @@
 <style>
   .toolbar {
     display: flex;
-    align-items: center;
+    align-items: start;
 
     background: var(--surface);
     padding: 0.125rem 0.25rem;

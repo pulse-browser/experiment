@@ -19,7 +19,7 @@ export enum ResultPriority {
 export interface ProviderResult {
   title: string
   icon?: string
-  url: nsIURIType
+  url: string
   priority: ResultPriority
 }
 

@@ -15,7 +15,7 @@ export default async function () {
     t.ok(result.length > 0, 'result has length')
     if (!result.length) return
     t.equal(result[0].title, 'https://google.com', 'title is correct')
-    t.equal(result[0].url.spec, 'https://google.com/', 'url is correct')
+    t.equal(result[0].url, 'https://google.com', 'url is correct')
   })
 
   await test('URLProvider: https://google.com', async (t) => {
@@ -24,7 +24,7 @@ export default async function () {
     t.ok(result.length > 0, 'result has length')
     if (!result.length) return
     t.equal(result[0].title, 'https://google.com', 'title is correct')
-    t.equal(result[0].url.spec, 'https://google.com/', 'url is correct')
+    t.equal(result[0].url, 'https://google.com', 'url is correct')
   })
 
   await test('URLProvider: google.com/test', async (t) => {
@@ -33,7 +33,7 @@ export default async function () {
     t.ok(result.length > 0, 'result has length')
     if (!result.length) return
     t.equal(result[0].title, 'https://google.com/test', 'title is correct')
-    t.equal(result[0].url.spec, 'https://google.com/test', 'url is correct')
+    t.equal(result[0].url, 'https://google.com/test', 'url is correct')
   })
 
   await test('URLProvider: https://google.com/test', async (t) => {
@@ -42,7 +42,26 @@ export default async function () {
     t.ok(result.length > 0, 'result has length')
     if (!result.length) return
     t.equal(result[0].title, 'https://google.com/test', 'title is correct')
-    t.equal(result[0].url.spec, 'https://google.com/test', 'url is correct')
+    t.equal(result[0].url, 'https://google.com/test', 'url is correct')
+  })
+
+  await test('URLProvider: chrome://browser/content/tests/index.html', async (t) => {
+    const result = await urlProvider.getResults(
+      'chrome://browser/content/tests/index.html',
+    )
+    t.ok(result, 'result exists')
+    t.ok(result.length > 0, 'result has length')
+    if (!result.length) return
+    t.equal(
+      result[0].title,
+      'chrome://browser/content/tests/index.html',
+      'title is correct',
+    )
+    t.equal(
+      result[0].url,
+      'chrome://browser/content/tests/index.html',
+      'url is correct',
+    )
   })
 
   await test('URLProvider: https://abc.notarealurl', async (t) => {

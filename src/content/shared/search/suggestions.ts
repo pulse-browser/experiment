@@ -3,12 +3,12 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 import type { Provider } from './provider'
-import { URLProvider } from './providers'
+import { EngineProvider, URLProvider } from './providers'
 
 /**
  * All providers that should be used for suggestions. Already sorted by priority.
  */
-const PROVIDERS: Provider[] = [new URLProvider()].sort(
+const PROVIDERS: Provider[] = [new URLProvider(), new EngineProvider()].sort(
   (a, b) => a.providerPriority - b.providerPriority,
 )
 
@@ -34,6 +34,6 @@ export async function suggestions(query: string): Promise<Suggestion[]> {
       // We want to sort by priority from low to high
       .sort((a, b) => a.priority - b.priority)
       .filter((_, index) => index < 5)
-      .map(({ title, icon, url }) => ({ title, icon, url: url.spec }))
+      .map(({ title, icon, url }) => ({ title, icon, url }))
   )
 }

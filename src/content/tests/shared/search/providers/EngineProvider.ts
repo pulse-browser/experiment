@@ -8,6 +8,24 @@ import { EngineProvider } from '@shared/search/providers'
 import { test } from 'zora'
 
 export default async function () {
+  await test('EngineProvider: ignore URL like', async (t) => {
+    const provider = new EngineProvider()
+    {
+      const results = await provider.getResults('http://google.com')
+      t.eq(results, [], 'Should ignore full URLs')
+    }
+    {
+      const results = await provider.getResults('google.com')
+      t.eq(results, [], 'Should ignore domains')
+    }
+    {
+      const results = await provider.getResults(
+        'chrome://browser/content/tests/index.html',
+      )
+      t.eq(results, [], 'Should ignore chrome URLs')
+    }
+  })
+
   for (const engine of SEARCH_ENGINE_IDS) {
     await testProvider(engine)
   }
@@ -22,6 +40,7 @@ async function testProvider(providerExtensionId: string) {
   await test(`EngineProvider [${providerExtensionId}]: tes`, async (t) => {
     const results = await provider.getResults('tes')
     t.ok(results.length > 0, 'Should return suggestions')
+    t.truthy(results[0].url, 'Should have a url')
   })
 
   await test(`EngineProvider [${providerExtensionId}]: empty str`, async (t) => {

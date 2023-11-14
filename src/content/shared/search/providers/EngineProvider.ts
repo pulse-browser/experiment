@@ -8,6 +8,7 @@ import { Provider, ResultPriority, type ProviderResult } from '../provider'
 import { searchEngineService } from '../engine'
 import { searchResources } from '../resources'
 import { Deferred } from '@shared/Deferred'
+import { isUrlLike } from '.'
 
 export class EngineProvider extends Provider {
   public providerPriority = 3
@@ -24,7 +25,7 @@ export class EngineProvider extends Provider {
   }
 
   async getResults(query: string): Promise<ProviderResult[]> {
-    if (query == '') return []
+    if (query == '' || isUrlLike(query)) return []
 
     const engine = await this.engine.promise
     const submission = engine.getSubmission(

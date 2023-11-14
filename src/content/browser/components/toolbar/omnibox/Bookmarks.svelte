@@ -12,6 +12,7 @@
     update,
     remove,
   } from '../../../../shared/ExtBookmarkAPI'
+  import ToolbarButton from '../ToolbarButton.svelte'
 
   export let tab: Tab
 
@@ -60,12 +61,13 @@
   }
 </script>
 
-<button
-  bind:this={bookmarkButton}
+<ToolbarButton
+  bind:button={bookmarkButton}
   on:click={() => panel.openPopup(bookmarkButton, 'bottomright topright')}
+  kind="page-icon"
 >
   <i class={$bookmarkInfo ? 'ri-bookmark-fill' : 'ri-bookmark-line'} />
-</button>
+</ToolbarButton>
 
 <xul:panel bind:this={panel} class="bookmark-panel">
   <div class="bookmark-panel__container">

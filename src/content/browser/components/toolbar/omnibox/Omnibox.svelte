@@ -3,15 +3,20 @@
    - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
 
 <script lang="ts">
-  import { onMount } from 'svelte'
+  import type { Suggestion } from '@shared/search/suggestions'
   import { resource } from '../../../lib/resources'
   import type { Tab } from '../../tabs/tab'
   import Bookmarks from './Bookmarks.svelte'
 
+  const suggestionsModule = import('@shared/search/suggestions')
+
   export let tab: Tab
 
+  let showFocus = false
   let inputContent: string = ''
   let inputElement: HTMLInputElement
+  let suggestions: Suggestion[] = []
+  let selectedSuggestion = 0
 
   $: uri = tab.uri
 
@@ -21,45 +26,132 @@
       inputElement.focus()
       inputElement.select()
       tab.tabJustOpened = false
+      return
     }
+
+    // Unfocus on spec change
+    if (inputElement) inputElement.blur()
   }
   $: unbindedSetInputContent($uri.asciiSpec)
 </script>
 
-<div class="omnibox">
-  <input
-    class="toolbar__urlbar"
-    type="text"
-    bind:this={inputElement}
-    bind:value={inputContent}
-    on:keydown={(e) => {
-      if (e.key === 'Enter') tab.goToUri(resource.NetUtil.newURI(inputContent))
-    }}
-  />
+<div class="container">
+  <div class="omnibox">
+    <div class="input__container">
+      <input
+        class="input"
+        type="text"
+        aria-autocomplete="list"
+        aria-owns="omnibox__suggestions-list"
+        bind:this={inputElement}
+        bind:value={inputContent}
+        on:focusin={() => (showFocus = true)}
+        on:blur={() => (showFocus = false)}
+        on:keyup={async (e) => {
+          console.log(e, selectedSuggestion)
+          if (e.key === 'Enter')
+            return tab.goToUri(
+              resource.NetUtil.newURI(suggestions[selectedSuggestion].url)
+            )
+          if (e.key === 'ArrowDown') {
+            e.preventDefault()
+            selectedSuggestion = Math.min(
+              selectedSuggestion + 1,
+              suggestions.length - 1
+            )
+            return
+          }
+          if (e.key === 'ArrowUp') {
+            e.preventDefault()
+            selectedSuggestion = Math.max(selectedSuggestion - 1, 0)
+            return
+          }
 
-  <Bookmarks {tab} />
+          const { suggestions: suggestionsMethod } = await suggestionsModule
+          suggestions = await suggestionsMethod(inputContent)
+          selectedSuggestion = Math.max(
+            Math.min(selectedSuggestion, suggestions.length - 1),
+            0
+          )
+        }}
+      />
+
+      <Bookmarks {tab} />
+    </div>
+
+    <div
+      class="suggestions"
+      hidden={!showFocus}
+      id="omnibox__suggestions-list"
+      role="listbox"
+    >
+      {#each suggestions as suggestion, index}
+        <!-- svelte-ignore a11y-click-events-have-key-events -->
+        <div
+          class="suggestion"
+          role="option"
+          tabindex="-1"
+          aria-posinset={index}
+          aria-setsize={suggestions.length}
+          aria-selected={index === selectedSuggestion}
+          on:click|preventDefault={(_) => {
+            tab.goToUri(resource.NetUtil.newURI(suggestion.url))
+            inputElement.blur()
+            showFocus = false
+          }}
+        >
+          {suggestion.title}
+        </div>
+      {/each}
+    </div>
+  </div>
 </div>
 
 <style>
-  * {
-    border: none;
-    background: none;
+  .container {
+    position: relative;
+    flex-grow: 1;
   }
 
   .omnibox {
-    flex-grow: 1;
-    display: flex;
-  }
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
 
-  .toolbar__urlbar {
-    flex-grow: 1;
+    padding: 0 0.5rem;
     border-radius: 0.5rem;
-    height: 2.5rem;
-    padding: 0 1rem;
     background: var(--base);
   }
 
-  .toolbar__urlbar:focus {
-    outline: solid var(--active-border);
+  .input__container {
+    display: flex;
+    align-items: center;
+    height: 2.5rem;
+    margin-right: -0.25rem;
+  }
+
+  .input {
+    flex-grow: 1;
+    border: none;
+    background: none;
+    margin: 0;
+    outline: none !important;
+  }
+
+  .suggestions {
+    margin-bottom: 0.5rem;
+  }
+
+  .suggestion {
+    padding: 0.5rem 1rem;
+    border-radius: 0.25rem;
+  }
+
+  .suggestion:hover {
+    background: var(--surface-1);
+  }
+  .suggestion[aria-selected='true'] {
+    background: var(--surface-2);
   }
 </style>
