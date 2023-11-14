@@ -94,6 +94,6 @@ export async function downloadReleaseAsset(
 
     return filePath
   } catch (e) {
-    failure(e)
+    failure(e as Error)
   }
 }

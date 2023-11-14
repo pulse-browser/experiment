@@ -81,6 +81,6 @@ export async function downloadArtifact(artifact: Artifact): Promise<string> {
 
     return filePath
   } catch (e) {
-    failure(e)
+    failure(e as Error)
   }
 }

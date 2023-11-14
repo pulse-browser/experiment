@@ -30,7 +30,7 @@ export async function walkDirectory(directory: string): Promise<string[]> {
       }
     }
   } catch (error) {
-    failure('Failed to index directory', error)
+    failure<string | Error>('Failed to index directory', error as Error)
   }
 
   return output
