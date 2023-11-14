@@ -21,6 +21,7 @@
     "dev-modules": "tsc -w -p ./tsconfigs/tsconfig.modules.json",
     "dev-actors": "tsc -w -p ./tsconfigs/tsconfig.actors.json",
     "rt:slink": "rm --force ./.store/artifact.tar.bz2 && ln -s ../../experiment-runtime/dist/experiment-runtime-1.0.0.en-US.linux-x86_64.tar.bz2 ./.store/artifact.tar.bz2",
+    "lint": "eslint .",
     "format": "pnpm script:license-check --fix && prettier . --write",
     "data": "concurrently -c auto pnpm:data:*",
     "data:tld": "wget https://data.iana.org/TLD/tlds-alpha-by-domain.txt -O ./src/content/shared/search/providers/data/tld.txt"
@@ -32,9 +33,12 @@
     "@tinyhttp/app": "^2.2.1",
     "@tsconfig/svelte": "^5.0.2",
     "@types/node": "^20.8.4",
+    "@typescript-eslint/eslint-plugin": "^6.11.0",
+    "@typescript-eslint/parser": "^6.11.0",
     "concurrently": "^8.2.1",
     "copy-webpack-plugin": "^11.0.0",
     "css-loader": "^6.8.1",
+    "eslint": "^8.53.0",
     "execa": "^8.0.1",
     "gecko-types": "github:quark-platform/gecko-types",
     "html-webpack-plugin": "^5.5.3",
@@ -79,6 +83,35 @@
           "semi": true
         }
       }
+    ]
+  },
+  "eslintConfig": {
+    "env": {
+      "browser": true,
+      "es2021": true,
+      "node": true
+    },
+    "extends": [
+      "eslint:recommended",
+      "plugin:@typescript-eslint/recommended"
+    ],
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+      "ecmaVersion": "latest",
+      "sourceType": "module"
+    },
+    "plugins": [
+      "@typescript-eslint"
+    ],
+    "rules": {
+      "@typescript-eslint/triple-slash-reference": "off",
+      "no-extra-semi": "off"
+    },
+    "ignorePatterns": [
+      "src/modules/*.js",
+      "dist/*",
+      ".scripts/*",
+      ".store/*"
     ]
   }
 }

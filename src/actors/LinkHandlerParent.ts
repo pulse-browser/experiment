@@ -5,7 +5,7 @@
 /// <reference path="../link.d.ts" />
 
 export class LinkHandlerParent extends JSWindowActorParent {
-  receiveMessage(aMsg: any) {
+  receiveMessage(aMsg: { name: 'Link:SetIcon'; data: { iconURL: string } }) {
     const win = this.browsingContext.topChromeWindow
 
     switch (aMsg.name) {

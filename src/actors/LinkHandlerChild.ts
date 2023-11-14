@@ -12,7 +12,7 @@ declare global {
   }
 
   interface HTMLElement {
-    ownerGlobal: any
+    ownerGlobal: Window
   }
 }
 
@@ -25,8 +25,9 @@ type PageShow = PageTransitionEvent & { type: 'pageshow' }
 type PageHide = PageTransitionEvent & { type: 'pagehide' }
 
 export class LinkHandlerChild extends JSWindowActorChild {
-  iconLoader: import('../modules/FaviconLoader.ts').FaviconLoader =
-    new FaviconLoader(this) as any
+  iconLoader = new FaviconLoader(
+    this,
+  ) as import('../modules/FaviconLoader.ts').FaviconLoader
   loadedTabIcon = false
 
   /**
@@ -62,13 +63,13 @@ export class LinkHandlerChild extends JSWindowActorChild {
   }
 
   onLinkEvent(event: DOMLinkAdded) {
-    let link = event.target
+    const link = event.target
     // Ignore sub-frames (bugs 305472, 479408).
     if (link.ownerGlobal != this.contentWindow) {
       return
     }
 
-    let rel = link.rel && link.rel.toLowerCase()
+    const rel = link.rel && link.rel.toLowerCase()
     // We also check .getAttribute, since an empty href attribute will give us
     // a link.href that is the same as the document.
     if (!rel || !link.href || !link.getAttribute('href')) {
@@ -79,12 +80,12 @@ export class LinkHandlerChild extends JSWindowActorChild {
     // whole content
     let iconAdded = false
     let searchAdded = false
-    let rels: Record<string, boolean> = {}
-    for (let relString of rel.split(/\s+/)) {
+    const rels: Record<string, boolean> = {}
+    for (const relString of rel.split(/\s+/)) {
       rels[relString] = true
     }
 
-    for (let relVal in rels) {
+    for (const relVal in rels) {
       let isRichIcon = false
 
       switch (relVal) {
@@ -124,13 +125,13 @@ export class LinkHandlerChild extends JSWindowActorChild {
 
             // Note: This protocol list should be kept in sync with
             // the one in OpenSearchEngine's install function.
-            let re = /^https?:/i
+            const re = /^https?:/i
             if (
               type == 'application/opensearchdescription+xml' &&
               link.title &&
               re.test(link.href)
             ) {
-              let engine = { title: link.title, href: link.href }
+              const engine = { title: link.title, href: link.href }
               this.sendAsyncMessage('Link:AddSearch', {
                 engine,
               })

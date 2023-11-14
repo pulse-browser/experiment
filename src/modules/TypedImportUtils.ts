@@ -4,9 +4,10 @@
 
 export function lazyESModuleGetters<Modules extends Partial<MozESMExportFile>>(
   modules: Modules,
-  // @ts-ignore
+  // @ts-expect-error - Cannot guarantee overlapping key type
 ): { [Key in keyof Modules]: MozESMExportType[Key] } {
-  const lazy = {} as any
+  // @ts-expect-error - Cannot guarantee overlapping key type
+  const lazy = {} as { [Key in keyof Modules]: MozESMExportType[Key] }
 
   ChromeUtils.defineESModuleGetters(lazy, modules)
 

@@ -13,6 +13,7 @@ import type {
 
 type SubInvTuple<T> = [Subscriber<T>, Invalidator<T>]
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const subscriber_queue: (SubInvTuple<any> | any)[] = []
 const noop = () => {}
 

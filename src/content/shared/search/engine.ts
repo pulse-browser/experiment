@@ -53,7 +53,7 @@ class SearchEngineService {
     const locale = lazy.SearchUtils.DEFAULT_TAG
     const engines: AddonSearchEngine[] = []
     for (const extensionID of SEARCH_ENGINE_IDS) {
-      const engine = new (lazy.AddonSearchEngine as any)({
+      const engine = new lazy.AddonSearchEngine({
         isAppProvided: true,
         details: { extensionID, locale },
       })
@@ -68,7 +68,7 @@ class SearchEngineService {
       DEFAULT_SEARCH_ENGINE,
     )
     const defaultEngine = engines.find(
-      (engine: any) => engine._extensionID === defaultEngineId,
+      (engine) => engine._extensionID === defaultEngineId,
     )!
     this.defaultEngine.resolve(defaultEngine)
 

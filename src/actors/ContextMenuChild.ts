@@ -12,7 +12,7 @@ const lazy = lazyESModuleGetters({
 
 export class ContextMenuChild extends JSWindowActorChild {
   handleEvent(event: MouseEvent & { inputSource: number }) {
-    let data: {
+    const data: {
       position: ContextMenuInfo['position']
     } & Partial<ContextMenuInfo> = {
       position: {

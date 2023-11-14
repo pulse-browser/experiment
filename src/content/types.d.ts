@@ -12,6 +12,7 @@ declare module '*.txt' {
 
 declare interface Window {
   windowApi: typeof import('./lib/globalApi').windowApi
+  browserDOMWindow: nsIBrowserDOMWindowType
 }
 
 declare interface NodeModule {

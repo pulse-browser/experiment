@@ -14,10 +14,13 @@ const lazy = lazyESModuleGetters({
   Bookmarks: 'resource://gre/modules/Bookmarks.sys.mjs',
 })
 
-const { TYPE_BOOKMARK, TYPE_FOLDER, TYPE_SEPARATOR } = lazy.Bookmarks
+const { TYPE_BOOKMARK, TYPE_FOLDER, TYPE_SEPARATOR } = lazy.Bookmarks as Record<
+  string,
+  number
+>
 
 const BOOKMARK_SEPERATOR_URL = 'data:' as const
-const BOOKMARKS_TYPES_TO_API_TYPES_MAP = new Map<any, BookmarkType>([
+const BOOKMARKS_TYPES_TO_API_TYPES_MAP = new Map<number, BookmarkType>([
   [TYPE_BOOKMARK, 'bookmark'],
   [TYPE_FOLDER, 'folder'],
   [TYPE_SEPARATOR, 'separator'],
@@ -58,24 +61,13 @@ export interface SeparatorTreeNode extends TreeNodeBase {
 
 export type TreeNode = BookmarkTreeNode | FolderTreeNode | SeparatorTreeNode
 
-function getUrl(type: any, url: string): string | undefined {
-  switch (type) {
-    case TYPE_BOOKMARK:
-      return url
-    case TYPE_SEPARATOR:
-      return BOOKMARK_SEPERATOR_URL
-    default:
-      return undefined
-  }
-}
-
 export async function getTree(
   rootGuid: string,
   onlyChildren: boolean,
 ): Promise<TreeNode[]> {
   const convert =
-    (parent: any) =>
-    (node: any): TreeNode => {
+    (parent: PlacesBookmarkTreeNode | null) =>
+    (node: PlacesBookmarkTreeNode): TreeNode => {
       const bookmark = convertBookmarks(node)
 
       if (parent) bookmark.parentId = parent.guid
@@ -97,9 +89,9 @@ export async function getTree(
   return [treenode]
 }
 
-const convertBookmarks = (result: any): TreeNode => {
+const convertBookmarks = (result: PlacesBookmarkTreeNode): TreeNode => {
   const type = BOOKMARKS_TYPES_TO_API_TYPES_MAP.get(
-    result.typeCode || result.type,
+    result.typeCode || result.type || TYPE_BOOKMARK,
   )
   const treeNode: TreeNodeBase = {
     id: result.guid,
@@ -117,7 +109,7 @@ const convertBookmarks = (result: any): TreeNode => {
       ...treeNode,
       type: 'bookmark',
       parentId: result.parentGuid as string,
-      url: result.url ? result.url.href : result.uri,
+      url: result.url ? result.url.href : result.uri || '',
     }
     return bookmark
   }
@@ -135,7 +127,7 @@ const convertBookmarks = (result: any): TreeNode => {
   const separator: SeparatorTreeNode = {
     ...treeNode,
     type: 'separator',
-    parentId: result.parentGuid,
+    parentId: result.parentGuid!,
     url: 'data:',
   }
   return separator
@@ -151,8 +143,8 @@ export const getFullTree = () => getChildren(lazy.Bookmarks.rootGuid)
 export const search = (
   query: string | Partial<{ query: string; url: string; title: string }>,
 ) =>
-  (lazy.Bookmarks.search(query) as Promise<any[]>).then((results) =>
-    results.map(convertBookmarks),
+  (lazy.Bookmarks.search(query) as Promise<PlacesBookmarkTreeNode[]>).then(
+    (results) => results.map(convertBookmarks),
   )
 
 export interface CreateDetails {
@@ -171,7 +163,7 @@ export const ensureNotRoot = (id: string): string => {
 }
 
 export function create(options: Partial<CreateDetails>): Promise<TreeNode> {
-  const info: Record<string, any> = {
+  const info: Partial<PlacesBookmarkTreeNode> = {
     title: options.title,
     index: options.index,
     parentGuid: options.parentId
@@ -184,7 +176,7 @@ export function create(options: Partial<CreateDetails>): Promise<TreeNode> {
       : TYPE_FOLDER,
   }
 
-  if (info.type === TYPE_BOOKMARK) info.url = options.url
+  if (info.type === TYPE_BOOKMARK) info.url = new URL(options.url || '')
 
   return lazy.Bookmarks.insert(info).then(convertBookmarks)
 }

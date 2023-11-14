@@ -114,7 +114,7 @@ function insertAndShift<T>(arr: T[], from: number, to: number) {
 export const windowApi = {
   closeTab,
   openTab,
-  setIcon: (browser: any, iconURL: string) =>
+  setIcon: (browser: XULBrowserElement, iconURL: string) =>
     tabs
       .readOnce()
       .find((tab) => tab.getTabId() == browser.browserId)
@@ -122,33 +122,13 @@ export const windowApi = {
   showContextMenu: (menuInfo: ContextMenuInfo) => {
     browserContextMenuInfo.set(menuInfo)
 
-    const event = document.createEvent('MouseEvent') as any
-    event.initNSMouseEvent(
-      'contextmenu',
-      true,
-      true,
-      null,
-      0,
-      menuInfo.position.screenX,
-      menuInfo.position.screenY,
-      0,
-      0,
-      false,
-      false,
-      false,
-      false,
-      2,
-      null,
-      0,
-      menuInfo.position.inputSource,
-    )
-
-    const contextMenu = document.getElementById('browser_context_menu') as any
+    const contextMenu = document.getElementById(
+      'browser_context_menu',
+    ) as XULMenuPopup
     contextMenu.openPopupAtScreen(
       menuInfo.position.screenX,
       menuInfo.position.screenY,
       true,
-      event,
     )
   },
 }

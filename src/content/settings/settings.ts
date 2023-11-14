@@ -7,6 +7,6 @@ import './settings.css'
 
 import Settings from './Settings.svelte'
 
-const app = new Settings({
+new Settings({
   target: document.body,
 })

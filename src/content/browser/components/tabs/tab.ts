@@ -18,7 +18,7 @@ import {
 } from '../../../shared/svelteUtils'
 import { search, type BookmarkTreeNode } from '../../../shared/ExtBookmarkAPI'
 
-export let lastTabAction = { id: -1, before: false }
+export const lastTabAction = { id: -1, before: false }
 
 let localTabId = 0
 
@@ -30,7 +30,7 @@ export class Tab {
   private _id: number = ++localTabId
   private tabId: number | undefined
 
-  private browserElement: HTMLElement & any
+  private browserElement: XULBrowserElement
   private progressListener = new TabProgressListener()
 
   // Publicly available data. Even though these are writable, updating them will not change
@@ -40,7 +40,7 @@ export class Tab {
   public uri: ViewableWritable<nsIURIType>
   public bookmarkInfo: Writable<BookmarkTreeNode | null> = writable(null)
 
-  public findbar: ViewableWritable<HTMLElement | undefined> =
+  public findbar: ViewableWritable<XULFindBarElement | undefined> =
     viewableWritable(undefined)
 
   public canGoBack = writable(false)
@@ -63,7 +63,7 @@ export class Tab {
     this.title.set(uri.asciiHost)
 
     this.browserElement.addEventListener('pagetitlechanged', () => {
-      this.title.set((this.browserElement as any).contentTitle)
+      this.title.set(this.browserElement.contentTitle)
     })
 
     this.uri.subscribe(async (uri) =>
@@ -74,17 +74,14 @@ export class Tab {
       ),
     )
 
-    this.browserElement.addEventListener(
-      'DidChangeBrowserRemoteness',
-      (e: any) => {
-        const browser = e.target
-        // TODO: Does this leak memory?
-        this.progressListener.filter = undefined
-        this.progressListener = new TabProgressListener()
-        this.progressListener.setup(browser)
-        this.useProgressListener()
-      },
-    )
+    this.browserElement.addEventListener('DidChangeBrowserRemoteness', (e) => {
+      const browser = e.target
+      // TODO: Does this leak memory?
+      this.progressListener.filter = undefined
+      this.progressListener = new TabProgressListener()
+      this.progressListener.setup(browser)
+      this.useProgressListener()
+    })
   }
 
   public getId(): number {
@@ -116,7 +113,7 @@ export class Tab {
 
   public async setContainer(container: HTMLElement) {
     container.appendChild(this.browserElement)
-    this.tabId = (this.browserElement as any).browserId as number
+    this.tabId = this.browserElement.browserId
 
     // Set up progress notifications. These are used for listening on location change etc
     this.progressListener.setup(this.browserElement)
@@ -154,15 +151,18 @@ export class Tab {
 
     const findbar = this.findbar.readOnce()
     if (findbar) {
-      if (findbar.hidden) (findbar as any).open()
-      else (findbar as any).close()
+      if (findbar.hidden) findbar.open()
+      else findbar.close()
       return
     }
 
-    this.findbar.update((_) => document.createXULElement('findbar'))
+    this.findbar.update(() => document.createXULElement('findbar'))
   }
 
-  public async setupFindbar(container: HTMLElement, findbar: any) {
+  public async setupFindbar(
+    container: HTMLElement,
+    findbar: XULFindBarElement,
+  ) {
     container.append(findbar)
 
     await new Promise((r) => requestAnimationFrame(r))
@@ -186,6 +186,8 @@ type TabProgressListenerEvent = {
   loadingChange: boolean
 }
 
+/* eslint-disable @typescript-eslint/no-unused-vars */
+
 let progressListenerCounter = 0
 class TabProgressListener
   implements nsIWebProgressListenerType, nsIWebProgressListener2Type
@@ -193,16 +195,17 @@ class TabProgressListener
   id = progressListenerCounter++
 
   events = mitt<TabProgressListenerEvent>()
-  browser: any
+  browser: XULBrowserElement | undefined
 
-  filter: nsIWebProgressType | undefined
+  filter: (nsIWebProgressListenerType & nsIWebProgressType) | undefined
 
-  setup(browser: any) {
+  setup(browser: XULBrowserElement) {
     this.browser = browser
 
     this.filter = Cc[
       '@mozilla.org/appshell/component/browser-status-filter;1'
-    ].createInstance(Ci.nsIWebProgress) as nsIWebProgressType
+    ].createInstance(Ci.nsIWebProgress) as nsIWebProgressListenerType &
+      nsIWebProgressType
     this.filter.addProgressListener(this, Ci.nsIWebProgress.NOTIFY_ALL)
     browser.webProgress.addProgressListener(
       this.filter,
@@ -233,10 +236,10 @@ class TabProgressListener
   }
 
   onRefreshAttempted(
-    aWebProgress: nsIWebProgressType,
-    aRefreshURI: nsIURIType,
-    aMillis: number,
-    aSameURI: boolean,
+    _aWebProgress: nsIWebProgressType,
+    _aRefreshURI: nsIURIType,
+    _aMillis: number,
+    _aSameURI: boolean,
   ): boolean {
     // TODO: There is special functionality that should probibly go here
     return true

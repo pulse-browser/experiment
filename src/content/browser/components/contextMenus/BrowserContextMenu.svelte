@@ -16,7 +16,7 @@
       label={'Copy'}
       on:command={() => {
         const clipboardHelper = getClipboardHelper()
-        clipboardHelper.copyString(textSelection)
+        if (textSelection) clipboardHelper.copyString(textSelection, 0)
       }}
     />
   {/if}

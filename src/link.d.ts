@@ -20,4 +20,84 @@ declare interface MozESMExportType {
   TypedImportUtils: typeof import('./modules/TypedImportUtils')
 }
 
-declare var Cr: Record<string, nsresult>
+declare let Cr: Record<string, nsresult>
+
+declare interface Document {
+  documentURIObject: nsIURIType
+}
+
+declare interface Node {
+  nodePrincipal
+}
+
+declare interface LoadURIOptions {
+  triggeringPrincipal?: Principal
+  csp?: ContentSecurityPolicy
+  loadFlags?: number
+  referrerInfo?: ReferrerInfo
+  postData?: nsIInputStreamType
+  headers?: nsIInputStreamType
+  baseURI?: nsIURIType
+  hasValidUserGestureActivation?: boolean
+  triggeringSandboxFlags?: number
+  triggeringWindowId?: number
+  triggeringStorageAccess?: boolean
+  triggeringRemoteType?: string
+  cancelContentJSEpoch?: number
+  remoteTypeOverride?: string
+  wasSchemelessInput?: string
+}
+
+declare interface XULBrowserElement extends HTMLElement {
+  contentTitle: string
+  source: string
+  canGoBack: boolean
+  goBack()
+  canGoForward: boolean
+  goForward()
+  reload()
+  loadURI(uri: nsIURIType, params?: LoadURIOptions)
+  browserId: number
+  mInitialized: boolean
+  webProgress: nsIWebProgressType
+}
+
+declare interface XULFindBarElement extends HTMLElement {
+  browser: XULBrowserElement
+  open()
+  close()
+}
+
+declare interface XULMenuPopup extends HTMLElement {
+  openPopupAtScreen(
+    x?: number,
+    y?: number,
+    isContextMenu?: boolean,
+    trigger?: Event,
+  )
+}
+
+declare interface PlacesBookmarkTreeNode {
+  guid: string
+  /** @deprecated */
+  id: number
+  type?: number
+  typeCode?: number
+  title: string
+  dateAdded: number
+  lastModified: number
+  index: number
+
+  parentGuid?: string
+  itemsCount?: number
+
+  uri?: string
+  url?: URL
+  tags?: string
+  charset?: string
+  keyword?: string
+  postData?: string
+  iconUri?: string
+
+  children?: BookmarkTreeNode[]
+}

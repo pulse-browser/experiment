@@ -4,8 +4,28 @@
 
 import { runOnCurrentTab } from './globalApi'
 
+interface AppCommandEvent extends Event {
+  command:
+    | 'Back'
+    | 'Forward'
+    | 'Reload'
+    | 'Stop'
+    | 'Search'
+    | 'Bookmarks'
+    | 'Home'
+    | 'New'
+    | 'Close'
+    | 'Find'
+    | 'Help'
+    | 'Open'
+    | 'Print'
+    | 'Save'
+    | 'SendMail'
+}
+
 export function initializeShortcuts() {
-  document.addEventListener('AppCommand', (event: any) => {
+  document.addEventListener('AppCommand', (untypedEvent) => {
+    const event = untypedEvent as AppCommandEvent
     switch (event.command) {
       case 'Back':
         runOnCurrentTab((tab) => tab.goBack())

@@ -20,7 +20,7 @@ import { initializeShortcuts } from './lib/shortcuts'
 //  .getInterface(Ci.nsIAppWindow).XULBrowserWindow = window.XULBrowserWindow
 //window.browserDOMWindow = new nsBrowserAccess()
 
-const app = new App({
+new App({
   target: document.body,
 })
 

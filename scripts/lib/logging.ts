@@ -7,7 +7,7 @@ import { exit } from 'process'
 
 const { bold } = kleur
 
-const applyToEachLine = (prefix: string, messages: (string | any)[]): string =>
+const applyToEachLine = <T>(prefix: string, messages: (string | T)[]): string =>
   messages
     .map((msg) => (typeof msg == 'string' ? msg : msg.toString()))
     .join(' ')
@@ -15,11 +15,11 @@ const applyToEachLine = (prefix: string, messages: (string | any)[]): string =>
     .map((msg) => `${prefix} ${msg}`)
     .join('\n')
 
-export function failure(...msg: any[]): never {
+export function failure<T>(...msg: T[]): never {
   console.error(applyToEachLine(bold().red('FAILURE '), msg))
   exit(2)
 }
 
-export function info(...msg: any[]) {
+export function info<T>(...msg: T[]) {
   console.info(applyToEachLine(bold().blue('INFO '), msg))
 }

@@ -10,4 +10,4 @@ import './bookmarks.css'
 
 import App from './Bookmarks.svelte'
 
-const app = new App({ target: document.body })
+new App({ target: document.body })

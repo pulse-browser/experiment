@@ -63,11 +63,12 @@ export async function downloadArtifact(artifact: Artifact): Promise<string> {
   // Write out a new line so that progress doesn't overwrite exising logs
   console.info(artifact.archive_download_url)
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const downloader = new (dl.default as any)({
     url: 'https://nightly.link/pulse-browser/experiment-runtime/workflows/artifact/main/runtime.linux.tar.bz2.zip',
     fileName: 'artifact.zip',
     directory: STORE_PATH,
-    onProgress(percentage: string, _chunk: object, _remainingSize: number) {
+    onProgress(percentage: string) {
       // Clear the current line & write out the process
       process.stdout.clearLine(0)
       process.stdout.cursorTo(0)

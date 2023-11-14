@@ -17,7 +17,7 @@ const DEFAULT_BROWSER_ATTRIBUTES = {
   contextmenu: 'browser_context_menu',
 } as const
 
-export function setURI(browser: any, uri: nsIURIType) {
+export function setURI(browser: XULBrowserElement, uri: nsIURIType) {
   browser.source = uri.spec
   try {
     browser.loadURI(uri, {

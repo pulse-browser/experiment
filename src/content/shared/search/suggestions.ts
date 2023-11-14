@@ -24,7 +24,7 @@ export interface Suggestion {
  * @returns The suggestions for the user's input
  */
 export async function suggestions(query: string): Promise<Suggestion[]> {
-  let results = await Promise.all(
+  const results = await Promise.all(
     PROVIDERS.map((provider) => provider.getResults(query)),
   )
 

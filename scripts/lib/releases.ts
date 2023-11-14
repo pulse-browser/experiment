@@ -64,6 +64,7 @@ export async function downloadReleaseAsset(
   process.stdout.write('\n' + asset.browser_download_url)
 
   let printIndex = 0
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const downloader = new (dl.default as any)({
     url: asset.browser_download_url,
     fileName: 'artifact.tar.bz2',

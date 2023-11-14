@@ -14,7 +14,7 @@ window.addEventListener(
     window.docShell.treeOwner
       .QueryInterface(Ci.nsIInterfaceRequestor)
       .getInterface(Ci.nsIAppWindow).XULBrowserWindow = globalXULBrowserWindow
-    ;(window as any).browserDOMWindow = new NSBrowserAccess()
+    window.browserDOMWindow = new NSBrowserAccess()
 
     domContentLoaded.resolve && domContentLoaded.resolve(null)
   },
