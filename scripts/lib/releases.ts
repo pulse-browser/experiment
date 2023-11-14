@@ -1,15 +1,14 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
-
+import kleur from 'kleur'
 import { existsSync } from 'node:fs'
 import { readFile, rm, writeFile } from 'node:fs/promises'
 
-const dl = await import('nodejs-file-downloader')
-import kleur from 'kleur'
-
 import { STORE_PATH, getStoreFile } from './constants.js'
 import { failure } from './logging.js'
+
+const dl = await import('nodejs-file-downloader')
 
 const { bold } = kleur
 const API_ORIGIN = 'https://api.github.com'

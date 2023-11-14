@@ -1,14 +1,13 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
-
 import { existsSync } from 'fs'
 import { readFile, rm } from 'fs/promises'
 
-const dl = await import('nodejs-file-downloader')
-
 import { STORE_PATH, getStoreFile } from './constants.js'
 import { failure } from './logging.js'
+
+const dl = await import('nodejs-file-downloader')
 
 const API_ORIGIN = 'https://api.github.com'
 

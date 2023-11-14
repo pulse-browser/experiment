@@ -1,14 +1,12 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
-
 import { writable } from 'svelte/store'
 
 import type { ContextMenuInfo } from '../../../actors/ContextMenu.types'
-
+import { viewableWritable } from '../../shared/svelteUtils'
 import { Tab } from '../components/tabs/tab'
 import { resource } from './resources'
-import { viewableWritable } from '../../shared/svelteUtils'
 
 export const browserContextMenuInfo = writable<ContextMenuInfo>({
   position: { screenX: 0, screenY: 0, inputSource: 0 },

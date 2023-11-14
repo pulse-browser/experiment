@@ -28,6 +28,8 @@ declare interface Document {
 
 declare interface Node {
   nodePrincipal
+  ownerGlobal: Window
+  documentLoadGroup: nsIRequestType
 }
 
 declare interface LoadURIOptions {

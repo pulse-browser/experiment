@@ -1,14 +1,14 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
-
 import type { AddonSearchEngine } from 'resource://gre/modules/AddonSearchEngine.sys.mjs'
 
-import { Provider, ResultPriority, type ProviderResult } from '../provider'
-import { searchEngineService } from '../engine'
-import { searchResources } from '../resources'
 import { Deferred } from '@shared/Deferred'
+
 import { isUrlLike } from '.'
+import { searchEngineService } from '../engine'
+import { Provider, type ProviderResult, ResultPriority } from '../provider'
+import { searchResources } from '../resources'
 
 export class EngineProvider extends Provider {
   public providerPriority = 3

@@ -10,21 +10,20 @@
  * 3. Extract it
  * 4. Put it in the correct location & extract the omni.ja file
  */
-
+import { execa } from 'execa'
 import { existsSync } from 'fs'
 import { mkdir, rm, symlink } from 'fs/promises'
-import { execa } from 'execa'
 
-import { downloadReleaseAsset, getLatestRelease } from './lib/releases.js'
-import { failure, info } from './lib/logging.js'
 import {
   ARTIFACT_RT_PATH,
   getArtifactFile,
   getDistFile,
   getSrcFile,
 } from './lib/constants.js'
-import { linkFolder } from './lib/linker.js'
 import { setupFiles } from './lib/files.js'
+import { linkFolder } from './lib/linker.js'
+import { failure, info } from './lib/logging.js'
+import { downloadReleaseAsset, getLatestRelease } from './lib/releases.js'
 
 const OWNER = 'pulse-browser'
 const REPO = 'experiment-runtime'

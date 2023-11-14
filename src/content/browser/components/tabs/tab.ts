@@ -1,22 +1,21 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
-
-import { writable, type Writable } from 'svelte/store'
 import mitt from 'mitt'
+import { type Writable, writable } from 'svelte/store'
 
+import { type BookmarkTreeNode, search } from '../../../shared/ExtBookmarkAPI'
+import {
+  type ViewableWritable,
+  viewableWritable,
+} from '../../../shared/svelteUtils'
+import { spinLock } from '../../lib/spinlock'
 import {
   createBrowser,
   getBrowserRemoteType,
   setURI,
 } from '../../lib/xul/browser'
 import { domContentLoaded } from '../../lib/xul/domevents'
-import { spinLock } from '../../lib/spinlock'
-import {
-  viewableWritable,
-  type ViewableWritable,
-} from '../../../shared/svelteUtils'
-import { search, type BookmarkTreeNode } from '../../../shared/ExtBookmarkAPI'
 
 export const lastTabAction = { id: -1, before: false }
 
@@ -75,7 +74,7 @@ export class Tab {
     )
 
     this.browserElement.addEventListener('DidChangeBrowserRemoteness', (e) => {
-      const browser = e.target
+      const browser = e.target as XULBrowserElement
       // TODO: Does this leak memory?
       this.progressListener.filter = undefined
       this.progressListener = new TabProgressListener()
@@ -190,7 +189,9 @@ type TabProgressListenerEvent = {
 
 let progressListenerCounter = 0
 class TabProgressListener
-  implements nsIWebProgressListenerType, nsIWebProgressListener2Type
+  implements
+    Partial<nsIWebProgressListenerType>,
+    Partial<nsIWebProgressListener2Type>
 {
   id = progressListenerCounter++
 
@@ -206,7 +207,10 @@ class TabProgressListener
       '@mozilla.org/appshell/component/browser-status-filter;1'
     ].createInstance(Ci.nsIWebProgress) as nsIWebProgressListenerType &
       nsIWebProgressType
-    this.filter.addProgressListener(this, Ci.nsIWebProgress.NOTIFY_ALL)
+    this.filter.addProgressListener(
+      this as unknown as nsIWebProgressListenerType,
+      Ci.nsIWebProgress.NOTIFY_ALL,
+    )
     browser.webProgress.addProgressListener(
       this.filter,
       Ci.nsIWebProgress.NOTIFY_ALL,

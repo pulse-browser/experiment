@@ -1,8 +1,7 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
-
-import { Provider, ResultPriority, type ProviderResult } from '../provider'
+import { Provider, type ProviderResult, ResultPriority } from '../provider'
 import tld from './data/tld.txt'
 
 const HTTPS_REGEX =

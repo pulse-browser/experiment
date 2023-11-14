@@ -3,7 +3,6 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 // Taken from mozilla-centeral/browser/modules/FaviconLoader.sys.mjs
 /// <reference path="../link.d.ts" />
-
 import { lazyESModuleGetters } from 'resource://app/modules/TypedImportUtils.sys.mjs'
 
 const lazy = lazyESModuleGetters({
@@ -116,9 +115,11 @@ class FaviconLoad {
     this.icon = iconInfo
 
     let securityFlags
-    if (iconInfo.node.crossOrigin === 'anonymous') {
+    if ((iconInfo.node as HTMLLinkElement).crossOrigin === 'anonymous') {
       securityFlags = Ci.nsILoadInfo.SEC_REQUIRE_CORS_INHERITS_SEC_CONTEXT
-    } else if (iconInfo.node.crossOrigin === 'use-credentials') {
+    } else if (
+      (iconInfo.node as HTMLLinkElement).crossOrigin === 'use-credentials'
+    ) {
       securityFlags =
         Ci.nsILoadInfo.SEC_REQUIRE_CORS_INHERITS_SEC_CONTEXT |
         Ci.nsILoadInfo.SEC_COOKIES_INCLUDE
@@ -150,9 +151,9 @@ class FaviconLoad {
       // Sometimes node is a document and sometimes it is an element. We need
       // to set the referrer info correctly either way.
       if (iconInfo.node.nodeType == iconInfo.node.DOCUMENT_NODE) {
-        referrerInfo.initWithDocument(iconInfo.node)
+        referrerInfo.initWithDocument(iconInfo.node as Document)
       } else {
-        referrerInfo.initWithElement(iconInfo.node)
+        referrerInfo.initWithElement(iconInfo.node as HTMLLinkElement)
       }
       ;(this.channel as nsIHttpChannelType).referrerInfo = referrerInfo
     }
@@ -750,7 +751,7 @@ interface IconInfo {
   width: number
   isRichIcon: boolean
   type: string
-  node: Node
+  node: HTMLLinkElement | Document
   beforePageShow?: boolean
 }
 

@@ -31,6 +31,7 @@
   "license": "ISC",
   "devDependencies": {
     "@tinyhttp/app": "^2.2.1",
+    "@trivago/prettier-plugin-sort-imports": "^4.3.0",
     "@tsconfig/svelte": "^5.0.2",
     "@types/node": "^20.8.4",
     "@typescript-eslint/eslint-plugin": "^6.11.0",
@@ -76,6 +77,17 @@
   "prettier": {
     "semi": false,
     "singleQuote": true,
+    "plugins": [
+      "prettier-plugin-svelte",
+      "@trivago/prettier-plugin-sort-imports"
+    ],
+    "importOrder": [
+      "^resource://(.*)$",
+      "^@shared/(.*)$",
+      "^[./]"
+    ],
+    "importOrderSeparation": true,
+    "importOrderSortSpecifiers": true,
     "overrides": [
       {
         "files": "src/prefs.js",

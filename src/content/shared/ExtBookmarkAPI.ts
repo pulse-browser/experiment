@@ -6,7 +6,6 @@
  * A helper for interacting with bookmarks with a similar target API to the webextention
  * api
  */
-
 import { lazyESModuleGetters } from './TypedImportUtilities'
 
 const lazy = lazyESModuleGetters({
