@@ -2,11 +2,5 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-import providers from './providers'
-import suggestions from './suggestions'
-
-export default async function () {
-  await providers()
-
-  await suggestions()
-}
+export * from './EngineProvider'
+export * from './URLProvider'

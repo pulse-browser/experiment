@@ -4,17 +4,14 @@
 
 import type { AddonSearchEngine } from 'resource://gre/modules/AddonSearchEngine.sys.mjs'
 import { Deferred } from '../Deferred'
-import { lazyESModuleGetters } from '../TypedImportUtilities'
 import {
   SEARCH_ENGINE_IDS,
   SEARCH_ENGINE_PREF,
   DEFAULT_SEARCH_ENGINE,
 } from './constants'
+import { searchResources } from './resources'
 
-const lazy = lazyESModuleGetters({
-  AddonSearchEngine: 'resource://gre/modules/AddonSearchEngine.sys.mjs',
-  SearchUtils: 'resource://gre/modules/SearchUtils.sys.mjs',
-})
+const lazy = searchResources
 
 class SearchEngineService {
   private initPromise: Deferred<void> | undefined
@@ -37,6 +34,14 @@ class SearchEngineService {
         value.replace(/@search\.mozilla\.org$/, '@search.fushra.com'),
       )
     }
+  }
+
+  public async reinit() {
+    this.initPromise = undefined
+    this.searchEngines = new Deferred()
+    this.defaultEngine = new Deferred()
+
+    await this.init()
   }
 
   private async init() {

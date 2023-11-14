@@ -4,13 +4,65 @@
 
 import type { AddonSearchEngine } from 'resource://gre/modules/AddonSearchEngine.sys.mjs'
 
-import { Provider, type ProviderResult } from '../provider'
-import { Deferred } from '../../Deferred'
+import { Provider, ResultPriority, type ProviderResult } from '../provider'
+import { searchEngineService } from '../engine'
+import { searchResources } from '../resources'
+import { Deferred } from '@shared/Deferred'
 
 export class EngineProvider extends Provider {
-  engine: Deferred<AddonSearchEngine> = new Deferred()
+  public providerPriority = 3
 
-  getResults(query: string): Promise<ProviderResult[]> {
-    throw new Error('Method not implemented.')
+  private engine: Deferred<AddonSearchEngine> = new Deferred()
+
+  constructor() {
+    super()
+    this.init()
+  }
+
+  private async init() {
+    this.engine.resolve(await searchEngineService.getDefaultEngine())
+  }
+
+  async getResults(query: string): Promise<ProviderResult[]> {
+    if (query == '') return []
+
+    const engine = await this.engine.promise
+    const submission = engine.getSubmission(
+      query,
+      searchResources.SearchUtils.URL_TYPE.SUGGEST_JSON,
+    )
+
+    const request = fetch(submission.uri.spec, {
+      method: submission.postData ? 'POST' : 'GET',
+      body: submission.postData,
+    })
+
+    const response = await request
+    const body = await response.text()
+
+    if (response.status != 200) {
+      console.error(
+        `Search engine ${engine.name} returned status ${response.status}`,
+      )
+      return []
+    }
+
+    try {
+      const json = JSON.parse(body)
+      return json[1].map((result: string) => {
+        const searchSubmission = engine.getSubmission(result)
+
+        return {
+          title: result,
+          url: searchSubmission.uri.spec,
+          priority: ResultPriority.LOW,
+        }
+      })
+    } catch (e) {
+      console.error(
+        `Search engine ${engine.name} returned invalid JSON: ${body}`,
+      )
+      return []
+    }
   }
 }

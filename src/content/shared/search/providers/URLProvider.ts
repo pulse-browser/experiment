@@ -2,7 +2,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-import { Provider, type ProviderResult } from '../provider'
+import { Provider, ResultPriority, type ProviderResult } from '../provider'
 import tld from './data/tld.txt'
 
 const URL_REGEX =
@@ -12,6 +12,8 @@ const tlds = tld
   .filter((tld) => tld.length > 0 && !tld.startsWith('#'))
 
 export class URLProvider extends Provider {
+  public providerPriority = 0
+
   public async getResults(query: string): Promise<ProviderResult[]> {
     const match = URL_REGEX.exec(query)
     if (match === null) return []
@@ -28,6 +30,7 @@ export class URLProvider extends Provider {
         // @ts-ignore
         url: Services.io.newURI(uri),
         icon: `chrome://branding/content/icon32.png`,
+        priority: ResultPriority.CRITICAL,
       },
     ]
   }
