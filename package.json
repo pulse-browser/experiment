@@ -117,7 +117,8 @@
     ],
     "rules": {
       "@typescript-eslint/triple-slash-reference": "off",
-      "no-extra-semi": "off"
+      "no-extra-semi": "off",
+      "no-console": "warn"
     },
     "ignorePatterns": [
       "src/modules/*.js",

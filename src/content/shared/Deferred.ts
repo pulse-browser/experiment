@@ -6,7 +6,7 @@
  * The definition of Deferred object which is returned by PromiseUtils.defer(),
  * It contains a Promise and methods to resolve/reject it.
  */
-export class Deferred<T, E = unknown> {
+export class Deferred<T, E = unknown> implements GenericDeferred<T, E> {
   /* A method to resolve the associated Promise with the value passed.
    * If the promise is already settled it does nothing.
    *

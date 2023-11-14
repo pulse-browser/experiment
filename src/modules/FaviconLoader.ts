@@ -104,7 +104,7 @@ class FaviconLoad {
   stream: nsIBufferedOutputStreamType | undefined
   icon: IconInfo
   _deferred:
-    | import('../content/shared/Deferred').Deferred<{
+    | GenericDeferred<{
         expiration: number
         dataURL: string | ArrayBuffer | null
         canStoreIcon?: boolean
