@@ -7,6 +7,7 @@ import tld from './data/tld.txt'
 const HTTPS_REGEX =
   /^(?<protocol>https?:\/\/)?(?<domain>(\w+\.)+(?<tld>\w+))(?<path>\/.*)?$/m
 const CHROME_REGEX = /^chrome:\/\/.+$/m
+const ABOUT_REGEX = /^about:.+$/m
 const tlds = tld
   .split('\n')
   .filter((tld) => tld.length > 0 && !tld.startsWith('#'))
@@ -18,7 +19,7 @@ const tlds = tld
  * @returns If the query is a url or not
  */
 export function isUrlLike(query: string): boolean {
-  if (CHROME_REGEX.test(query)) return true
+  if (ABOUT_REGEX.test(query) || CHROME_REGEX.test(query)) return true
   const match = HTTPS_REGEX.exec(query)
   if (match === null) return false
 
@@ -34,7 +35,7 @@ export class URLProvider extends Provider {
 
   public async getResults(query: string): Promise<ProviderResult[]> {
     // Check against chrome urls
-    if (CHROME_REGEX.test(query))
+    if (CHROME_REGEX.test(query) || ABOUT_REGEX.test(query))
       return [
         {
           title: query,

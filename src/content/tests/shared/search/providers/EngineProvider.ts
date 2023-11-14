@@ -5,6 +5,7 @@ import { test } from 'zora'
 
 import { SEARCH_ENGINE_IDS, SEARCH_ENGINE_PREF } from '@shared/search/constants'
 import { searchEngineService } from '@shared/search/engine'
+import { ResultPriority } from '@shared/search/provider'
 import { EngineProvider } from '@shared/search/providers'
 
 export default async function () {
@@ -24,6 +25,15 @@ export default async function () {
       )
       t.eq(results, [], 'Should ignore chrome URLs')
     }
+  })
+
+  await test('EngineProvider: query with no recommendations', async (t) => {
+    const provider = new EngineProvider()
+    const results = await provider.getResults(
+      'cc4ce6fc-c166-4501-b34f-bda93579efc2',
+    )
+    t.eq(results.length, 1, 'Should have a single result')
+    t.eq(results[0].priority, ResultPriority.HIGH, 'Should have high priority')
   })
 
   for (const engine of SEARCH_ENGINE_IDS) {

@@ -80,4 +80,11 @@ export default async function () {
     t.ok(result, 'result exists')
     t.equal(result.length, 0, 'result has length')
   })
+
+  await test('URLProvider: about:blank', async (t) => {
+    const result = await urlProvider.getResults('about:blank')
+    t.eq(result.length, 1, 'There should be a result')
+    t.eq(result[0].title, 'about:blank', 'The title should be correct')
+    t.eq(result[0].url, 'about:blank', 'The url should be correct')
+  })
 }

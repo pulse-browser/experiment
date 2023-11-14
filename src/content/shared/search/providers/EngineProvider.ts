@@ -24,6 +24,11 @@ export class EngineProvider extends Provider {
     this.engine.resolve(await searchEngineService.getDefaultEngine())
   }
 
+  private getSearchUri(engine: AddonSearchEngine, query: string): nsIURIType {
+    const submission = engine.getSubmission(query)
+    return submission.uri
+  }
+
   async getResults(query: string): Promise<ProviderResult[]> {
     if (query == '' || isUrlLike(query)) return []
 
@@ -41,29 +46,34 @@ export class EngineProvider extends Provider {
     const response = await request
     const body = await response.text()
 
+    const defaultSearchResult: ProviderResult = {
+      title: query,
+      url: this.getSearchUri(engine, query).spec,
+      priority: ResultPriority.HIGH,
+    }
+
     if (response.status != 200) {
       console.error(
         `Search engine ${engine.name} returned status ${response.status}`,
       )
-      return []
+      return [defaultSearchResult]
     }
 
     try {
       const json = JSON.parse(body)
-      return json[1].map((result: string) => {
-        const searchSubmission = engine.getSubmission(result)
-
+      const results = json[1].map((result: string) => {
         return {
           title: result,
-          url: searchSubmission.uri.spec,
+          url: this.getSearchUri(engine, result).spec,
           priority: ResultPriority.LOW,
         }
       })
+      return [defaultSearchResult, ...results]
     } catch (e) {
       console.error(
         `Search engine ${engine.name} returned invalid JSON: ${body}`,
       )
-      return []
+      return [defaultSearchResult]
     }
   }
 }

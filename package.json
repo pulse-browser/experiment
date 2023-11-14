@@ -22,7 +22,7 @@
     "dev-actors": "tsc -w -p ./tsconfigs/tsconfig.actors.json",
     "rt:slink": "rm --force ./.store/artifact.tar.bz2 && ln -s ../../experiment-runtime/dist/experiment-runtime-1.0.0.en-US.linux-x86_64.tar.bz2 ./.store/artifact.tar.bz2",
     "lint": "eslint .",
-    "format": "pnpm script:license-check --fix && prettier . --write",
+    "format": "pnpm lint && pnpm script:license-check --fix && prettier . --write",
     "data": "concurrently -c auto pnpm:data:*",
     "data:tld": "wget https://data.iana.org/TLD/tlds-alpha-by-domain.txt -O ./src/content/shared/search/providers/data/tld.txt"
   },
