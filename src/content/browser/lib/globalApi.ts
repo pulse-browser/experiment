@@ -24,11 +24,12 @@ const newWindowUri = uriPref('browser.newwindow.default')
 export const tabs = viewableWritable([new Tab(newWindowUri())])
 
 export function openTab(uri: nsIURIType = newTabUri()) {
+  const newTab = new Tab(uri)
   tabs.update((tabs) => {
-    const newTab = new Tab(uri)
     selectedTab.set(newTab.getId())
     return [...tabs, newTab]
   })
+  return newTab
 }
 
 export function closeTab(tab: Tab) {
@@ -54,6 +55,11 @@ export function closeTab(tab: Tab) {
 
 function getCurrent(): Tab | undefined {
   return tabs.readOnce().find((t) => t.getId() == internalSelectedTab)
+}
+
+export function setCurrentTab(tab: Tab) {
+  const index = tabs.readOnce().findIndex((t) => t.getId() == tab.getId())
+  setCurrentTabIndex(index)
 }
 
 export function runOnCurrentTab<R>(method: (tab: Tab) => R): R | void {
@@ -120,14 +126,16 @@ export const windowApi = {
   showContextMenu: (menuInfo: ContextMenuInfo) => {
     browserContextMenuInfo.set(menuInfo)
 
-    const contextMenu = document.getElementById(
-      'browser_context_menu',
-    ) as XULMenuPopup
-    contextMenu.openPopupAtScreen(
-      menuInfo.position.screenX,
-      menuInfo.position.screenY,
-      true,
-    )
+    queueMicrotask(() => {
+      const contextMenu = document.getElementById(
+        'browser_context_menu',
+      ) as XULMenuPopup
+      contextMenu.openPopupAtScreen(
+        menuInfo.position.screenX,
+        menuInfo.position.screenY,
+        true,
+      )
+    })
   },
 }
 

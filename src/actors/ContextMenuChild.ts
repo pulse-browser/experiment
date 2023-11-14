@@ -11,6 +11,16 @@ const lazy = lazyESModuleGetters({
 })
 
 export class ContextMenuChild extends JSWindowActorChild {
+  getHrefIfExists(target: Node): string | undefined {
+    if ((target as HTMLAnchorElement).href) {
+      return (target as HTMLAnchorElement).href
+    }
+
+    if (target.parentElement) {
+      return this.getHrefIfExists(target.parentElement)
+    }
+  }
+
   handleEvent(event: MouseEvent & { inputSource: number }) {
     const data: {
       position: ContextMenuInfo['position']
@@ -28,6 +38,8 @@ export class ContextMenuChild extends JSWindowActorChild {
     if (selectionInfo.fullText) {
       data.textSelection = selectionInfo.fullText
     }
+
+    if (event.target) data.href = this.getHrefIfExists(event.target as Node)
 
     this.sendAsyncMessage('contextmenu', data satisfies ContextMenuInfo)
   }

@@ -31,6 +31,9 @@ pref('browser.keybinds.tab7', 'accel+7');
 pref('browser.keybinds.tab8', 'accel+8');
 pref('browser.keybinds.findInPage', 'accel+F');
 
+// Behaviour prefs
+pref('browser.tabs.newTabFocus', false);
+
 // =======================================================
 // Gecko prefs
 

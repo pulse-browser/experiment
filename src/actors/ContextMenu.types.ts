@@ -13,4 +13,5 @@ export interface ContextMenuInfo {
   }
 
   textSelection?: string
+  href?: string
 }
