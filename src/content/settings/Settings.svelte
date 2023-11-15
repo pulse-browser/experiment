@@ -10,6 +10,7 @@
   import { searchEngineService } from '../shared/search/engine'
   import Category from './components/Category.svelte'
   import SubCategory from './components/SubCategory.svelte'
+  import { ContextMenuPref } from './components/pref/ContextMenuPref'
   import SelectPref from './components/pref/SelectPref.svelte'
   import StringPref from './components/pref/StringPref.svelte'
   import { SidebarItemData, Sidebar } from './components/sidebar'
@@ -43,6 +44,12 @@
           defaultValue={DEFAULT_SEARCH_ENGINE}>Default search engine</SelectPref
         >
       {/await}
+    </SubCategory>
+  </Category>
+
+  <Category bind:sidebarItems title="Context Menus">
+    <SubCategory title="Content">
+      <ContextMenuPref pref="browser.contextmenus.page" />
     </SubCategory>
   </Category>
 

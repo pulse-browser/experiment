@@ -3,45 +3,46 @@
    - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
 
 <script lang="ts">
-  import {
-    browserContextMenuInfo,
-    openTab,
-    setCurrentTab,
-  } from '../../lib/globalApi'
-  import { resource } from '../../lib/resources'
-  import { getClipboardHelper } from '../../lib/xul/ccWrapper'
+  import { getMenuItemsDynamicPref, type MenuItem } from '@shared/contextMenus'
+  import { browserContextMenuInfo } from '../../lib/globalApi'
+  import type { ContextMenuInfo } from '../../../../actors/ContextMenu.types'
 
-  $: textSelection = $browserContextMenuInfo.textSelection
-  $: href = $browserContextMenuInfo.href
+  const menuItems = getMenuItemsDynamicPref('browser.contextmenus.page')
+
+  function shouldHideSeparator(
+    index: number,
+    menuItems: MenuItem[],
+    context: ContextMenuInfo,
+  ) {
+    const nextVisibleAbove = menuItems
+      .slice(0, index)
+      .reverse()
+      .find((item) => item.type === 'separator' || item.visible(context))
+    const nextVisibleBelow = menuItems
+      .slice(index + 1)
+      .find((item) => item.type === 'separator' || item.visible(context))
+
+    return (
+      !nextVisibleAbove ||
+      !nextVisibleBelow ||
+      nextVisibleAbove.type === 'separator' ||
+      nextVisibleBelow.type === 'separator'
+    )
+  }
 </script>
 
 <xul:menupopup id="browser_context_menu">
-  <xul:menuitem label={'Test'} />
-  {#if href}
-    <xul:menuitem
-      label="Open link in new tab"
-      on:command={() => {
-        const tab = openTab(resource.NetUtil.newURI(href))
-        if (Services.prefs.getBoolPref('browser.tabs.newTabFocus', false)) {
-          queueMicrotask(() => setCurrentTab(tab))
-        }
-      }}
-    />
-    <xul:menuitem
-      label="Copy link location"
-      on:command={() => {
-        const clipboardHelper = getClipboardHelper()
-        if (href) clipboardHelper.copyString(href, 0)
-      }}
-    />
-  {/if}
-  {#if textSelection}
-    <xul:menuitem
-      label={'Copy'}
-      on:command={() => {
-        const clipboardHelper = getClipboardHelper()
-        if (textSelection) clipboardHelper.copyString(textSelection, 0)
-      }}
-    />
-  {/if}
+  {#each $menuItems as menuItem, index}
+    {#if menuItem.type === 'separator'}
+      <xul:menuseparator
+        hidden={shouldHideSeparator(index, $menuItems, $browserContextMenuInfo)}
+      />
+    {:else}
+      <xul:menuitem
+        label={menuItem.title}
+        hidden={!menuItem.visible($browserContextMenuInfo)}
+        on:command={() => menuItem.action($browserContextMenuInfo)}
+      />
+    {/if}
+  {/each}
 </xul:menupopup>
