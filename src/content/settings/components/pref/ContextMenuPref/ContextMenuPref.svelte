@@ -17,7 +17,23 @@
   ]
 </script>
 
-<div class="container">
+<div
+  class="container"
+  role="listbox"
+  tabindex="-1"
+  on:drop={(e) => {
+    e.preventDefault()
+    const [_, existingIndex] =
+      e.dataTransfer?.getData('text/plain')?.split(':') ?? []
+    if (!existingIndex) return
+    value.update((items) => {
+      const oldIndex = parseInt(existingIndex)
+      const newItems = [...items]
+      newItems.splice(oldIndex, 1)
+      return newItems
+    })
+  }}
+>
   <div class="available">
     <h3>Available Items</h3>
 

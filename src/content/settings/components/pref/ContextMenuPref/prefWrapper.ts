@@ -7,7 +7,6 @@ export function contextMenuPrefWrapper(pref: string) {
 
   {
     const prefValue = Services.prefs.getStringPref(pref, '')
-    console.log(pref)
     store.set(fromIdString(prefValue))
   }
 
@@ -15,6 +14,5 @@ export function contextMenuPrefWrapper(pref: string) {
     Services.prefs.setStringPref(pref, toIdString(value))
   })
 
-  console.log(get(store))
   return store
 }

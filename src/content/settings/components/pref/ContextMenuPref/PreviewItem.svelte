@@ -42,6 +42,7 @@
   }}
   on:drop={(e) =>
     items.update((items) => {
+      e.preventDefault()
       if (dragging) return items
       dropTarget = false
 
