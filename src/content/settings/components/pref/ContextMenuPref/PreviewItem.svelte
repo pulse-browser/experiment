@@ -6,15 +6,13 @@
   export let item: MenuItem
   export let index: number
 
-  let dropTarget = false
+  let drop: 'start' | 'end' | false = false
   let dragging = false
 </script>
 
 <div
   role="listitem"
-  class={`item ${dropTarget ? 'drop-target' : ''} ${
-    dragging ? 'dragging' : ''
-  }`}
+  class={`item ${drop} ${dragging ? 'dragging' : ''}`}
   draggable="true"
   on:dragstart={(e) => {
     e.dataTransfer?.setData(
@@ -27,40 +25,51 @@
   on:dragend={(e) => {
     dragging = false
   }}
-  on:dragenter={(e) => {
+  on:dragover={(e) => {
     if (dragging) return
-    dropTarget = true
+
+    const boundingRect = e.currentTarget.getBoundingClientRect()
+    const yMiddle = boundingRect.y + boundingRect.height / 2
+    const isBefore = e.y <= yMiddle
+    drop = isBefore ? 'start' : 'end'
   }}
   on:dragleave={(e) => {
     if (dragging) return
-    dropTarget = false
+    drop = false
   }}
   on:dragover={(e) => {
     if (dragging) return
     e.preventDefault()
     if (e.dataTransfer) e.dataTransfer.dropEffect = 'move'
   }}
-  on:drop={(e) =>
+  on:drop|preventDefault|stopPropagation={(e) => {
     items.update((items) => {
-      e.preventDefault()
       if (dragging) return items
-      dropTarget = false
 
       const [newItemId, existingIndex] =
         e.dataTransfer?.getData('text/plain')?.split(':') ?? []
-      const newItem = fromId(newItemId)
-      let newIndex = items.indexOf(item) + 1
+
       const newItems = [...items]
-      // Remove old item
+
+      let newItem
+      let wasBefore = false
       if (existingIndex) {
         const oldIndex = parseInt(existingIndex)
-        newItems.splice(parseInt(existingIndex), 1)
-        if (oldIndex < newIndex) newIndex--
+        newItem = newItems.splice(oldIndex, 1)[0]
+        wasBefore = oldIndex < index
+      } else {
+        newItem = fromId(newItemId)
       }
+
+      const newIndex = index + (drop === 'start' ? 0 : 1) - (wasBefore ? 1 : 0)
       newItems.splice(newIndex, 0, newItem)
+
       return newItems
-    })}
+    })
+    drop = false
+  }}
 >
+  {index}
   {#if item.type === 'separator'}
     <hr />
   {:else}
@@ -81,7 +90,11 @@
     opacity: 0.5;
   }
 
-  .drop-target {
+  .start {
+    border-top: solid 1px lightblue;
+  }
+
+  .end {
     border-bottom: solid 1px lightblue;
   }
 
