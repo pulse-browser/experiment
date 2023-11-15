@@ -4,31 +4,59 @@
 
   export let items: Writable<MenuItem[]>
   export let item: MenuItem
+  export let index: number
 
   let dropTarget = false
+  let dragging = false
 </script>
 
 <div
   role="listitem"
-  class={`item ${dropTarget ? 'drop-target' : ''}`}
+  class={`item ${dropTarget ? 'drop-target' : ''} ${
+    dragging ? 'dragging' : ''
+  }`}
+  draggable="true"
+  on:dragstart={(e) => {
+    e.dataTransfer?.setData(
+      'text/plain',
+      (item.type === 'separator' ? 'separator' : item.id) + ':' + index,
+    )
+    if (e.dataTransfer) e.dataTransfer.effectAllowed = 'move'
+    dragging = true
+  }}
+  on:dragend={(e) => {
+    dragging = false
+  }}
   on:dragenter={(e) => {
+    if (dragging) return
     dropTarget = true
   }}
   on:dragleave={(e) => {
+    if (dragging) return
     dropTarget = false
   }}
   on:dragover={(e) => {
+    if (dragging) return
     e.preventDefault()
     if (e.dataTransfer) e.dataTransfer.dropEffect = 'move'
   }}
   on:drop={(e) =>
     items.update((items) => {
+      if (dragging) return items
       dropTarget = false
 
-      const newItem = fromId(e.dataTransfer?.getData('text/plain') ?? '')
-      const currentIndex = items.indexOf(item)
+      const [newItemId, existingIndex] =
+        e.dataTransfer?.getData('text/plain')?.split(':') ?? []
+      const newItem = fromId(newItemId)
+      let newIndex = items.indexOf(item) + 1
       const newItems = [...items]
-      newItems.splice(currentIndex + 1, 0, newItem)
+      // Remove old item
+      if (existingIndex) {
+        const oldIndex = parseInt(existingIndex)
+        newItems.splice(parseInt(existingIndex), 1)
+        if (oldIndex < newIndex) newIndex--
+      }
+      newItems.splice(newIndex, 0, newItem)
       return newItems
     })}
 >
@@ -46,6 +74,10 @@
     border-radius: 0.25rem;
     cursor: default;
     user-select: none;
+  }
+
+  .dragging {
+    opacity: 0.5;
   }
 
   .drop-target {

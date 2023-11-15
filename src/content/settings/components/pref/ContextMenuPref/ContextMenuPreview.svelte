@@ -8,8 +8,8 @@
 
 <div class="preview__container">
   <div class="preview">
-    {#each $items as item}
-      <PreviewItem {items} {item} />
+    {#each $items as item, index}
+      <PreviewItem {items} {item} {index} />
     {/each}
   </div>
 </div>
