@@ -69,7 +69,6 @@
     drop = false
   }}
 >
-  {index}
   {#if item.type === 'separator'}
     <hr />
   {:else}
