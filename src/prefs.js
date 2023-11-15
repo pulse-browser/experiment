@@ -13,6 +13,12 @@ pref('browser.newtab.default', 'https://web.tabliss.io/');
 // Search settings
 pref('browser.search.engine.default', 'google@search.fushra.com');
 
+// Context menu prefs
+pref(
+  'browser.contextmenus.page',
+  'link__copy,link__new-tab,separator,selection__copy',
+);
+
 // Default keybinds
 pref('browser.keybinds.toolbox', 'accel+alt+shift+I');
 pref('browser.keybinds.chrome.reload', 'accel+alt+shift+R');
@@ -31,7 +37,7 @@ pref('browser.keybinds.tab7', 'accel+7');
 pref('browser.keybinds.tab8', 'accel+8');
 pref('browser.keybinds.findInPage', 'accel+F');
 
-// Behaviour prefs
+// Misc. prefs
 pref('browser.tabs.newTabFocus', false);
 
 // =======================================================
