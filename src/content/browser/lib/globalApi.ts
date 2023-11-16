@@ -1,6 +1,7 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+import mitt from 'mitt'
 import { writable } from 'svelte/store'
 
 import type { ContextMenuInfo } from '../../../actors/ContextMenu.types'
@@ -115,7 +116,12 @@ function insertAndShift<T>(arr: T[], from: number, to: number) {
   arr.splice(to, 0, cutOut)
 }
 
+export type WindowTriggers = {
+  bookmarkCurrentPage: undefined
+}
+
 export const windowApi = {
+  windowTriggers: mitt<WindowTriggers>(),
   closeTab,
   openTab,
   setIcon: (browser: XULBrowserElement, iconURL: string) =>

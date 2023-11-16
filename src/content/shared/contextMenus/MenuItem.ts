@@ -23,6 +23,7 @@ export const MENU_ITEM_ACTION_IDS = [
   'navigation__back',
   'navigation__forward',
   'navigation__reload',
+  'navigation__bookmark',
 ] as const
 
 const ALWAYS = () => true
@@ -72,9 +73,7 @@ export const MENU_ITEM_ACTIONS: MenuItemAction[] = [
     title: 'Back',
 
     visible: ALWAYS,
-    action(info) {
-      runOnCurrentTab((tab) => tab.goBack())
-    },
+    action: () => runOnCurrentTab((tab) => tab.goBack()),
   },
   {
     type: 'action',
@@ -82,9 +81,7 @@ export const MENU_ITEM_ACTIONS: MenuItemAction[] = [
     title: 'Forward',
 
     visible: ALWAYS,
-    action(info) {
-      runOnCurrentTab((tab) => tab.goForward())
-    },
+    action: () => runOnCurrentTab((tab) => tab.goForward()),
   },
   {
     type: 'action',
@@ -92,9 +89,15 @@ export const MENU_ITEM_ACTIONS: MenuItemAction[] = [
     title: 'Reload',
 
     visible: ALWAYS,
-    action(info) {
-      runOnCurrentTab((tab) => tab.reload())
-    },
+    action: () => runOnCurrentTab((tab) => tab.reload()),
+  },
+  {
+    type: 'action',
+    id: 'navigation__bookmark',
+    title: 'Bookmark This Page',
+
+    visible: ALWAYS,
+    action: () => window.windowApi.windowTriggers.emit('bookmarkCurrentPage'),
   },
 ]
 
