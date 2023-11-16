@@ -1,11 +1,14 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
-
 import { type Readable, readable } from 'svelte/store'
 
 import type { ContextMenuInfo } from '../../../actors/ContextMenu.types'
-import { openTab, setCurrentTab } from '../../browser/lib/globalApi'
+import {
+  openTab,
+  runOnCurrentTab,
+  setCurrentTab,
+} from '../../browser/lib/globalApi'
 import { resource } from '../../browser/lib/resources'
 import { getClipboardHelper } from '../../browser/lib/xul/ccWrapper'
 import { observable } from '../../browser/lib/xul/observable'
@@ -17,8 +20,12 @@ export const MENU_ITEM_ACTION_IDS = [
   'selection__copy',
   'link__copy',
   'link__new-tab',
+  'navigation__back',
+  'navigation__forward',
+  'navigation__reload',
 ] as const
 
+const ALWAYS = () => true
 const HAS_TEXT_SELECTION: VisibilityCheck = (info) =>
   typeof info.textSelection == 'string'
 const HAS_HREF: VisibilityCheck = (info) => typeof info.href == 'string'
@@ -57,6 +64,36 @@ export const MENU_ITEM_ACTIONS: MenuItemAction[] = [
       if (Services.prefs.getBoolPref('browser.tabs.newTabFocus')) {
         queueMicrotask(() => setCurrentTab(tab))
       }
+    },
+  },
+  {
+    type: 'action',
+    id: 'navigation__back',
+    title: 'Back',
+
+    visible: ALWAYS,
+    action(info) {
+      runOnCurrentTab((tab) => tab.goBack())
+    },
+  },
+  {
+    type: 'action',
+    id: 'navigation__forward',
+    title: 'Forward',
+
+    visible: ALWAYS,
+    action(info) {
+      runOnCurrentTab((tab) => tab.goForward())
+    },
+  },
+  {
+    type: 'action',
+    id: 'navigation__reload',
+    title: 'Reload',
+
+    visible: ALWAYS,
+    action(info) {
+      runOnCurrentTab((tab) => tab.reload())
     },
   },
 ]
