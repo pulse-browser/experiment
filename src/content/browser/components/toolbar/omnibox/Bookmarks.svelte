@@ -12,7 +12,7 @@
     update,
     remove,
   } from '../../../../shared/ExtBookmarkAPI'
-  import ToolbarButton from '../ToolbarButton.svelte'
+  import ToolbarButton from '../../../../shared/components/ToolbarButton.svelte'
   import { onMount } from 'svelte'
 
   export let tab: Tab

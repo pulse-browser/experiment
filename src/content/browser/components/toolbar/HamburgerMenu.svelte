@@ -7,7 +7,7 @@
   import { openTab } from '../../lib/globalApi'
   import { resource } from '../../lib/resources'
   import HamburgerMenuItem from './HamburgerMenuItem.svelte'
-  import ToolbarButton from './ToolbarButton.svelte'
+  import { ToolbarButton } from '@shared/components'
 
   let panel: any
   let button: any

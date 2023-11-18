@@ -5,7 +5,7 @@
 <script lang="ts">
   import type { Tab } from '../tabs/tab'
   import HamburgerMenu from './HamburgerMenu.svelte'
-  import ToolbarButton from './ToolbarButton.svelte'
+  import ToolbarButton from '../../../shared/components/ToolbarButton.svelte'
   import Omnibox from './omnibox/Omnibox.svelte'
 
   export let tab: Tab
