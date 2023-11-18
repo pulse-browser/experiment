@@ -1,6 +1,7 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+import mitt from 'mitt'
 import { writable } from 'svelte/store'
 
 import type { ContextMenuInfo } from '../../../actors/ContextMenu.types'
@@ -8,8 +9,10 @@ import { viewableWritable } from '../../shared/svelteUtils'
 import { Tab } from '../components/tabs/tab'
 import { resource } from './resources'
 
+export let contextMenuParentActor: JSWindowActorParent
 export const browserContextMenuInfo = writable<ContextMenuInfo>({
   position: { screenX: 0, screenY: 0, inputSource: 0 },
+  context: {},
 })
 
 let internalSelectedTab = -1
@@ -115,7 +118,12 @@ function insertAndShift<T>(arr: T[], from: number, to: number) {
   arr.splice(to, 0, cutOut)
 }
 
+export type WindowTriggers = {
+  bookmarkCurrentPage: undefined
+}
+
 export const windowApi = {
+  windowTriggers: mitt<WindowTriggers>(),
   closeTab,
   openTab,
   setIcon: (browser: XULBrowserElement, iconURL: string) =>
@@ -123,10 +131,11 @@ export const windowApi = {
       .readOnce()
       .find((tab) => tab.getTabId() == browser.browserId)
       ?.icon.set(iconURL),
-  showContextMenu: (menuInfo: ContextMenuInfo) => {
+  showContextMenu: (menuInfo: ContextMenuInfo, actor: JSWindowActorParent) => {
     browserContextMenuInfo.set(menuInfo)
+    contextMenuParentActor = actor
 
-    queueMicrotask(() => {
+    requestAnimationFrame(() => {
       const contextMenu = document.getElementById(
         'browser_context_menu',
       ) as XULMenuPopup

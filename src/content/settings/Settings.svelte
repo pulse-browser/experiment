@@ -7,7 +7,6 @@
     DEFAULT_SEARCH_ENGINE,
     SEARCH_ENGINE_PREF,
   } from '../shared/search/constants'
-  import { searchEngineService } from '../shared/search/engine'
   import Category from './components/Category.svelte'
   import SubCategory from './components/SubCategory.svelte'
   import { ContextMenuPref } from './components/pref/ContextMenuPref'

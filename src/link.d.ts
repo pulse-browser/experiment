@@ -27,7 +27,7 @@ declare interface Document {
 }
 
 declare interface Node {
-  nodePrincipal
+  nodePrincipal: nsIPrincipalType
   ownerGlobal: Window
   documentLoadGroup: nsIRequestType
 }

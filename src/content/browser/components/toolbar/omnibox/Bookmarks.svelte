@@ -13,6 +13,7 @@
     remove,
   } from '../../../../shared/ExtBookmarkAPI'
   import ToolbarButton from '../ToolbarButton.svelte'
+  import { onMount } from 'svelte'
 
   export let tab: Tab
 
@@ -59,11 +60,20 @@
 
     panel.hidePopup()
   }
+
+  const OPEN_BOOKMARK_PANEL = () =>
+    panel.openPopup(bookmarkButton, 'bottomright topright')
+  onMount(() => {
+    window.windowApi.windowTriggers.on(
+      'bookmarkCurrentPage',
+      OPEN_BOOKMARK_PANEL,
+    )
+  })
 </script>
 
 <ToolbarButton
   bind:button={bookmarkButton}
-  on:click={() => panel.openPopup(bookmarkButton, 'bottomright topright')}
+  on:click={OPEN_BOOKMARK_PANEL}
   kind="page-icon"
 >
   <i class={$bookmarkInfo ? 'ri-bookmark-fill' : 'ri-bookmark-line'} />

@@ -305,21 +305,21 @@ class TabProgressListener
     aStatus: number,
     aMessage: string,
   ): void {
-    console.log('onStatusChange')
+    // console.log('onStatusChange')
   }
   onSecurityChange(
     aWebProgress: nsIWebProgressType,
     aRequest: nsIRequestType,
     aState: number,
   ): void {
-    console.log('onSecurityChange')
+    // console.log('onSecurityChange')
   }
   onContentBlockingEvent(
     aWebProgress: nsIWebProgressType,
     aRequest: nsIRequestType,
     aEvent: number,
   ): void {
-    console.log('onContentBlockingEvent')
+    // console.log('onContentBlockingEvent')
   }
 
   QueryInterface = ChromeUtils.generateQI([

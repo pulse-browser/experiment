@@ -1,9 +1,11 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
-
 /// <reference types="gecko-types" />
 /// <reference types="svelte" />
+
+/// <reference path='./contentAreaUtils' />
+/// <reference path='./globalOverlay' />
 
 declare module '*.txt' {
   const contents: string
@@ -11,7 +13,7 @@ declare module '*.txt' {
 }
 
 declare interface Window {
-  windowApi: typeof import('./lib/globalApi').windowApi
+  windowApi: typeof import('./browser/lib/globalApi').windowApi
   browserDOMWindow: nsIBrowserDOMWindowType
 }
 

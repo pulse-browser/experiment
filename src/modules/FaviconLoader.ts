@@ -624,6 +624,7 @@ class IconLoader {
     } catch (e: any) {
       if (e.result != Cr.NS_BINDING_ABORTED) {
         if (typeof e.data?.wrappedJSObject?.httpStatus !== 'number') {
+          // eslint-disable-next-line no-console
           console.error(e)
         }
 

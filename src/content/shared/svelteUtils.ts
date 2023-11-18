@@ -1,13 +1,16 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
-import type {
-  Invalidator,
-  StartStopNotifier,
-  Subscriber,
-  Unsubscriber,
-  Updater,
-  Writable,
+import {
+  type Invalidator,
+  type Readable,
+  type StartStopNotifier,
+  type Subscriber,
+  type Unsubscriber,
+  type Updater,
+  type Writable,
+  get,
+  readable,
 } from 'svelte/store'
 
 type SubInvTuple<T> = [Subscriber<T>, Invalidator<T>]
@@ -90,4 +93,16 @@ export function viewableWritable<T>(
   }
 
   return { set, update, subscribe, readOnce }
+}
+
+export function resolverStore<T>(
+  intermediate: T,
+  toResolve: Promise<Readable<T>>,
+): Readable<T> {
+  return readable(intermediate, (set) => {
+    toResolve.then((resolved) => {
+      set(get(resolved))
+      resolved.subscribe(set)
+    })
+  })
 }

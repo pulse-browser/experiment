@@ -50,14 +50,13 @@ export class BrowserGlue {
   QueryInterface = ChromeUtils.generateQI(['nsIObserver'])
 
   constructor() {
-    console.log('BrowserGlue impl')
-
     lazy.ActorManagerParent.addJSProcessActors(JS_PROCESS_ACTORS)
     lazy.ActorManagerParent.addJSWindowActors(JS_WINDOW_ACTORS)
   }
 
   // nsIObserver impl
   observe(aSubject: nsISupportsType, aTopic: string, aData: string): void {
+    // eslint-disable-next-line no-console
     console.log({ aSubject, aTopic, aData })
   }
 }

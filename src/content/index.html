@@ -9,6 +9,16 @@
     <title><%= htmlWebpackPlugin.options.title %></title>
 
     <link rel="stylesheet" href="chrome://global/skin/global.css" />
+    <script>
+      Services.scriptloader.loadSubScript(
+        'chrome://global/content/contentAreaUtils.js',
+        this,
+      )
+      Services.scriptloader.loadSubScript(
+        'chrome://global/content/globalOverlay.js',
+        this,
+      )
+    </script>
   </head>
   <body></body>
 </html>

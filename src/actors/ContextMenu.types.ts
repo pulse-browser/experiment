@@ -5,6 +5,11 @@
 // NOTE: This file should only have types imported from it. Its contents will not be
 // available at runtime
 
+export interface MediaInfo {
+  contentType?: string
+  contentDisposition?: string
+}
+
 export interface ContextMenuInfo {
   position: {
     screenX: number
@@ -12,6 +17,14 @@ export interface ContextMenuInfo {
     inputSource: number
   }
 
+  context: {
+    principal?: nsIPrincipalType
+    referrerInfo?: string
+  }
+
+  mediaInfo?: MediaInfo
+
   textSelection?: string
   href?: string
+  imageSrc?: string
 }

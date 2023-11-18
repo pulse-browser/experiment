@@ -7,8 +7,6 @@ const { useRemoteTabs, useRemoteSubframe } = window.docShell.QueryInterface(
   Ci.nsILoadContext,
 )
 
-console.log(useRemoteTabs, useRemoteSubframe)
-
 const DEFAULT_BROWSER_ATTRIBUTES = {
   message: 'true',
   messagemanagergroup: 'browsers',

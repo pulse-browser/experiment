@@ -17,6 +17,7 @@ new App()
   .get('/config', (_, res) => void res.send({ shouldWatch }))
   .post('/results', (req, res) => {
     req.on('data', (chunk: Buffer) => {
+      // eslint-disable-next-line no-console
       console.log(chunk.toString())
     })
     req.on('close', () => {
