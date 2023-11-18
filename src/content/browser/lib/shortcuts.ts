@@ -33,7 +33,7 @@ export function initializeShortcuts() {
         runOnCurrentTab((tab) => tab.goForward())
         break
       default:
-        console.log(event)
+        console.warn('Unknown event', event)
     }
   })
 }
