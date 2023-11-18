@@ -120,6 +120,13 @@ export const MENU_ITEM_ACTIONS: MenuItemAction[] = (
       action: () => window.windowApi.windowTriggers.emit('bookmarkCurrentPage'),
     },
     {
+      id: 'image__copy',
+      title: 'Copy Image',
+
+      visible: HAS_IMAGE_SRC,
+      action: () => goDoCommand('cmd_copyImage'),
+    },
+    {
       id: 'image__copy-link',
       title: 'Copy Image Link',
 

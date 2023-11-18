@@ -18,6 +18,7 @@ export const MENU_ITEM_ACTION_IDS = [
   'navigation__forward',
   'navigation__reload',
   'navigation__bookmark',
+  'image__copy',
   'image__copy-link',
   'image__new-tab',
   'image__save',
