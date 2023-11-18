@@ -3,11 +3,18 @@
    - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
 
 <script lang="ts">
-  import { getMenuItemsDynamicPref, type MenuItem } from '@shared/contextMenus'
+  import type { MenuItem } from '@shared/contextMenus'
   import { browserContextMenuInfo } from '../../lib/globalApi'
   import type { ContextMenuInfo } from '../../../../actors/ContextMenu.types'
+  import { resolverStore } from '@shared/svelteUtils'
 
-  const menuItems = getMenuItemsDynamicPref('browser.contextmenus.page')
+  const contextMenusModule = import('@shared/contextMenus')
+  const menuItems = resolverStore(
+    [],
+    contextMenusModule.then(({ getMenuItemsDynamicPref }) =>
+      getMenuItemsDynamicPref('browser.contextmenus.page'),
+    ),
+  )
 
   function shouldHideSeparator(
     index: number,

@@ -13,7 +13,7 @@ export class ContextMenuParent extends JSWindowActorParent {
   receiveMessage(event: ContextMenuEvent) {
     if (event.name == 'contextmenu') {
       const win = event.target.browsingContext.embedderElement.ownerGlobal
-      win.windowApi.showContextMenu(event.data)
+      win.windowApi.showContextMenu(event.data, this)
     }
   }
 }

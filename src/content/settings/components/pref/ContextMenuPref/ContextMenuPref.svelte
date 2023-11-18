@@ -3,10 +3,7 @@
    - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
 
 <script lang="ts">
-  import {
-    MENU_ITEM_ACTIONS,
-    type MenuItem,
-  } from '@shared/contextMenus/MenuItem'
+  import { MENU_ITEM_ACTIONS, type MenuItem } from '@shared/contextMenus'
   import { contextMenuPrefWrapper } from './prefWrapper'
   import InsertItem from './InsertItem.svelte'
   import ContextMenuPreview from './ContextMenuPreview.svelte'

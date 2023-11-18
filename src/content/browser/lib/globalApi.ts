@@ -9,8 +9,10 @@ import { viewableWritable } from '../../shared/svelteUtils'
 import { Tab } from '../components/tabs/tab'
 import { resource } from './resources'
 
+export let contextMenuParentActor: JSWindowActorParent
 export const browserContextMenuInfo = writable<ContextMenuInfo>({
   position: { screenX: 0, screenY: 0, inputSource: 0 },
+  context: {},
 })
 
 let internalSelectedTab = -1
@@ -129,10 +131,11 @@ export const windowApi = {
       .readOnce()
       .find((tab) => tab.getTabId() == browser.browserId)
       ?.icon.set(iconURL),
-  showContextMenu: (menuInfo: ContextMenuInfo) => {
+  showContextMenu: (menuInfo: ContextMenuInfo, actor: JSWindowActorParent) => {
     browserContextMenuInfo.set(menuInfo)
+    contextMenuParentActor = actor
 
-    queueMicrotask(() => {
+    requestAnimationFrame(() => {
       const contextMenu = document.getElementById(
         'browser_context_menu',
       ) as XULMenuPopup

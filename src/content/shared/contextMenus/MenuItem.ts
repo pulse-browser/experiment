@@ -4,14 +4,8 @@
 import { type Readable, readable } from 'svelte/store'
 
 import type { ContextMenuInfo } from '../../../actors/ContextMenu.types'
-import {
-  openTab,
-  runOnCurrentTab,
-  setCurrentTab,
-} from '../../browser/lib/globalApi'
-import { resource } from '../../browser/lib/resources'
-import { getClipboardHelper } from '../../browser/lib/xul/ccWrapper'
 import { observable } from '../../browser/lib/xul/observable'
+import { MENU_ITEM_ACTIONS } from './menuItems'
 
 /**
  * All of the valid menu item IDs. Note that it must not include 'separator'
@@ -24,82 +18,10 @@ export const MENU_ITEM_ACTION_IDS = [
   'navigation__forward',
   'navigation__reload',
   'navigation__bookmark',
+  'image__copy-link',
+  'image__new-tab',
+  'image__save',
 ] as const
-
-const ALWAYS = () => true
-const HAS_TEXT_SELECTION: VisibilityCheck = (info) =>
-  typeof info.textSelection == 'string'
-const HAS_HREF: VisibilityCheck = (info) => typeof info.href == 'string'
-
-export const MENU_ITEM_ACTIONS: MenuItemAction[] = [
-  {
-    type: 'action',
-    id: 'selection__copy',
-    title: 'Copy',
-
-    visible: HAS_TEXT_SELECTION,
-    action: (info) => {
-      const clipboardHelper = getClipboardHelper()
-      if (info.textSelection) clipboardHelper.copyString(info.textSelection, 0)
-    },
-  },
-  {
-    type: 'action',
-    id: 'link__copy',
-    title: 'Copy Link',
-
-    visible: HAS_HREF,
-    action(info) {
-      const clipboardHelper = getClipboardHelper()
-      if (info.href) clipboardHelper.copyString(info.href, 0)
-    },
-  },
-  {
-    type: 'action',
-    id: 'link__new-tab',
-    title: 'Open Link in New Tab',
-
-    visible: HAS_HREF,
-    action(info) {
-      const tab = openTab(resource.NetUtil.newURI(info.href!))
-      if (Services.prefs.getBoolPref('browser.tabs.newTabFocus')) {
-        queueMicrotask(() => setCurrentTab(tab))
-      }
-    },
-  },
-  {
-    type: 'action',
-    id: 'navigation__back',
-    title: 'Back',
-
-    visible: ALWAYS,
-    action: () => runOnCurrentTab((tab) => tab.goBack()),
-  },
-  {
-    type: 'action',
-    id: 'navigation__forward',
-    title: 'Forward',
-
-    visible: ALWAYS,
-    action: () => runOnCurrentTab((tab) => tab.goForward()),
-  },
-  {
-    type: 'action',
-    id: 'navigation__reload',
-    title: 'Reload',
-
-    visible: ALWAYS,
-    action: () => runOnCurrentTab((tab) => tab.reload()),
-  },
-  {
-    type: 'action',
-    id: 'navigation__bookmark',
-    title: 'Bookmark This Page',
-
-    visible: ALWAYS,
-    action: () => window.windowApi.windowTriggers.emit('bookmarkCurrentPage'),
-  },
-]
 
 interface MenuItemBase {}
 
@@ -107,7 +29,7 @@ export interface MenuItemSeparator extends MenuItemBase {
   type: 'separator'
 }
 
-type VisibilityCheck = (info: ContextMenuInfo) => boolean
+export type VisibilityCheck = (info: ContextMenuInfo) => boolean
 export interface MenuItemAction extends MenuItemBase {
   type: 'action'
   id: (typeof MENU_ITEM_ACTION_IDS)[number]
