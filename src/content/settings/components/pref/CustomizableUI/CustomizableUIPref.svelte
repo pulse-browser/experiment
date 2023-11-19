@@ -2,9 +2,11 @@
   import { createBlock, cuiPreviewItems } from '@shared/customizableUI'
   import Component from './Component.svelte'
   import { nanoid } from 'nanoid'
+  import Configure from './Configure.svelte'
 
   let component = createBlock('vertical', [], { type: 'grow', value: 1 })
   let selectedId: string | null = null
+  $: console.log(component)
 </script>
 
 <div class="container">
@@ -27,7 +29,15 @@
   </div>
 
   <div class="preview">
-    <Component bind:component bind:root={component} {selectedId} />
+    <Component bind:component bind:root={component} bind:selectedId />
+  </div>
+
+  <div class="configure">
+    <h3>Configure item</h3>
+
+    {#if selectedId}
+      <Configure bind:root={component} bind:selectedId />
+    {/if}
   </div>
 </div>
 
@@ -48,5 +58,15 @@
   .preview {
     background-color: var(--base);
     flex-grow: 1;
+  }
+
+  .configure {
+    width: 20rem;
+    background-color: var(--surface-1);
+    padding: 1rem;
+  }
+
+  .configure h3 {
+    margin-top: 0;
   }
 </style>

@@ -175,3 +175,26 @@ export const countChildrenWithType = curry(
     return childrenCount
   },
 )
+
+export const updateComponentById = curry(
+  (
+    root: Component,
+    id: string,
+    updater: (component: Component) => Component,
+  ): Component => {
+    if (root.id === id) {
+      return updater(root)
+    }
+
+    if (root.type === 'block') {
+      return {
+        ...root,
+        content: root.content.map((item) =>
+          updateComponentById(item, id, updater),
+        ),
+      }
+    }
+
+    return root
+  },
+)

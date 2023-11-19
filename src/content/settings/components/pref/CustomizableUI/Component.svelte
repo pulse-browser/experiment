@@ -61,7 +61,7 @@
     hover = true
   }}
   on:click={(e) => {
-    if (!canDrag) return
+    if (!draggable || component.type === 'temp-drop-target') return
     e.stopPropagation()
     selectedId = component.id
   }}
