@@ -6,12 +6,22 @@ export type BlockSize =
   | { type: 'grow'; value: number }
   | { type: 'fixed'; value: number }
   | { type: 'content' }
+export const surfaceColors = [
+  'crust',
+  'mantle',
+  'base',
+  'surface-0',
+  'surface-1',
+  'surface-2',
+] as const
+export type SurfaceColors = (typeof surfaceColors)[number]
 export type BlockDirection = 'horizontal' | 'vertical'
 export interface BlockComponent {
   type: 'block'
   direction: BlockDirection
   content: Component[]
   size: BlockSize
+  color: SurfaceColors
 }
 
 export interface IconComponent {
@@ -53,7 +63,7 @@ export type ComponentId = { id: string }
 export type Component = ComponentId & ExportComponent
 
 export type PrefType =
-  | { type: 'string'; options?: string[] }
+  | { type: 'string'; options?: readonly string[] }
   | { type: 'number'; range?: [number, number]; steps?: number }
   | { type: 'block-size' }
 export const prefs: {
@@ -64,6 +74,7 @@ export const prefs: {
   block: [
     { key: 'direction', type: 'string', options: ['horizontal', 'vertical'] },
     { key: 'size', type: 'block-size' },
+    { key: 'color', type: 'string', options: surfaceColors },
   ],
   icon: [],
   'temp-drop-target': [],

@@ -19,6 +19,7 @@ export const cuiPreviewItems: CUIPreviewItem[] = [
       direction: 'horizontal',
       size: { type: 'content' },
       content: [],
+      color: 'base',
     },
   },
   {

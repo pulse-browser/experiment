@@ -25,6 +25,7 @@ export const createBlock = (
   direction,
   content,
   size,
+  color: 'base',
 })
 
 export const createIcon = (

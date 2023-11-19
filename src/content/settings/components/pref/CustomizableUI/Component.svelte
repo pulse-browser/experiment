@@ -35,7 +35,7 @@
 
   $: canDrag = draggable && !isRoot && component.type !== 'temp-drop-target'
   $: parentOrientation = getParentOrientation(root, component)
-  $: componentStyle = getComponentStyle(component)
+  $: componentStyle = getComponentStyle(component, parentOrientation)
   $: selected = selectedId === component.id
   $: isRoot = root.id === component.id
 
