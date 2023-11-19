@@ -35,12 +35,17 @@ export interface BrowserComponent {
   type: 'browser'
 }
 
+export interface OmniboxComponent {
+  type: 'omnibox'
+}
+
 export type ExportComponent =
   | BlockComponent
   | IconComponent
   | TempDropTargetComponent
   | SpacerComponent
   | BrowserComponent
+  | OmniboxComponent
 
 export type ComponentId = { id: string }
 export type Component = ComponentId & ExportComponent

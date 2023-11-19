@@ -22,6 +22,7 @@
     Spacer,
     TempDropTarget,
   } from './Components'
+  import Omnibox from './Components/Omnibox.svelte'
 
   export let component: Component
   export let root: ComponentId & BlockComponent
@@ -103,6 +104,8 @@
     <Spacer {verbose} bind:component bind:root />
   {:else if component.type === 'browser'}
     <Browser />
+  {:else if component.type === 'omnibox'}
+    <Omnibox {verbose} />
   {:else if component.type === 'temp-drop-target'}
     <TempDropTarget {verbose} />
   {/if}

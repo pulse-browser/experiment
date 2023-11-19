@@ -62,9 +62,15 @@ export const cuiPreviewItems: CUIPreviewItem[] = [
       type: 'icon',
       icon: 'menu-line',
       enabled: ALWAYS_ENABLE,
-      action: (tab) => {
+      action: () => {
         /* TODO */
       },
+    },
+  },
+  {
+    canAdd: ALWAYS_ADD,
+    component: {
+      type: 'omnibox',
     },
   },
 ]

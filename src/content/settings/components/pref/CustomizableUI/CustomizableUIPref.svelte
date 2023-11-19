@@ -38,7 +38,7 @@
 
   .item {
     display: flex;
-    margin-bottom: 1rem;
+    margin-bottom: 0.25rem;
   }
 
   .item.unusable {
