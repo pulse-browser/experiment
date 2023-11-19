@@ -126,16 +126,19 @@ export function calculateDropTargetRel(
 }
 
 export function applyDrop(
-  root: Component,
+  root: BlockComponent & ComponentId,
   toMove: Component,
   dropTarget: Component,
   rel: 'before' | 'after',
 ) {
-  const dropTargetParent = getParent(root, dropTarget)
+  const isRootDrop = dropTarget.id === root.id
+  let dropTargetParent = getParent(root, dropTarget)
   const toMoveParent = getParent(root, toMove)
 
+  if (isRootDrop) dropTargetParent = root
+
   // Remote from old parent
-  if (toMoveParent) {
+  if (toMoveParent && !isRootDrop) {
     const toMoveIndex = toMoveParent.content.findIndex(
       (item) => item.id === toMove.id,
     )

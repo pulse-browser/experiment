@@ -16,7 +16,7 @@
     {#each cuiPreviewItems as item}
       <div class={`item ${!item.canAdd(component) && 'unusable'}`}>
         <Component
-          component={{ id: nanoid(), ...item.component }}
+          component={{ id: nanoid(21, component.id), ...item.component }}
           draggable={item.canAdd(component)}
           root={createBlock()}
           verbose={true}
