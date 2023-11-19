@@ -201,3 +201,18 @@ export const updateComponentById = curry(
     return root
   },
 )
+
+export const removeChildById = curry(
+  (id: string, root: Component): Component => {
+    if (root.type === 'block') {
+      return {
+        ...root,
+        content: root.content
+          .filter((item) => item.id !== id)
+          .map(removeChildById(id)),
+      }
+    }
+
+    return root
+  },
+)

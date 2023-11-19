@@ -1,8 +1,13 @@
 <script lang="ts">
-  import { createBlock, cuiPreviewItems } from '@shared/customizableUI'
+  import {
+    createBlock,
+    cuiPreviewItems,
+    removeChildById,
+  } from '@shared/customizableUI'
   import Component from './Component.svelte'
   import { nanoid } from 'nanoid'
   import Configure from './Configure.svelte'
+  import { Button } from '@shared/components'
 
   let component = createBlock('vertical', [], { type: 'grow', value: 1 })
   let selectedId: string | null = null
@@ -37,6 +42,13 @@
 
     {#if selectedId}
       <Configure bind:root={component} bind:selectedId />
+
+      {#if selectedId !== component.id}
+        <Button
+          on:click={() => (component = removeChildById(selectedId, component))}
+          >Remove</Button
+        >
+      {/if}
     {/if}
   </div>
 </div>
