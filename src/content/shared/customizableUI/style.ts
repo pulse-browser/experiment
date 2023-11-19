@@ -29,7 +29,7 @@ function getBrowserStyle(): string {
 }
 
 function getSpacer(spacer: SpacerComponent): string {
-  return `flex-grow: ${spacer.grow};`
+  return `flex-grow: ${spacer.grow}; display: flex;`
 }
 
 export function getComponentStyle(component: ExportComponent): string {

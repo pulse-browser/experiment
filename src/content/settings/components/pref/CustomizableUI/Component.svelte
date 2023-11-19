@@ -48,7 +48,7 @@
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <!-- svelte-ignore a11y-no-static-element-interactions -->
 <div
-  class={`component ${component.type} ${hover && 'hover'}`}
+  class={`component ${component.type} ${hover && 'hover'} ${isRoot && 'root'}`}
   aria-checked={selected}
   style={componentStyle}
   draggable={canDrag}
@@ -100,7 +100,7 @@
   {:else if component.type === 'icon'}
     <IconButton bind:component />
   {:else if component.type === 'spacer'}
-    <Spacer {verbose} />
+    <Spacer {verbose} bind:component bind:root />
   {:else if component.type === 'browser'}
     <Browser />
   {:else if component.type === 'temp-drop-target'}
@@ -137,5 +137,9 @@
 
   .component.hover {
     border-color: lightblue;
+  }
+
+  .component.root {
+    height: 100%;
   }
 </style>

@@ -18,7 +18,7 @@ import type { Tab } from '../../browser/components/tabs/tab'
 export const createBlock = (
   direction: BlockDirection = 'horizontal',
   content: Component[] = [],
-  size: BlockSize = { type: 'fixed', value: 2 },
+  size: BlockSize = { type: 'content' },
 ): ComponentId & BlockComponent => ({
   id: nanoid(),
   type: 'block',

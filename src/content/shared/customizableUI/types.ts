@@ -5,6 +5,7 @@ import type { Tab } from '../../browser/components/tabs/tab'
 export type BlockSize =
   | { type: 'grow'; value: number }
   | { type: 'fixed'; value: number }
+  | { type: 'content' }
 export type BlockDirection = 'horizontal' | 'vertical'
 export interface BlockComponent {
   type: 'block'

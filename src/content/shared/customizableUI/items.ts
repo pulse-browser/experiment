@@ -17,7 +17,7 @@ export const cuiPreviewItems: CUIPreviewItem[] = [
     component: {
       type: 'block',
       direction: 'horizontal',
-      size: { type: 'fixed', value: 2 },
+      size: { type: 'content' },
       content: [],
     },
   },
@@ -54,6 +54,17 @@ export const cuiPreviewItems: CUIPreviewItem[] = [
       icon: 'refresh-line',
       enabled: ALWAYS_ENABLE,
       action: (tab) => tab.reload(),
+    },
+  },
+  {
+    canAdd: ALWAYS_ADD,
+    component: {
+      type: 'icon',
+      icon: 'menu-line',
+      enabled: ALWAYS_ENABLE,
+      action: (tab) => {
+        /* TODO */
+      },
     },
   },
 ]
