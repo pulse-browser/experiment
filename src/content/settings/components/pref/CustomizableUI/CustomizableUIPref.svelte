@@ -2,16 +2,26 @@
   import {
     createBlock,
     cuiPreviewItems,
+    fromExportType,
     removeChildById,
+    toExportType,
   } from '@shared/customizableUI'
   import Component from './Component.svelte'
   import { nanoid } from 'nanoid'
   import Configure from './Configure.svelte'
   import { Button } from '@shared/components'
 
-  let component = createBlock('vertical', [], { type: 'grow', value: 1 })
+  let component = fromExportType(
+    JSON.parse(
+      Services.prefs.getStringPref('browser.uiCustomization.state', '{}'),
+    ),
+  )
   let selectedId: string | null = null
-  $: console.log(component)
+  $: console.log(JSON.stringify(toExportType(component)))
+  $: Services.prefs.setStringPref(
+    'browser.uiCustomization.state',
+    JSON.stringify(toExportType(component)),
+  )
 </script>
 
 <div class="container">

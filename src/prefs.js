@@ -18,6 +18,10 @@ pref(
   'browser.contextmenus.page',
   'link__copy,link__new-tab,separator,selection__copy',
 );
+pref(
+  'browser.uiCustomization.state',
+  '{"type":"block","direction":"vertical","content":[{"type":"block","direction":"horizontal","size":{"type":"content"},"content":[],"color":"base"},{"type":"block","direction":"horizontal","size":{"type":"content"},"content":[{"type":"icon","icon":"arrow-left-line"},{"type":"icon","icon":"refresh-line"},{"type":"icon","icon":"arrow-right-line"},{"type":"spacer","grow":1},{"type":"omnibox"},{"type":"spacer","grow":1},{"type":"icon","icon":"menu-line"}],"color":"surface-0"},{"type":"browser"}],"size":{"type":"grow","value":1},"color":"base"}',
+);
 
 // Default keybinds
 pref('browser.keybinds.toolbox', 'accel+alt+shift+I');

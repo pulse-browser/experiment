@@ -49,7 +49,7 @@ export interface OmniboxComponent {
   type: 'omnibox'
 }
 
-export type ExportComponentMap = {
+export interface ExportComponentMap {
   block: BlockComponent
   icon: IconComponent
   'temp-drop-target': TempDropTargetComponent
@@ -57,10 +57,12 @@ export type ExportComponentMap = {
   browser: BrowserComponent
   omnibox: OmniboxComponent
 }
-export type ExportComponent = ExportComponentMap[keyof ExportComponentMap]
+
+export type ComponentMapKeys = keyof ExportComponentMap
+export type ExportComponent = ExportComponentMap[ComponentMapKeys]
 
 export type ComponentId = { id: string }
-export type Component = ComponentId & ExportComponent
+export type Component = ComponentId & ExportComponentMap[ComponentMapKeys]
 
 export type PrefType =
   | { type: 'string'; options?: readonly string[] }

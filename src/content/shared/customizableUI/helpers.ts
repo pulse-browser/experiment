@@ -9,6 +9,7 @@ import type {
   BrowserComponent,
   Component,
   ComponentId,
+  ExportComponent,
   IconComponent,
   SpacerComponent,
   TempDropTargetComponent,
@@ -217,3 +218,30 @@ export const removeChildById = curry(
     return root
   },
 )
+
+export function toExportType(component: Component): ExportComponent {
+  const output = { ...component } as ExportComponent & { id?: string }
+  delete output.id
+
+  if (output.type === 'block') {
+    return {
+      ...output,
+      // @ts-expect-error The types here are not perfectly setup
+      content: output.content.map(toExportType),
+    }
+  }
+
+  return output
+}
+
+export function fromExportType(component: ExportComponent): Component {
+  if (!component.type)
+    return createBlock('vertical', [], { type: 'grow', value: 1 })
+
+  const output = { ...component, id: nanoid() } as Component
+
+  if (output.type === 'block')
+    output.content = output.content.map(fromExportType)
+
+  return output
+}
