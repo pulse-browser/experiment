@@ -4,14 +4,15 @@
 
 <script lang="ts">
   import { customizableUIDynamicPref } from '@shared/customizableUI'
-  import BrowserContextMenu from './components/contextMenus/BrowserContextMenu.svelte'
+
   import CustomizableUi from './components/customizableUI/CustomizableUI.svelte'
+  import { BrowserContextMenu, HamburgerMenu } from './components/menus'
   import Keybindings from './components/keybindings/Keybindings.svelte'
+
   import { tabs, selectedTab } from './lib/globalApi'
 
   let component = customizableUIDynamicPref('browser.uiCustomization.state')
   $: currentTab = $tabs.find((tab) => tab.getId() == $selectedTab)
-  $: console.log($component, currentTab)
 </script>
 
 {#if currentTab}
@@ -19,6 +20,7 @@
 {/if}
 
 <BrowserContextMenu />
+<HamburgerMenu />
 <Keybindings />
 
 <style>

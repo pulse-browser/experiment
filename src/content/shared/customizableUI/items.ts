@@ -72,8 +72,9 @@ export const cuiPreviewItems: CUIPreviewItem[] = [
       type: 'icon',
       icon: 'menu-line',
       enabled: ALWAYS_ENABLE,
-      action: () => {
-        /* TODO */
+      action: async (_, button) => {
+        const { openHamburgerMenu } = await import('@browser/components/menus')
+        openHamburgerMenu(button, 'after_start')
       },
     },
   },

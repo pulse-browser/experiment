@@ -12,12 +12,17 @@
   export let root: Component
   export let tab: Tab
 
-  $: console.log(component)
+  let button: HTMLButtonElement | undefined
+
   $: enabled = component.enabled(tab)
 </script>
 
 <UIItemBase {component} {root}>
-  <ToolbarButton disabled={!$enabled} on:click={() => component.action(tab)}>
+  <ToolbarButton
+    bind:button
+    disabled={!$enabled}
+    on:click={() => component.action(tab, button)}
+  >
     <i class={`ri-${component.icon}`} />
   </ToolbarButton>
 </UIItemBase>

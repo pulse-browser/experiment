@@ -28,7 +28,7 @@ export interface IconComponent {
   type: 'icon'
   icon: string
   enabled: (tab: Tab) => Readable<boolean>
-  action: (tab: Tab) => void
+  action: (tab: Tab, button: HTMLElement) => void
 }
 
 export interface TempDropTargetComponent {
