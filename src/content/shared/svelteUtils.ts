@@ -13,6 +13,8 @@ import {
   readable,
 } from 'svelte/store'
 
+import { observable } from './xul/observable'
+
 type SubInvTuple<T> = [Subscriber<T>, Invalidator<T>]
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -106,3 +108,15 @@ export function resolverStore<T>(
     })
   })
 }
+
+// NOTE: Autocurrying doesn't infer T correctly
+export const dynamicStringPref =
+  <T>(processor: (value: string) => T) =>
+  (pref: string): Readable<T> =>
+    readable(processor(Services.prefs.getStringPref(pref, '')), (set) => {
+      const observer = observable(() =>
+        set(processor(Services.prefs.getStringPref(pref, ''))),
+      )
+      Services.prefs.addObserver(pref, observer)
+      return () => Services.prefs.removeObserver(pref, observer)
+    })

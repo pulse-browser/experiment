@@ -3,81 +3,29 @@
    - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
 
 <script lang="ts">
-  import Browser from './components/Browser.svelte'
-  import BrowserContextMenu from './components/contextMenus/BrowserContextMenu.svelte'
+  import { customizableUIDynamicPref } from '@shared/customizableUI'
+
+  import CustomizableUi from './components/customizableUI/CustomizableUI.svelte'
+  import { BrowserContextMenu, HamburgerMenu } from './components/menus'
   import Keybindings from './components/keybindings/Keybindings.svelte'
-  import Tab from './components/tabs/Tab.svelte'
-  import Toolbar from './components/toolbar/Toolbar.svelte'
 
-  import { tabs, openTab, selectedTab } from './lib/globalApi'
+  import { tabs, selectedTab } from './lib/globalApi'
 
+  let component = customizableUIDynamicPref('browser.uiCustomization.state')
   $: currentTab = $tabs.find((tab) => tab.getId() == $selectedTab)
-  // We don't care about the order that browers are rendered in the dom, but we
-  // want to allow tab reordering. This should stop unnessisary updates
-  $: sortedBrowers = [...$tabs].sort(
-    (tabA, tabB) => tabA.getId() - tabB.getId(),
-  )
 </script>
 
-<div class="content">
-  <!-- svelte-ignore a11y-no-static-element-interactions -->
-  <div class="tabs" on:drop|preventDefault>
-    {#each $tabs as tab (tab.getId())}
-      <Tab {tab} bind:selectedTab={$selectedTab} />
-    {/each}
-    <button on:click={() => openTab()} class="tabs__button">
-      <i class="ri-add-line ri-lg" />
-    </button>
-  </div>
-
-  {#if currentTab}
-    <Toolbar tab={currentTab} />
-  {/if}
-
-  <div class="browsers">
-    {#each sortedBrowers as tab (tab.getId())}
-      <Browser
-        {tab}
-        selectedTab={$selectedTab}
-        on:constructed={(_) => {
-          if ($selectedTab == -1) selectedTab.set(tab.getId())
-        }}
-      />
-    {/each}
-  </div>
-</div>
+{#if currentTab}
+  <CustomizableUi component={$component} root={$component} tab={currentTab} />
+{/if}
 
 <BrowserContextMenu />
+<HamburgerMenu />
 <Keybindings />
 
 <style>
-  .content {
+  /* The root component must be specified to be full height */
+  :global(body > .component) {
     height: 100%;
-    display: flex;
-    flex-direction: column;
-  }
-
-  .tabs {
-    display: flex;
-    gap: 0.25rem;
-    overflow-x: scroll;
-  }
-
-  .tabs__button {
-    border: none;
-    background: none;
-    margin: 0.25rem 0;
-    border-radius: 0.5rem;
-
-    width: 2.5rem;
-    height: 2.5rem;
-  }
-
-  .tabs__button:hover {
-    background: var(--surface);
-  }
-
-  .browsers {
-    flex-grow: 1;
   }
 </style>

@@ -70,6 +70,10 @@ declare interface XULFindBarElement extends HTMLElement {
   close()
 }
 
+declare interface XULPanel extends HTMLElement {
+  openPopup(target: HTMLElement, anchor: string)
+}
+
 declare interface XULMenuPopup extends HTMLElement {
   openPopupAtScreen(
     x?: number,

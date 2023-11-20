@@ -3,17 +3,19 @@
    - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
 
 <script lang="ts">
-  import type { Tab } from '../../tabs/tab'
-  import { Button } from '../../../../shared/components'
-  import TextInput from '../../../../shared/components/TextInput.svelte'
+  import { onMount } from 'svelte'
+
+  import { Button } from '@shared/components'
+  import TextInput from '@shared/components/TextInput.svelte'
   import {
     create,
     type BookmarkTreeNode,
     update,
     remove,
-  } from '../../../../shared/ExtBookmarkAPI'
-  import ToolbarButton from '../ToolbarButton.svelte'
-  import { onMount } from 'svelte'
+  } from '@shared/ExtBookmarkAPI'
+  import ToolbarButton from '@shared/components/ToolbarButton.svelte'
+
+  import type { Tab } from '../tabs/tab'
 
   export let tab: Tab
 

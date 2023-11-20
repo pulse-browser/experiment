@@ -64,6 +64,7 @@ const sharedSettings = (contentFiles, dev) => {
       extensions: ['.ts', '.mjs', '.js', '.svelte'],
       alias: {
         '@shared': resolve('src/content/shared'),
+        '@browser': resolve('src/content/browser'),
       },
     },
 

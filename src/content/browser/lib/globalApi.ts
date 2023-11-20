@@ -24,7 +24,8 @@ const uriPref = (pref: string) => (): nsIURIType =>
 const newTabUri = uriPref('browser.newtab.default')
 const newWindowUri = uriPref('browser.newwindow.default')
 
-export const tabs = viewableWritable([new Tab(newWindowUri())])
+export const tabs = viewableWritable<Tab[]>([])
+openTab(newWindowUri())
 
 export function openTab(uri: nsIURIType = newTabUri()) {
   const newTab = new Tab(uri)
@@ -126,6 +127,9 @@ export const windowApi = {
   windowTriggers: mitt<WindowTriggers>(),
   closeTab,
   openTab,
+  get tabs() {
+    return tabs.readOnce()
+  },
   setIcon: (browser: XULBrowserElement, iconURL: string) =>
     tabs
       .readOnce()

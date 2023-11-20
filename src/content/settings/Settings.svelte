@@ -9,9 +9,12 @@
   } from '../shared/search/constants'
   import Category from './components/Category.svelte'
   import SubCategory from './components/SubCategory.svelte'
-  import { ContextMenuPref } from './components/pref/ContextMenuPref'
-  import SelectPref from './components/pref/SelectPref.svelte'
-  import StringPref from './components/pref/StringPref.svelte'
+  import {
+    ContextMenuPref,
+    SelectPref,
+    StringPref,
+    CustomizableUiPref,
+  } from './components/pref'
   import { SidebarItemData, Sidebar } from './components/sidebar'
 
   let sidebarItems: SidebarItemData[] = []
@@ -46,8 +49,11 @@
     </SubCategory>
   </Category>
 
-  <Category bind:sidebarItems title="Context Menus">
-    <SubCategory title="Content">
+  <Category bind:sidebarItems title="Layout">
+    <SubCategory title="Customizable UI">
+      <CustomizableUiPref />
+    </SubCategory>
+    <SubCategory title="Context Menu">
       <ContextMenuPref pref="browser.contextmenus.page" />
     </SubCategory>
   </Category>

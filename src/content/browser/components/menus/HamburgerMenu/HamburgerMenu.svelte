@@ -3,28 +3,17 @@
    - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
 
 <script lang="ts">
-  import { initDevTools } from '../../lib/devtools'
-  import { openTab } from '../../lib/globalApi'
-  import { resource } from '../../lib/resources'
-  import HamburgerMenuItem from './HamburgerMenuItem.svelte'
-  import ToolbarButton from './ToolbarButton.svelte'
+  import { initDevTools } from '@browser/lib/devtools'
+  import { openTab } from '@browser/lib/globalApi'
+  import { resource } from '@browser/lib/resources'
 
-  let panel: any
-  let button: any
+  import HamburgerMenuItem from './HamburgerMenuItem.svelte'
 
   const openDialogWindowAction = (url: string) => () =>
     Services.ww.openWindow(window, url, '_blank', 'chrome,dialog=yes,all', null)
 </script>
 
-<!-- Positioning docs: https://udn.realityripple.com/docs/Archive/Mozilla/XUL/PopupGuide/Positioning  --->
-<ToolbarButton
-  on:click={() => panel.openPopup(button, 'bottomright topright')}
-  bind:button
->
-  <i class="ri-menu-line" />
-</ToolbarButton>
-
-<xul:panel bind:this={panel} class="panel">
+<xul:panel class="panel" id="hamburgerMenu">
   <div class="panel__container">
     <HamburgerMenuItem
       on:click={openDialogWindowAction(
