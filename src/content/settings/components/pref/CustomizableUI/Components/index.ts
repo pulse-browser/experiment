@@ -1,7 +1,9 @@
 import Block from './Block.svelte'
 import Browser from './Browser.svelte'
 import IconButton from './IconButton.svelte'
+import Omnibox from './Omnibox.svelte'
 import Spacer from './Spacer.svelte'
+import Tabs from './Tabs.svelte'
 import TempDropTarget from './TempDropTarget.svelte'
 
-export { Block, Browser, IconButton, Spacer, TempDropTarget }
+export { Block, Browser, IconButton, Omnibox, Spacer, Tabs, TempDropTarget }

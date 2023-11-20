@@ -61,6 +61,15 @@ export const cuiPreviewItems: CUIPreviewItem[] = [
     canAdd: ALWAYS_ADD,
     component: {
       type: 'icon',
+      icon: 'add-line',
+      enabled: ALWAYS_ENABLE,
+      action: () => window.windowApi.openTab(),
+    },
+  },
+  {
+    canAdd: ALWAYS_ADD,
+    component: {
+      type: 'icon',
       icon: 'menu-line',
       enabled: ALWAYS_ENABLE,
       action: () => {
@@ -73,5 +82,9 @@ export const cuiPreviewItems: CUIPreviewItem[] = [
     component: {
       type: 'omnibox',
     },
+  },
+  {
+    canAdd: ALWAYS_ADD,
+    component: { type: 'tabs' },
   },
 ]

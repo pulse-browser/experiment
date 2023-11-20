@@ -126,6 +126,9 @@ export const windowApi = {
   windowTriggers: mitt<WindowTriggers>(),
   closeTab,
   openTab,
+  get tabs() {
+    return tabs.readOnce()
+  },
   setIcon: (browser: XULBrowserElement, iconURL: string) =>
     tabs
       .readOnce()

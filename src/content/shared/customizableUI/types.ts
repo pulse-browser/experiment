@@ -49,6 +49,10 @@ export interface OmniboxComponent {
   type: 'omnibox'
 }
 
+export interface TabsComponent {
+  type: 'tabs'
+}
+
 export interface ExportComponentMap {
   block: BlockComponent
   icon: IconComponent
@@ -56,6 +60,7 @@ export interface ExportComponentMap {
   spacer: SpacerComponent
   browser: BrowserComponent
   omnibox: OmniboxComponent
+  tabs: TabsComponent
 }
 
 export type ComponentMapKeys = keyof ExportComponentMap
@@ -83,4 +88,5 @@ export const prefs: {
   spacer: [{ key: 'grow', type: 'number' }],
   browser: [],
   omnibox: [],
+  tabs: [],
 }

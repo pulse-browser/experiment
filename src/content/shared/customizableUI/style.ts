@@ -57,6 +57,13 @@ function getOmniboxStyle(parentOrientation: BlockDirection): string {
   `
 }
 
+function getTabsStyle(): string {
+  return `
+    display:flex;
+    gap: 0.25rem;
+  `
+}
+
 export function getComponentStyle(
   component: ExportComponent,
   parentOrientation: BlockDirection,
@@ -70,6 +77,8 @@ export function getComponentStyle(
       return getSpacer(component, parentOrientation)
     case 'omnibox':
       return getOmniboxStyle(parentOrientation)
+    case 'tabs':
+      return getTabsStyle()
     default:
       return ''
   }
