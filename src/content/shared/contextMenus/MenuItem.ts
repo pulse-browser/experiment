@@ -1,12 +1,9 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
-import { type Readable, readable } from 'svelte/store'
-
 import { dynamicStringPref } from '@shared/svelteUtils'
 
 import type { ContextMenuInfo } from '../../../actors/ContextMenu.types'
-import { observable } from '../xul/observable'
 import { MENU_ITEM_ACTIONS } from './menuItems'
 
 /**
