@@ -2,17 +2,20 @@ import curry from 'fnts/curry'
 import { nanoid } from 'nanoid'
 import { type Readable, readable } from 'svelte/store'
 
-import type {
-  BlockComponent,
-  BlockDirection,
-  BlockSize,
-  BrowserComponent,
-  Component,
-  ComponentId,
-  ExportComponent,
-  IconComponent,
-  SpacerComponent,
-  TempDropTargetComponent,
+import { dynamicStringPref } from '@shared/svelteUtils'
+
+import {
+  type BlockComponent,
+  type BlockDirection,
+  type BlockSize,
+  type BrowserComponent,
+  type Component,
+  type ComponentId,
+  type ExportComponent,
+  type IconComponent,
+  type SpacerComponent,
+  type TempDropTargetComponent,
+  cuiPreviewItems,
 } from '.'
 import type { Tab } from '../../browser/components/tabs/tab'
 
@@ -245,3 +248,44 @@ export function fromExportType(component: ExportComponent): Component {
 
   return output
 }
+
+const fromExportTypeStableInternal =
+  (parentId: string) =>
+  (component: ExportComponent, index: number): Component => {
+    if (!component.type)
+      return createBlock('vertical', [], { type: 'grow', value: 1 })
+
+    const id = `${parentId}-${index}`
+    const output = { ...component, id } as Component
+
+    if (output.type === 'block')
+      output.content = output.content.map(fromExportTypeStableInternal(id))
+
+    // Icons have non-serializable properties that need to be loaded in
+    if (output.type === 'icon') {
+      const predefinedItem = cuiPreviewItems.find(
+        (existingItem) =>
+          existingItem.component.type === 'icon' &&
+          existingItem.component.icon === output.icon,
+      )?.component as IconComponent | undefined
+
+      output.action = predefinedItem?.action ?? (() => {})
+      output.enabled = predefinedItem?.enabled ?? (() => readable(false))
+    }
+
+    return output
+  }
+
+/**
+ * A variant of {@link fromExportType} that uses index based IDs instead of
+ * random ids
+ *
+ * It also performs extra initialization steps that are required for use in the
+ * browser
+ */
+export const fromExportTypeStable = (component: ExportComponent) =>
+  fromExportTypeStableInternal('root')(component, 0)
+
+export const customizableUIDynamicPref = dynamicStringPref((json) =>
+  fromExportTypeStable(JSON.parse(json)),
+)

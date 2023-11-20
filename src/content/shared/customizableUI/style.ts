@@ -47,13 +47,22 @@ function getSpacer(
   `
 }
 
-function getOmniboxStyle(parentOrientation: BlockDirection): string {
+function getOmniboxStyle(
+  parentOrientation: BlockDirection,
+  preview: boolean,
+): string {
   return `
     flex-grow: ${parentOrientation === 'horizontal' ? 1 : 0};
 
+    ${
+      preview
+        ? `
     display: flex;
     justify-content: center;
     align-items: center;
+    `
+        : ''
+    }
   `
 }
 
@@ -67,6 +76,7 @@ function getTabsStyle(): string {
 export function getComponentStyle(
   component: ExportComponent,
   parentOrientation: BlockDirection,
+  preview = true,
 ): string {
   switch (component.type) {
     case 'block':
@@ -76,7 +86,7 @@ export function getComponentStyle(
     case 'spacer':
       return getSpacer(component, parentOrientation)
     case 'omnibox':
-      return getOmniboxStyle(parentOrientation)
+      return getOmniboxStyle(parentOrientation, preview)
     case 'tabs':
       return getTabsStyle()
     default:

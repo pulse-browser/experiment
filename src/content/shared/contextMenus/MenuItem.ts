@@ -3,8 +3,10 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 import { type Readable, readable } from 'svelte/store'
 
+import { dynamicStringPref } from '@shared/svelteUtils'
+
 import type { ContextMenuInfo } from '../../../actors/ContextMenu.types'
-import { observable } from '../../browser/lib/xul/observable'
+import { observable } from '../xul/observable'
 import { MENU_ITEM_ACTIONS } from './menuItems'
 
 /**
@@ -59,10 +61,4 @@ export const fromIdString = (idString: string): MenuItem[] =>
 export const getFromPref = (pref: string): MenuItem[] =>
   fromIdString(Services.prefs.getStringPref(pref, ''))
 
-export function getMenuItemsDynamicPref(pref: string): Readable<MenuItem[]> {
-  return readable(getFromPref(pref), (set) => {
-    const observer = observable(() => set(getFromPref(pref)))
-    Services.prefs.addObserver(pref, observer)
-    return () => Services.prefs.removeObserver(pref, observer)
-  })
-}
+export const getMenuItemsDynamicPref = dynamicStringPref(fromIdString)
