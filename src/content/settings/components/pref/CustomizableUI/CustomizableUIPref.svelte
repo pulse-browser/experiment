@@ -24,6 +24,11 @@
   )
 </script>
 
+<p>
+  <strong>Warning:</strong> Editing this layout will likely unload all of your tabs!
+  Proceed with caution
+</p>
+
 <div class="container">
   <div class="items">
     <h3>Items</h3>
