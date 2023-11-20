@@ -73,6 +73,13 @@ function getTabsStyle(): string {
   `
 }
 
+function getIconButtonStyle(): string {
+  return `
+    display: flex;
+    align-items: center;
+  `
+}
+
 export function getComponentStyle(
   component: ExportComponent,
   parentOrientation: BlockDirection,
@@ -89,6 +96,8 @@ export function getComponentStyle(
       return getOmniboxStyle(parentOrientation, preview)
     case 'tabs':
       return getTabsStyle()
+    case 'icon':
+      return getIconButtonStyle()
     default:
       return ''
   }
