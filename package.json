@@ -93,7 +93,8 @@
       {
         "files": "src/prefs.js",
         "options": {
-          "semi": true
+          "semi": true,
+          "trailingComma": "es5"
         }
       }
     ]

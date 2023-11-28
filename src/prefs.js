@@ -16,7 +16,11 @@ pref('browser.search.engine.default', 'google@search.fushra.com');
 // Context menu prefs
 pref(
   'browser.contextmenus.page',
-  'link__copy,link__new-tab,separator,selection__copy',
+  'link__copy,link__new-tab,separator,selection__copy'
+);
+pref(
+  'browser.uiCustomization.state',
+  '{"type":"block","direction":"vertical","content":[{"type":"block","direction":"horizontal","size":{"type":"content"},"content":[{"type":"tabs"},{"type":"icon","icon":"add-line"}],"color":"base"},{"type":"block","direction":"horizontal","size":{"type":"content"},"content":[{"type":"icon","icon":"arrow-left-line"},{"type":"icon","icon":"refresh-line"},{"type":"icon","icon":"arrow-right-line"},{"type":"spacer","grow":1},{"type":"omnibox"},{"type":"spacer","grow":1},{"type":"icon","icon":"menu-line"}],"color":"surface-0"},{"type":"browser"}],"size":{"type":"grow","value":1},"color":"base"}'
 );
 pref(
   'browser.uiCustomization.state',
@@ -86,7 +90,7 @@ pref('browser.download.alwaysOpenInSystemViewerContextMenuItem', true);
 // viewable internally.
 pref(
   'browser.download.viewableInternally.enabledTypes',
-  'xml,svg,webp,avif,jxl',
+  'xml,svg,webp,avif,jxl'
 );
 
 // This controls whether the button is automatically shown/hidden depending
