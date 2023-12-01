@@ -1,7 +1,6 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
-
 import curry from 'fnts/curry'
 
 import type { MenuItemAction, VisibilityCheck } from '.'
@@ -61,7 +60,8 @@ const saveImageUrl = onStringValue((value, info) => {
     false,
     'SaveImageTitle',
     null,
-    resource.E10SUtils.deserializeReferrerInfo(info.context.referrerInfo) ||
+    (info.context.referrerInfo &&
+      resource.E10SUtils.deserializeReferrerInfo(info.context.referrerInfo)) ||
       null,
     wgp?.cookieJarSettings,
     null,
