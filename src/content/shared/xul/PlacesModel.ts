@@ -1,7 +1,6 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
-
 import mitt from 'mitt'
 import { type Readable, get, readable } from 'svelte/store'
 
@@ -56,6 +55,7 @@ function getQuerySortingOptions(groupType: HistoryGroupType): {
       break
     case HistoryGroupType.GroupByDate:
       resultType = NHQO.RESULTS_AS_DATE_QUERY
+      sortingMode = NHQO.SORT_BY_DATE_DESCENDING
       break
     case HistoryGroupType.GroupBySite:
       resultType = NHQO.RESULTS_AS_SITE_QUERY

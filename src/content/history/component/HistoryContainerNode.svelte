@@ -35,7 +35,7 @@
     {/if}
   </Entry>
 
-  <ul use:melt={$group({ id })}>
+  <ul use:melt={$group({ id })} class="tree-group">
     {#if open}
       {#each children as node}
         <HistoryNode {treeId} {node} />
@@ -43,3 +43,9 @@
     {/if}
   </ul>
 </li>
+
+<style>
+  .tree-group {
+    padding-inline-start: 2rem;
+  }
+</style>

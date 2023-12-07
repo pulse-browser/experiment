@@ -29,7 +29,8 @@
   .tree-item {
     border: none;
     margin: 0;
-    padding: 0;
+    padding: 0.25rem;
+    border-radius: 0.25rem;
     background: none;
 
     width: 100%;
@@ -47,5 +48,11 @@
     white-space: nowrap;
     overflow: hidden;
     max-width: 90%;
+  }
+
+  .tree-item .icon {
+    display: flex;
+    align-items: center;
+    margin-right: 0.5rem;
   }
 </style>

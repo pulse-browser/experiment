@@ -20,5 +20,5 @@
 </script>
 
 <Entry mlt={$item({ id })} {title}>
-  <img src={node.icon} />
+  <img src={node.icon} alt="Website favicon" />
 </Entry>
