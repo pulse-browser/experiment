@@ -1,22 +1,15 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+import { lazy } from './lazy'
 
 /**
+ * @fileoverview
  * A helper for interacting with bookmarks with a similar target API to the webextention
  * api
  */
-import { lazyESModuleGetters } from './TypedImportUtilities'
 
-const lazy = lazyESModuleGetters({
-  PlacesUtils: 'resource://gre/modules/PlacesUtils.sys.mjs',
-  Bookmarks: 'resource://gre/modules/Bookmarks.sys.mjs',
-})
-
-const { TYPE_BOOKMARK, TYPE_FOLDER, TYPE_SEPARATOR } = lazy.Bookmarks as Record<
-  string,
-  number
->
+const { TYPE_BOOKMARK, TYPE_FOLDER, TYPE_SEPARATOR } = lazy.Bookmarks
 
 const BOOKMARK_SEPERATOR_URL = 'data:' as const
 const BOOKMARKS_TYPES_TO_API_TYPES_MAP = new Map<number, BookmarkType>([

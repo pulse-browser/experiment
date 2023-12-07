@@ -1,11 +1,12 @@
 // @ts-check
-const { join, resolve } = require('node:path')
-
-const HtmlWebpackPlugin = require('html-webpack-plugin')
-const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-const WebpackLicensePlugin = require('webpack-license-plugin')
-const preprocess = require('svelte-preprocess')
-const CopyWebpackPlugin = require('copy-webpack-plugin')
+import { preprocessMeltUI } from '@melt-ui/pp'
+import CopyWebpackPlugin from 'copy-webpack-plugin'
+import HtmlWebpackPlugin from 'html-webpack-plugin'
+import MiniCssExtractPlugin from 'mini-css-extract-plugin'
+import { join, resolve } from 'node:path'
+import preprocess from 'svelte-preprocess'
+import sequence from 'svelte-sequential-preprocessor'
+import WebpackLicensePlugin from 'webpack-license-plugin'
 
 const HTML_TEMPLATE_FILE = './src/content/index.html'
 
@@ -19,7 +20,7 @@ const absolutePackage = (file) => resolve('node_modules', file)
  * @property {string} outFolder
  */
 
-exports.default = (env, argv) => {
+export default (env, argv) => {
   const dev = argv.mode === 'development'
 
   return sharedSettings(
@@ -27,6 +28,7 @@ exports.default = (env, argv) => {
       { title: 'Browser', folder: 'browser', outFolder: '' },
       { title: 'Settings', folder: 'settings', outFolder: 'settings' },
       { title: 'Bookmarks', folder: 'bookmarks', outFolder: 'bookmarks' },
+      { title: 'History', folder: 'history', outFolder: 'history' },
       { title: 'Credits', folder: 'credits', outFolder: 'credits' },
       { title: 'Test runner', folder: 'tests', outFolder: 'tests' },
     ],
@@ -67,6 +69,10 @@ const sharedSettings = (contentFiles, dev) => {
         '@browser': resolve('src/content/browser'),
       },
     },
+    resolveLoader: {
+      modules: ['node_modules'],
+      extensions: ['.js', '.json'],
+    },
 
     devtool: dev ? 'inline-source-map' : 'source-map',
     devServer: {
@@ -103,7 +109,7 @@ const sharedSettings = (contentFiles, dev) => {
               },
               emitCss: !dev,
               hotReload: dev,
-              preprocess: preprocess(),
+              preprocess: sequence([preprocess(), preprocessMeltUI()]),
             },
           },
         },

@@ -52,3 +52,9 @@
     </div>
   {/each}
 {/await}
+
+<style>
+  :global(body) {
+    overflow: scroll;
+  }
+</style>

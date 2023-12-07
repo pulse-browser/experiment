@@ -30,6 +30,13 @@
       Bookmarks
     </HamburgerMenuItem>
     <HamburgerMenuItem
+      on:click={openDialogWindowAction(
+        'chrome://browser/content/history/index.html',
+      )}
+    >
+      History
+    </HamburgerMenuItem>
+    <HamburgerMenuItem
       on:click={() =>
         openTab(
           resource.NetUtil.newURI(

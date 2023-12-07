@@ -5,9 +5,15 @@ settings:
   excludeLinksFromLockfile: false
 
 patchedDependencies:
+  '@melt-ui/svelte@0.64.5':
+    hash: aeypykqddydgtdgxoo44wxfeey
+    path: patches/@melt-ui__svelte@0.64.5.patch
   svelte@4.2.1:
     hash: cm43hmf4gczhssi3isoosy53r4
     path: patches/svelte@4.2.1.patch
+  webpack-license-plugin@4.4.2:
+    hash: j2giecj6dvolnysmkqbx73rnua
+    path: patches/webpack-license-plugin@4.4.2.patch
 
 dependencies:
   '@catppuccin/palette':
@@ -30,6 +36,12 @@ dependencies:
     version: 2.0.0
 
 devDependencies:
+  '@melt-ui/pp':
+    specifier: ^0.1.4
+    version: 0.1.4(@melt-ui/svelte@0.64.5)(svelte@4.2.1)
+  '@melt-ui/svelte':
+    specifier: ^0.64.0
+    version: 0.64.5(patch_hash=aeypykqddydgtdgxoo44wxfeey)(svelte@4.2.1)
   '@tinyhttp/app':
     specifier: ^2.2.1
     version: 2.2.1
@@ -65,7 +77,7 @@ devDependencies:
     version: 8.0.1
   gecko-types:
     specifier: github:quark-platform/gecko-types
-    version: github.com/quark-platform/gecko-types/2d3c36dfc177629bbe6118c5e8c64a04ac3dddc9
+    version: github.com/quark-platform/gecko-types/3e535488ede5d1a1a666e4b24e7a0d81e84d27ab
   html-webpack-plugin:
     specifier: ^5.5.3
     version: 5.5.3(webpack@5.89.0)
@@ -102,6 +114,9 @@ devDependencies:
   svelte-preprocess:
     specifier: ^5.0.4
     version: 5.0.4(postcss@8.4.31)(svelte@4.2.1)(typescript@5.2.2)
+  svelte-sequential-preprocessor:
+    specifier: ^2.0.1
+    version: 2.0.1
   ts-loader:
     specifier: ^9.5.0
     version: 9.5.0(typescript@5.2.2)(webpack@5.89.0)
@@ -119,7 +134,7 @@ devDependencies:
     version: 4.15.1(webpack-cli@5.1.4)(webpack@5.89.0)
   webpack-license-plugin:
     specifier: ^4.4.2
-    version: 4.4.2(webpack@5.89.0)
+    version: 4.4.2(patch_hash=j2giecj6dvolnysmkqbx73rnua)(webpack@5.89.0)
   zora:
     specifier: ^5.2.0
     version: 5.2.0
@@ -317,6 +332,23 @@ packages:
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     dev: true
 
+  /@floating-ui/core@1.5.2:
+    resolution: {integrity: sha512-Ii3MrfY/GAIN3OhXNzpCKaLxHQfJF9qvwq/kEJYdqDxeIHa01K8sldugal6TmeeXl+WMvhv9cnVzUTaFFJF09A==}
+    dependencies:
+      '@floating-ui/utils': 0.1.6
+    dev: true
+
+  /@floating-ui/dom@1.5.3:
+    resolution: {integrity: sha512-ClAbQnEqJAKCJOEbbLo5IUlZHkNszqhuxS4fHAVxRPXPya6Ysf2G8KypnYcOTpx6I8xcgF9bbHb6g/2KpbV8qA==}
+    dependencies:
+      '@floating-ui/core': 1.5.2
+      '@floating-ui/utils': 0.1.6
+    dev: true
+
+  /@floating-ui/utils@0.1.6:
+    resolution: {integrity: sha512-OfX7E2oUDYxtBvsuS4e/jSn4Q9Qb6DzgeYtsAdkPZ47znpoNsMgZw0+tVijiv3uGNR6dgNlty6r9rzIzHjtd/A==}
+    dev: true
+
   /@humanwhocodes/config-array@0.11.13:
     resolution: {integrity: sha512-JSBDMiDKSzQVngfRjOdFXgFfklaXI4K9nLF49Auh21lmBWRLIK3+xTErTWD4KU54pb6coM6ESE7Awz/FNU3zgQ==}
     engines: {node: '>=10.10.0'}
@@ -335,6 +367,12 @@ packages:
 
   /@humanwhocodes/object-schema@2.0.1:
     resolution: {integrity: sha512-dvuCeX5fC9dXgJn9t+X5atfmgQAzUOWqS1254Gh0m6i8wKd10ebXkfNKiRK+1GWi/yTvvLDHpoxLr0xxxeslWw==}
+    dev: true
+
+  /@internationalized/date@3.5.0:
+    resolution: {integrity: sha512-nw0Q+oRkizBWMioseI8+2TeUPEyopJVz5YxoYVzR0W1v+2YytiYah7s/ot35F149q/xAg4F1gT/6eTd+tsUpFQ==}
+    dependencies:
+      '@swc/helpers': 0.5.3
     dev: true
 
   /@jridgewell/gen-mapping@0.3.3:
@@ -378,6 +416,33 @@ packages:
     resolution: {integrity: sha512-Hcv+nVC0kZnQ3tD9GVu5xSMR4VVYOteQIr/hwFPVEvPdlXqgGEuRjiheChHgdM+JyqdgNcmzZOX/tnl0JOiI7A==}
     dev: true
 
+  /@melt-ui/pp@0.1.4(@melt-ui/svelte@0.64.5)(svelte@4.2.1):
+    resolution: {integrity: sha512-zR+Kl3CZJPJBHW8V7YcdQCMI/dVcnW9Ct3yGbVaIywYVStVRS7F9uEDOea3xLLT2WTGodQePzPlUn53yKFu87g==}
+    engines: {pnpm: '>=8.6.3'}
+    peerDependencies:
+      '@melt-ui/svelte': '>= 0.29.0'
+      svelte: ^3.55.0 || ^4.0.0 || ^5.0.0-next.1
+    dependencies:
+      '@melt-ui/svelte': 0.64.5(patch_hash=aeypykqddydgtdgxoo44wxfeey)(svelte@4.2.1)
+      estree-walker: 3.0.3
+      svelte: 4.2.1(patch_hash=cm43hmf4gczhssi3isoosy53r4)
+    dev: true
+
+  /@melt-ui/svelte@0.64.5(patch_hash=aeypykqddydgtdgxoo44wxfeey)(svelte@4.2.1):
+    resolution: {integrity: sha512-nPQA2guLuLitpZ6A968eWyGMC2riTKLq4R26hPRLdzP/JHCpd9yvddgMwil8JKbUKjT2dC3i358vUqeUOGxknA==}
+    peerDependencies:
+      svelte: '>=3 <5'
+    dependencies:
+      '@floating-ui/core': 1.5.2
+      '@floating-ui/dom': 1.5.3
+      '@internationalized/date': 3.5.0
+      dequal: 2.0.3
+      focus-trap: 7.5.4
+      nanoid: 4.0.2
+      svelte: 4.2.1(patch_hash=cm43hmf4gczhssi3isoosy53r4)
+    dev: true
+    patched: true
+
   /@nodelib/fs.scandir@2.1.5:
     resolution: {integrity: sha512-vq24Bq3ym5HEQm2NKCr3yXDwjc7vTsEThRDnkp2DK9p1uqLR+DHurm/NOTo0KG7HYHU7eppKZj3MyqYuMBf62g==}
     engines: {node: '>= 8'}
@@ -397,6 +462,12 @@ packages:
     dependencies:
       '@nodelib/fs.scandir': 2.1.5
       fastq: 1.15.0
+    dev: true
+
+  /@swc/helpers@0.5.3:
+    resolution: {integrity: sha512-FaruWX6KdudYloq1AHD/4nU+UsMTdNE8CKyrseXWEcgjDAbvkwJg2QGPAnfIJLIWsjZOSPLOAykK6fuYp4vp4A==}
+    dependencies:
+      tslib: 2.6.2
     dev: true
 
   /@tinyhttp/accepts@2.2.0:
@@ -2049,6 +2120,12 @@ packages:
       typescript: 5.2.2
     dev: false
 
+  /focus-trap@7.5.4:
+    resolution: {integrity: sha512-N7kHdlgsO/v+iD/dMoJKtsSqs5Dz/dXZVebRgJw23LDk+jMi/974zyiOYDziY2JPp8xivq9BmUGwIJMiuSBi7w==}
+    dependencies:
+      tabbable: 6.2.0
+    dev: true
+
   /follow-redirects@1.15.3:
     resolution: {integrity: sha512-1VzOtuEM8pC9SFU1E+8KfTjZyMztRsgEfwQl44z8A25uy13jSzTj6dyK2Df52iV0vgHCfBwLhDWevLn95w5v6Q==}
     engines: {node: '>=4.0'}
@@ -2833,6 +2910,12 @@ packages:
   /nanoid@3.3.6:
     resolution: {integrity: sha512-BGcqMMJuToF7i1rt+2PWSNVnWIkGCU78jBG3RxO/bZlnZPK2Cmi2QaffxGO/2RvWi9sL+FAiRiXMgsyxQ1DIDA==}
     engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
+    hasBin: true
+    dev: true
+
+  /nanoid@4.0.2:
+    resolution: {integrity: sha512-7ZtY5KTCNheRGfEFxnedV5zFiORN1+Y1N6zvPTnHQd8ENUvfaDBeuJDZb2bN/oXwXxu3qkTXDzy57W5vAmDTBw==}
+    engines: {node: ^14 || ^16 || >=18}
     hasBin: true
     dev: true
 
@@ -3874,6 +3957,14 @@ packages:
       typescript: 5.2.2
     dev: true
 
+  /svelte-sequential-preprocessor@2.0.1:
+    resolution: {integrity: sha512-N5JqlBni6BzElxmuFrOPxOJnjsxh1cFDACLEVKs8OHBcx8ZNRO1p5SxuQex1m3qbLzAC8G99EHeWcxGkjyKjLQ==}
+    engines: {node: '>=16'}
+    dependencies:
+      svelte: 4.2.1(patch_hash=cm43hmf4gczhssi3isoosy53r4)
+      tslib: 2.6.2
+    dev: true
+
   /svelte@4.2.1(patch_hash=cm43hmf4gczhssi3isoosy53r4):
     resolution: {integrity: sha512-LpLqY2Jr7cRxkrTc796/AaaoMLF/1ax7cto8Ot76wrvKQhrPmZ0JgajiWPmg9mTSDqO16SSLiD17r9MsvAPTmw==}
     engines: {node: '>=16'}
@@ -3893,6 +3984,10 @@ packages:
       periscopic: 3.1.0
     dev: true
     patched: true
+
+  /tabbable@6.2.0:
+    resolution: {integrity: sha512-Cat63mxsVJlzYvN51JmVXIgNoUokrIaT2zLclCXjRd8boZ0004U4KCs/sToJ75C6sdlByWxpYnb5Boif1VSFew==}
+    dev: true
 
   /tapable@2.2.1:
     resolution: {integrity: sha512-GNzQvQTOIP6RyTfE2Qxb8ZVlNmw0n88vp1szwWRimP02mnTsx3Wtn5qRdqY9w2XduFNUgvOwhNnQsjwCp+kqaQ==}
@@ -4191,7 +4286,7 @@ packages:
       - utf-8-validate
     dev: true
 
-  /webpack-license-plugin@4.4.2(webpack@5.89.0):
+  /webpack-license-plugin@4.4.2(patch_hash=j2giecj6dvolnysmkqbx73rnua)(webpack@5.89.0):
     resolution: {integrity: sha512-n6BWea7g/ogWF/Nd3eOXVj9NLThaa5XYUNENNu4/0kPzxU6kPAKBe5XtQ2uKrrzM6OBOAyjkzzorZ8dAjHOycw==}
     engines: {node: '>=16.0.0'}
     peerDependencies:
@@ -4206,6 +4301,7 @@ packages:
     transitivePeerDependencies:
       - supports-color
     dev: true
+    patched: true
 
   /webpack-merge@5.9.0:
     resolution: {integrity: sha512-6NbRQw4+Sy50vYNTw7EyOn41OZItPiXB8GNv3INSoe3PSFaHJEz3SHTrYVaRm2LilNGnFUzh0FAwqPEmU/CwDg==}
@@ -4349,8 +4445,8 @@ packages:
     resolution: {integrity: sha512-FSZOvfJVfMWhk/poictNsDBCXq/Z+2Zu2peWs6d8OhWWb9nY++czw95D47hdw06L/kfjasLevwrbUtnXyWLAJw==}
     dev: true
 
-  github.com/quark-platform/gecko-types/2d3c36dfc177629bbe6118c5e8c64a04ac3dddc9:
-    resolution: {tarball: https://codeload.github.com/quark-platform/gecko-types/tar.gz/2d3c36dfc177629bbe6118c5e8c64a04ac3dddc9}
+  github.com/quark-platform/gecko-types/3e535488ede5d1a1a666e4b24e7a0d81e84d27ab:
+    resolution: {tarball: https://codeload.github.com/quark-platform/gecko-types/tar.gz/3e535488ede5d1a1a666e4b24e7a0d81e84d27ab}
     name: gecko-types
     version: 1.0.0
     dev: true

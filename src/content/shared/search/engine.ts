@@ -57,7 +57,11 @@ class SearchEngineService {
         isAppProvided: true,
         details: { extensionID, locale },
       })
-      await engine.init({ locale })
+      // For some reason, mozilla's implementation does not include `engine`
+      // when initing. Hence, we don't here even though the types require it
+      // https://searchfox.org/mozilla-central/source/toolkit/components/search/SearchService.sys.mjs#3610
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      await engine.init({ locale } as any)
 
       engines.push(engine)
     }

@@ -1,0 +1,1483 @@
+diff --git a/dist/index.js b/dist/index.js
+index e0b5f42bbc97f0bc261ce1634262a3f302d46101..2e6fd6563d777f107b9bc80a8dddbe930a9fc2a2 100644
+--- a/dist/index.js
++++ b/dist/index.js
+@@ -1 +1,1476 @@
+-function e(e,t){if(t==null||t>e.length)t=e.length;for(var r=0,n=new Array(t);r<t;r++)n[r]=e[r];return n}function t(t){if(Array.isArray(t))return e(t)}function r(e,t,r,n,i,a,s){try{var o=e[a](s);var u=o.value}catch(e){r(e);return}if(o.done){t(u)}else{Promise.resolve(u).then(n,i)}}function n(e){return function(){var t=this,n=arguments;return new Promise(function(i,a){var s=e.apply(t,n);function o(e){r(s,i,a,o,u,"next",e)}function u(e){r(s,i,a,o,u,"throw",e)}o(undefined)})}}function i(e,t){if(!(e instanceof t)){throw new TypeError("Cannot call a class as a function")}}function a(e,t){for(var r=0;r<t.length;r++){var n=t[r];n.enumerable=n.enumerable||false;n.configurable=true;if("value"in n)n.writable=true;Object.defineProperty(e,n.key,n)}}function s(e,t,r){if(t)a(e.prototype,t);if(r)a(e,r);return e}function o(e,t,r){if(t in e){Object.defineProperty(e,t,{value:r,enumerable:true,configurable:true,writable:true})}else{e[t]=r}return e}function u(e){if(typeof Symbol!=="undefined"&&e[Symbol.iterator]!=null||e["@@iterator"]!=null)return Array.from(e)}function l(){throw new TypeError("Invalid attempt to spread non-iterable instance.\\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.")}function c(e){for(var t=1;t<arguments.length;t++){var r=arguments[t]!=null?arguments[t]:{};var n=Object.keys(r);if(typeof Object.getOwnPropertySymbols==="function"){n=n.concat(Object.getOwnPropertySymbols(r).filter(function(e){return Object.getOwnPropertyDescriptor(r,e).enumerable}))}n.forEach(function(t){o(e,t,r[t])})}return e}function f(e){return t(e)||u(e)||d(e)||l()}function h(e){"@swc/helpers - typeof";return e&&typeof Symbol!=="undefined"&&e.constructor===Symbol?"symbol":typeof e}function d(t,r){if(!t)return;if(typeof t==="string")return e(t,r);var n=Object.prototype.toString.call(t).slice(8,-1);if(n==="Object"&&t.constructor)n=t.constructor.name;if(n==="Map"||n==="Set")return Array.from(n);if(n==="Arguments"||/^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n))return e(t,r)}function p(e,t){var r,n,i,a,s={label:0,sent:function(){if(i[0]&1)throw i[1];return i[1]},trys:[],ops:[]};return a={next:o(0),"throw":o(1),"return":o(2)},typeof Symbol==="function"&&(a[Symbol.iterator]=function(){return this}),a;function o(e){return function(t){return u([e,t])}}function u(a){if(r)throw new TypeError("Generator is already executing.");while(s)try{if(r=1,n&&(i=a[0]&2?n["return"]:a[0]?n["throw"]||((i=n["return"])&&i.call(n),0):n.next)&&!(i=i.call(n,a[1])).done)return i;if(n=0,i)a=[a[0]&2,i.value];switch(a[0]){case 0:case 1:i=a;break;case 4:s.label++;return{value:a[1],done:false};case 5:s.label++;n=a[1];a=[0];continue;case 7:a=s.ops.pop();s.trys.pop();continue;default:if(!(i=s.trys,i=i.length>0&&i[i.length-1])&&(a[0]===6||a[0]===2)){s=0;continue}if(a[0]===3&&(!i||a[1]>i[0]&&a[1]<i[3])){s.label=a[1];break}if(a[0]===6&&s.label<i[1]){s.label=i[1];i=a;break}if(i&&s.label<i[2]){s.label=i[2];s.ops.push(a);break}if(i[2])s.ops.pop();s.trys.pop();continue}a=t.call(e,s)}catch(e){a=[6,e];n=0}finally{r=i=0}if(a[0]&5)throw a[1];return{value:a[0]?a[1]:void 0,done:true}}}var y=Object.defineProperty;var v=function(e,t,r){return t in e?y(e,t,{enumerable:!0,configurable:!0,writable:!0,value:r}):e[t]=r};var g=function(e,t){return y(e,"name",{value:t,configurable:!0})};var m=function(e,t,r){return v(e,(typeof t==="undefined"?"undefined":h(t))!="symbol"?t+"":t,r),r};import b,{WebpackError as k}from"webpack";import{compact as w,uniq as S}from"lodash";var x,A;x=(A=/*#__PURE__*/function(){"use strict";function e(t,r,n){i(this,e);m(this,"assetManager");m(this,"moduleDirectoryLocator");m(this,"licenseMetaAggregator");this.assetManager=t,this.moduleDirectoryLocator=r,this.licenseMetaAggregator=n}s(e,[{key:"writeLicenseFiles",value:function e(e,t){var r=this;return n(function(){var n,i,a,s,o,u,l,c,h,d,y,v;return p(this,function(p){switch(p.label){case 0:n=r.getModuleDirs(e);return[4,t.includePackages()];case 1:i=p.sent();return[4,r.licenseMetaAggregator.aggregateMeta(f(new Set(f(n).concat(f(i)))))];case 2:a=p.sent(),s=JSON.stringify(a,null,2);r.assetManager.addFile(t.outputFilename,s);o=true,u=false,l=undefined;p.label=3;case 3:p.trys.push([3,8,9,10]);c=Object.keys(t.additionalFiles)[Symbol.iterator]();p.label=4;case 4:if(!!(o=(h=c.next()).done))return[3,7];d=h.value;return[4,t.additionalFiles[d](a)];case 5:y=p.sent();r.assetManager.addFile(d,y);p.label=6;case 6:o=true;return[3,4];case 7:return[3,10];case 8:v=p.sent();u=true;l=v;return[3,10];case 9:try{if(!o&&c.return!=null){c.return()}}finally{if(u){throw l}}return[7];case 10:return[2]}})})()}},{key:"getModuleDirs",value:function e(e){var t=this;return S(w(e.map(function(e){return t.moduleDirectoryLocator.getModuleDir(e)})))}}]);return e}(),g(A,"LicenseFileWriter"),A);import L from"spdx-expression-validate";var O,F;O=(F=/*#__PURE__*/function(){"use strict";function e(t){var r=arguments.length>1&&arguments[1]!==void 0?arguments[1]:[];i(this,e);m(this,"alertAggregator");m(this,"preferredLicenses");this.alertAggregator=t,this.preferredLicenses=r}s(e,[{key:"identifyLicense",value:function e(e,t){var r="".concat(e.name,"@").concat(e.version),n;return t.licenseOverrides[r]?n=t.licenseOverrides[r]:typeof e.license=="object"?n=e.license.type:e.license?n=e.license:Array.isArray(e.licenses)&&e.licenses.length>0?n=this.findPreferredLicense(e.licenses.map(function(e){return e.type}))||e.licenses[0].type:typeof e.licenses=="string"&&(n=e.licenses),n?t.unacceptableLicenseTest(n)?this.alertAggregator.addError('Found unacceptable license "'.concat(n,'" for ').concat(r)):L(n)||this.alertAggregator.addError('License "'.concat(n,'" for ').concat(r," is not a valid SPDX expression!")):this.alertAggregator.addError("Could not find license info for ".concat(r)),n||null}},{key:"findPreferredLicense",value:function e(e){var t=true,r=false,n=undefined,i=true,a=false,s=undefined;try{for(var o=this.preferredLicenses[Symbol.iterator](),u;!(i=(u=o.next()).done);i=true){var l=u.value;try{for(var c=e[Symbol.iterator](),f;!(t=(f=c.next()).done);t=true){var h=f.value;if(l===h)return l}}catch(e){r=true;n=e}finally{try{if(!t&&c.return!=null){c.return()}}finally{if(r){throw n}}}}}catch(e){a=true;s=e}finally{try{if(!i&&o.return!=null){o.return()}}finally{if(a){throw s}}}return null}}]);return e}(),g(F,"LicenseIdentifier"),F);import{join as C}from"path";import P from"needle";function M(e){return E.apply(this,arguments)}function E(){E=n(function(e){var t;return p(this,function(r){switch(r.label){case 0:return[4,P("get",e)];case 1:t=r.sent();return[2,t.statusCode===200?t.body:null]}})});return E.apply(this,arguments)}g(M,"fetch");var I="https://raw.githubusercontent.com/spdx/license-list-data",R,T;R=(T=/*#__PURE__*/function(){"use strict";function e(){var t=arguments.length>0&&arguments[0]!==void 0?arguments[0]:M;i(this,e);m(this,"request");m(this,"cache");this.request=t,this.cache={}}s(e,[{key:"retrieveLicenseText",value:function e(e){var t=this;return n(function(){var r;return p(this,function(n){switch(n.label){case 0:if(!!t.cache[e])return[3,2];return[4,t.request("".concat(I,"/master/text/").concat(e,".txt"))];case 1:r=n.sent();t.cache[e]=r;n.label=2;case 2:return[2,t.cache[e]||null]}})})()}}]);return e}(),g(T,"DefaultLicenseTextProvider"),T);var j,D;j=(D=/*#__PURE__*/function(){"use strict";function e(t,r,n){var a=arguments.length>3&&arguments[3]!==void 0?arguments[3]:new R;i(this,e);m(this,"alertAggregator");m(this,"fileSystem");m(this,"options");m(this,"defaultLicenseReader");this.alertAggregator=t,this.fileSystem=r,this.options=n,this.defaultLicenseReader=a}s(e,[{key:"readLicenseText",value:function e(e,t,r){var i=this;return n(function(){var n,a,s,o,u,l;return p(this,function(c){switch(c.label){case 0:n="".concat(e.name,"@").concat(e.version);if(!t)return[2,null];if(t.indexOf("SEE LICENSE IN ")===0){a=t.split(" ")[3];try{return[2,i.readFile(r,a)]}catch(e){i.alertAggregator.addError("could not find file specified in package.json license field of ".concat(n))}}s=i.fileSystem.listPaths(r),o=i.getLicenseFilename(s);if(!(o!==null))return[3,1];u=i.readFile(r,o);return[3,5];case 1:if(!i.options.replenishDefaultLicenseTexts)return[3,3];return[4,i.getDefaultLicenseText(t)];case 2:l=c.sent();return[3,4];case 3:l=null;c.label=4;case 4:u=l;c.label=5;case 5:return[2,u]}})})()}},{key:"getLicenseFilename",value:function e(e){var t=true,r=false,n=undefined;try{for(var i=e[Symbol.iterator](),a;!(t=(a=i.next()).done);t=true){var s=a.value;if(/^licen[cs]e/i.test(s))return s}}catch(e){r=true;n=e}finally{try{if(!t&&i.return!=null){i.return()}}finally{if(r){throw n}}}return null}},{key:"readFile",value:function e(e,t){return this.fileSystem.readFile(C(e,t)).replace(/\r\n/g,"\n")}},{key:"getDefaultLicenseText",value:function e(e){var t=this;return n(function(){return p(this,function(r){switch(r.label){case 0:return[4,t.defaultLicenseReader.retrieveLicenseText(e)];case 1:return[2,r.sent()]}})})()}}]);return e}(),g(D,"LicenseTextReader"),D);var J,W;J=(W=/*#__PURE__*/function(){"use strict";function e(t,r,n,a){var s=arguments.length>4&&arguments[4]!==void 0?arguments[4]:new O(r),o=arguments.length>5&&arguments[5]!==void 0?arguments[5]:new j(r,t,n);i(this,e);m(this,"options");m(this,"packageJsonReader");m(this,"licenseIdentifier");m(this,"licenseTextReader");this.options=n,this.packageJsonReader=a,this.licenseIdentifier=s,this.licenseTextReader=o}s(e,[{key:"getNpmTarballUrl",value:function e(e,t){var r=e[0]!=="@"?e:e.split("/")[1],n=t.indexOf("+"),i=n===-1?t:t.substring(0,n);return"https://registry.npmjs.org/".concat(e,"/-/").concat(r,"-").concat(i,".tgz")}},{key:"aggregateMeta",value:function e(e){var t=this;return n(function(){var r,n,i,a,s,o,u,l,c,f,h,d,y,v;return p(this,function(p){switch(p.label){case 0:r=new Set,n=[],i=e.sort(function(e,r){return t.packageJsonReader.readPackageJson(e).name.localeCompare(t.packageJsonReader.readPackageJson(r).name)});a=true,s=false,o=undefined;p.label=1;case 1:p.trys.push([1,6,7,8]);u=i[Symbol.iterator]();p.label=2;case 2:if(!!(a=(l=u.next()).done))return[3,5];c=l.value;f=t.packageJsonReader.readPackageJson(c),h="".concat(f.name,"@").concat(f.version);if(r.has(h)||t.options.excludedPackageTest(f.name,f.version))return[3,4];r.add(h);d=t.licenseIdentifier.identifyLicense(f,t.options);return[4,t.licenseTextReader.readLicenseText(f,d,c)];case 3:y=p.sent();n.push({name:f.name,version:f.version,author:t.getAuthor(f),repository:t.getRepository(f),source:t.getNpmTarballUrl(f.name,f.version),license:d,licenseText:y});p.label=4;case 4:a=true;return[3,2];case 5:return[3,8];case 6:v=p.sent();s=true;o=v;return[3,8];case 7:try{if(!a&&u.return!=null){u.return()}}finally{if(s){throw o}}return[7];case 8:return[2,n]}})})()}},{key:"getAuthor",value:function e(e){return typeof e.author=="object"?"".concat(e.author.name).concat(e.author.email?" <".concat(e.author.email,">"):"").concat(e.author.url?" (".concat(e.author.url,")"):""):e.author}},{key:"getRepository",value:function e(e){return e.repository&&e.repository.url?e.repository.url:typeof e.repository=="string"?e.repository:null}}]);return e}(),g(W,"LicenseMetaAggregator"),W);import{resolve as N,sep as z}from"path";var G,q;G=(q=/*#__PURE__*/function(){"use strict";function e(t,r,n){i(this,e);m(this,"fileSystem");m(this,"buildRoot");m(this,"packageJsonReader");this.fileSystem=t,this.buildRoot=r,this.packageJsonReader=n}s(e,[{key:"getModuleDir",value:function e(e){var t=e.substring(0,e.lastIndexOf(z));return this.checkModuleDir(t)}},{key:"checkModuleDir",value:function e(e){var t=null,r=null,n=null;do{if(this.fileSystem.pathExists("".concat(e).concat(z,"package.json"))){var i=this.packageJsonReader.readPackageJson(e);i.name!==void 0&&i.version!==void 0&&(t=e,(i.license!==void 0||i.licenses!==void 0)&&(r=e))}n=e,e=N("".concat(e).concat(z,"..").concat(z))}while(!r&&e!==n&&e!==this.buildRoot);return r||t}}]);return e}(),g(q,"ModuleDirectoryLocator"),q);import _ from"spdx-expression-validate";var U={additionalFiles:{},licenseOverrides:{},outputFilename:"oss-licenses.json",replenishDefaultLicenseTexts:!1,unacceptableLicenseTest:function(){return!1},excludedPackageTest:function(){return!1},includePackages:function(){return[]}},X=U;var V,Y;V=(Y=/*#__PURE__*/function(){"use strict";function e(t){i(this,e);m(this,"alertAggregator");this.alertAggregator=t}s(e,[{key:"getOptions",value:function e(e){return this.validateOptions(e),c({},X,e)}},{key:"validateOptions",value:function e(e){var t=true,r=false,n=undefined;if(e.additionalFiles)try{for(var i=Object.keys(e.additionalFiles)[Symbol.iterator](),a;!(t=(a=i.next()).done);t=true){var s=a.value;typeof e.additionalFiles[s]!="function"&&this.alertAggregator.addError('Invalid additionalFiles option: Value for key "'.concat(s,'" is not a function!'))}}catch(e){r=true;n=e}finally{try{if(!t&&i.return!=null){i.return()}}finally{if(r){throw n}}}var o=true,u=false,l=undefined;if(e.licenseOverrides)try{for(var c=Object.keys(e.licenseOverrides)[Symbol.iterator](),f;!(o=(f=c.next()).done);o=true){var h=f.value;_(e.licenseOverrides[h])||this.alertAggregator.addError('Invalid licenseOverrides option: "'.concat(e.licenseOverrides[h],'" is not a valid SPDX expression!'))}}catch(e){u=true;l=e}finally{try{if(!o&&c.return!=null){c.return()}}finally{if(u){throw l}}}e.replenishDefaultLicenseTexts&&typeof e.replenishDefaultLicenseTexts!="boolean"&&this.alertAggregator.addError("Invalid replenishDefaultLicenseTexts option: Not a boolean!"),e.includePackages&&typeof e.includePackages!="function"&&this.alertAggregator.addError("Invalid includePackages option: Not a function!")}}]);return e}(),g(Y,"OptionsProvider"),Y);import{join as $}from"path";var B,H;B=(H=/*#__PURE__*/function(){"use strict";function e(t){i(this,e);m(this,"fileSystem");m(this,"cache");this.fileSystem=t,this.cache={}}s(e,[{key:"readPackageJson",value:function e(e){if(!this.cache[e]){var t=$(e,"package.json"),r=JSON.parse(this.fileSystem.readFile(t));this.cache[e]=r}return this.cache[e]}}]);return e}(),g(H,"PackageJsonReader"),H);import{WebpackError as K}from"webpack";var Q,Z;Q=(Z=/*#__PURE__*/function(){"use strict";function e(t){i(this,e);m(this,"compilation");m(this,"errors");m(this,"warnings");this.compilation=t,this.errors=[],this.warnings=[]}s(e,[{key:"addError",value:function e(e){this.errors.push(e)}},{key:"addWarning",value:function e(e){this.warnings.push(e)}},{key:"flushAlerts",value:function e(e){var t,r;(t=this.compilation.errors).push.apply(t,f(this.errors.map(function(t){return new K("".concat(e,": ").concat(t))}))),this.errors=[],(r=this.compilation.warnings).push.apply(r,f(this.warnings.map(function(t){return new K("".concat(e,": ").concat(t))}))),this.warnings=[]}}]);return e}(),g(Z,"WebpackAlertAggregator"),Z);import{sources as ee}from"webpack";var et,er;et=(er=/*#__PURE__*/function(){"use strict";function e(t){i(this,e);m(this,"compilation");this.compilation=t}s(e,[{key:"addFile",value:function e(e,t){this.compilation.assets[e]=new ee.RawSource(t)}}]);return e}(),g(er,"WebpackAssetManager"),er);var en,ei;en=(ei=/*#__PURE__*/function(){"use strict";function e(){i(this,e)}s(e,[{key:"iterateModules",value:function e(e,t,r){var n=true,i=false,a=undefined,s=true,o=false,u=undefined;if(h(e.chunkGraph)<"u")try{for(var l=e.chunkGraph.getChunkModulesIterable(t)[Symbol.iterator](),c;!(n=(c=l.next()).done);n=true){var f=c.value;r(f)}}catch(e){i=true;a=e}finally{try{if(!n&&l.return!=null){l.return()}}finally{if(i){throw a}}}else if(h(t.modulesIterable)<"u")try{for(var d=t.modulesIterable[Symbol.iterator](),p;!(s=(p=d.next()).done);s=true){var y=p.value;r(y)}}catch(e){o=true;u=e}finally{try{if(!s&&d.return!=null){d.return()}}finally{if(o){throw u}}}else typeof t.forEachModule=="function"?t.forEachModule(r):Array.isArray(t.modules)&&t.modules.forEach(function(e){return r(e)});var v=true,g=false,m=undefined;if(h(e.chunkGraph)<"u")try{for(var b=e.chunkGraph.getChunkEntryModulesIterable(t)[Symbol.iterator](),k;!(v=(k=b.next()).done);v=true){var w=k.value;r(w)}}catch(e){g=true;m=e}finally{try{if(!v&&b.return!=null){b.return()}}finally{if(g){throw m}}}else t.entryModule&&r(t.entryModule)}}]);return e}(),g(ei,"WebpackChunkModuleIterator"),ei);var ea,es;ea=(es=/*#__PURE__*/function(){"use strict";function e(){i(this,e)}s(e,[{key:"iterateFiles",value:function e(e,t){var r=e.resource,n=e.rootModule,i=e.fileDependencies,a=e.dependencies;r?t(r):(n===null||n===void 0?void 0:n.resource)&&t(n.resource),i&&i.forEach(function(e){return t(e)}),a&&a.forEach(function(e){var r=e.originModule,n=e._parentModule;(r===null||r===void 0?void 0:r.resource)&&t(r.resource),(n===null||n===void 0?void 0:n.resource)&&t(n.resource)})}}]);return e}(),g(es,"WebpackModuleFileIterator"),es);var eo,eu;eo=(eu=/*#__PURE__*/function(){"use strict";function e(){var t=arguments.length>0&&arguments[0]!==void 0?arguments[0]:new en,r=arguments.length>1&&arguments[1]!==void 0?arguments[1]:new ea;i(this,e);m(this,"moduleIterator");m(this,"fileIterator");this.moduleIterator=t,this.fileIterator=r}s(e,[{key:"iterateChunks",value:function e(e,t){var r=this;var n=[];var i=true,a=false,s=undefined;try{for(var o=t[Symbol.iterator](),u;!(i=(u=o.next()).done);i=true){var l=u.value;this.moduleIterator.iterateModules(e,l,function(e){r.fileIterator.iterateFiles(e,function(e){n.push(e)})})}}catch(e){a=true;s=e}finally{try{if(!i&&o.return!=null){o.return()}}finally{if(a){throw s}}}return n}}]);return e}(),g(eu,"WebpackChunkIterator"),eu);var el,ec;el=(ec=/*#__PURE__*/function(){"use strict";function e(t){i(this,e);m(this,"fs");this.fs=t}s(e,[{key:"pathExists",value:function e(e){try{return this.fs.statSync(e),!0}catch(e){return!1}}},{key:"readFile",value:function e(e){return this.fs.readFileSync(e).toString("utf8")}},{key:"listPaths",value:function e(e){return this.fs.readdirSync(e)}}]);return e}(),g(ec,"WebpackFileSystem"),ec);var ef="WebpackLicensePlugin",eh,ed;eh=(ed=/*#__PURE__*/function(){"use strict";function e(){var t=arguments.length>0&&arguments[0]!==void 0?arguments[0]:{};i(this,e);m(this,"pluginOptions");m(this,"filenames");m(this,"createdFiles");m(this,"observedCompilers");this.pluginOptions=t,this.filenames=new Set,this.createdFiles=!1,this.observedCompilers=[]}s(e,[{key:"apply",value:function e(e){h(e.hooks)<"u"?(e.hooks.compilation.tap("webpack-license-plugin",this.handleCompilation.bind(this,e)),e.hooks.watchRun.tapAsync("webpack-license-plugin",this.handleWatchRun.bind(this))):h(e.plugin)<"u"&&(e.plugin("compilation",this.handleCompilation.bind(this,e)),e.plugin("watchRun",this.handleWatchRun.bind(this)))}},{key:"handleWatchRun",value:function e(e,t){var r=this;return n(function(){return p(this,function(e){r.createdFiles=!1,r.observedCompilers=[],t();return[2]})})()}},{key:"handleCompilation",value:function e(e,t){if(h(t.hooks)<"u")if(h(t.hooks.processAssets)<"u"){var r=this.handleChunkAssetOptimization.bind(this,e,t,t.chunks);t.hooks.processAssets.tapAsync({name:"webpack-license-plugin",stage:b.Compilation.PROCESS_ASSETS_STAGE_ANALYSE},function(e,t){return r(t)})}else t.hooks.optimizeChunkAssets.tapAsync("webpack-license-plugin",this.handleChunkAssetOptimization.bind(this,e,t));else h(t.plugin)<"u"&&t.plugin("optimize-chunk-assets",this.handleChunkAssetOptimization.bind(this,e,t))}},{key:"handleChunkAssetOptimization",value:function e(e,t,r,i){var a=this;return n(function(){var n,s,o,u,l,c,h,d,y,v,g,m,b;return p(this,function(p){switch(p.label){case 0:if(a.observedCompilers.push({name:t.compiler.name,isChild:t.compiler.isChild()}),a.createdFiles){n=a.observedCompilers.map(function(e){var t=e.name,r=e.isChild;return"compiler: ".concat(t,", isChild: ").concat(r)}).join("\n"),s=new k("".concat(ef,": Found licenses after license files were already created.\nIf you see this message, you ran into an edge case we thought would not happen. Please open an isssue at https://github.com/codepunkt/webpack-license-plugin/issues with details of your webpack configuration so we can invastigate it further.\n").concat(n));t.errors.push(s),i();return[2]}t.compiler.isChild()||(a.createdFiles=!0);o=new Q(t),u=new V(o).getOptions(a.pluginOptions);o.flushAlerts(ef);l=new eo;c=true,h=false,d=undefined;try{for(y=l.iterateChunks(t,r)[Symbol.iterator]();!(c=(v=y.next()).done);c=true){g=v.value;a.filenames.add(g)}}catch(e){h=true;d=e}finally{try{if(!c&&y.return!=null){y.return()}}finally{if(h){throw d}}}if(t.compiler.isChild()){i();return[2]}m=new el(e.inputFileSystem),b=new B(m);return[4,new x(new et(t),new G(m,e.options.context,b),new J(m,o,u,b)).writeLicenseFiles(f(a.filenames),u)];case 1:p.sent(),o.flushAlerts(ef),i();return[2]}})})()}}]);return e}(),g(ed,"WebpackLicensePlugin"),ed);var ep=eh;module.exports=module.exports.default;export{ep as default};//# sourceMappingURL=index.js.map
+\ No newline at end of file
++import webpackpkg from "webpack";
++
++function e(e, t) {
++  if (t == null || t > e.length) t = e.length;
++  for (var r = 0, n = new Array(t); r < t; r++) n[r] = e[r];
++  return n;
++}
++function t(t) {
++  if (Array.isArray(t)) return e(t);
++}
++function r(e, t, r, n, i, a, s) {
++  try {
++    var o = e[a](s);
++    var u = o.value;
++  } catch (e) {
++    r(e);
++    return;
++  }
++  if (o.done) {
++    t(u);
++  } else {
++    Promise.resolve(u).then(n, i);
++  }
++}
++function n(e) {
++  return function () {
++    var t = this,
++      n = arguments;
++    return new Promise(function (i, a) {
++      var s = e.apply(t, n);
++      function o(e) {
++        r(s, i, a, o, u, "next", e);
++      }
++      function u(e) {
++        r(s, i, a, o, u, "throw", e);
++      }
++      o(undefined);
++    });
++  };
++}
++function i(e, t) {
++  if (!(e instanceof t)) {
++    throw new TypeError("Cannot call a class as a function");
++  }
++}
++function a(e, t) {
++  for (var r = 0; r < t.length; r++) {
++    var n = t[r];
++    n.enumerable = n.enumerable || false;
++    n.configurable = true;
++    if ("value" in n) n.writable = true;
++    Object.defineProperty(e, n.key, n);
++  }
++}
++function s(e, t, r) {
++  if (t) a(e.prototype, t);
++  if (r) a(e, r);
++  return e;
++}
++function o(e, t, r) {
++  if (t in e) {
++    Object.defineProperty(e, t, {
++      value: r,
++      enumerable: true,
++      configurable: true,
++      writable: true,
++    });
++  } else {
++    e[t] = r;
++  }
++  return e;
++}
++function u(e) {
++  if (
++    (typeof Symbol !== "undefined" && e[Symbol.iterator] != null) ||
++    e["@@iterator"] != null
++  )
++    return Array.from(e);
++}
++function l() {
++  throw new TypeError(
++    "Invalid attempt to spread non-iterable instance.\\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.",
++  );
++}
++function c(e) {
++  for (var t = 1; t < arguments.length; t++) {
++    var r = arguments[t] != null ? arguments[t] : {};
++    var n = Object.keys(r);
++    if (typeof Object.getOwnPropertySymbols === "function") {
++      n = n.concat(
++        Object.getOwnPropertySymbols(r).filter(function (e) {
++          return Object.getOwnPropertyDescriptor(r, e).enumerable;
++        }),
++      );
++    }
++    n.forEach(function (t) {
++      o(e, t, r[t]);
++    });
++  }
++  return e;
++}
++function f(e) {
++  return t(e) || u(e) || d(e) || l();
++}
++function h(e) {
++  "@swc/helpers - typeof";
++  return e && typeof Symbol !== "undefined" && e.constructor === Symbol
++    ? "symbol"
++    : typeof e;
++}
++function d(t, r) {
++  if (!t) return;
++  if (typeof t === "string") return e(t, r);
++  var n = Object.prototype.toString.call(t).slice(8, -1);
++  if (n === "Object" && t.constructor) n = t.constructor.name;
++  if (n === "Map" || n === "Set") return Array.from(n);
++  if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n))
++    return e(t, r);
++}
++function p(e, t) {
++  var r,
++    n,
++    i,
++    a,
++    s = {
++      label: 0,
++      sent: function () {
++        if (i[0] & 1) throw i[1];
++        return i[1];
++      },
++      trys: [],
++      ops: [],
++    };
++  return (
++    (a = { next: o(0), throw: o(1), return: o(2) }),
++    typeof Symbol === "function" &&
++      (a[Symbol.iterator] = function () {
++        return this;
++      }),
++    a
++  );
++  function o(e) {
++    return function (t) {
++      return u([e, t]);
++    };
++  }
++  function u(a) {
++    if (r) throw new TypeError("Generator is already executing.");
++    while (s)
++      try {
++        if (
++          ((r = 1),
++          n &&
++            (i =
++              a[0] & 2
++                ? n["return"]
++                : a[0]
++                  ? n["throw"] || ((i = n["return"]) && i.call(n), 0)
++                  : n.next) &&
++            !(i = i.call(n, a[1])).done)
++        )
++          return i;
++        if (((n = 0), i)) a = [a[0] & 2, i.value];
++        switch (a[0]) {
++          case 0:
++          case 1:
++            i = a;
++            break;
++          case 4:
++            s.label++;
++            return { value: a[1], done: false };
++          case 5:
++            s.label++;
++            n = a[1];
++            a = [0];
++            continue;
++          case 7:
++            a = s.ops.pop();
++            s.trys.pop();
++            continue;
++          default:
++            if (
++              !((i = s.trys), (i = i.length > 0 && i[i.length - 1])) &&
++              (a[0] === 6 || a[0] === 2)
++            ) {
++              s = 0;
++              continue;
++            }
++            if (a[0] === 3 && (!i || (a[1] > i[0] && a[1] < i[3]))) {
++              s.label = a[1];
++              break;
++            }
++            if (a[0] === 6 && s.label < i[1]) {
++              s.label = i[1];
++              i = a;
++              break;
++            }
++            if (i && s.label < i[2]) {
++              s.label = i[2];
++              s.ops.push(a);
++              break;
++            }
++            if (i[2]) s.ops.pop();
++            s.trys.pop();
++            continue;
++        }
++        a = t.call(e, s);
++      } catch (e) {
++        a = [6, e];
++        n = 0;
++      } finally {
++        r = i = 0;
++      }
++    if (a[0] & 5) throw a[1];
++    return { value: a[0] ? a[1] : void 0, done: true };
++  }
++}
++var y = Object.defineProperty;
++var v = function (e, t, r) {
++  return t in e
++    ? y(e, t, { enumerable: !0, configurable: !0, writable: !0, value: r })
++    : (e[t] = r);
++};
++var g = function (e, t) {
++  return y(e, "name", { value: t, configurable: !0 });
++};
++var m = function (e, t, r) {
++  return (
++    v(
++      e,
++      (typeof t === "undefined" ? "undefined" : h(t)) != "symbol" ? t + "" : t,
++      r,
++    ),
++    r
++  );
++};
++const b = webpackpkg;
++const { WebpackError : k } = webpackpkg
++import _pkg from "lodash";
++const { compact : w, uniq : S } = _pkg;
++var x, A;
++x =
++  ((A = /*#__PURE__*/ (function () {
++    "use strict";
++    function e(t, r, n) {
++      i(this, e);
++      m(this, "assetManager");
++      m(this, "moduleDirectoryLocator");
++      m(this, "licenseMetaAggregator");
++      (this.assetManager = t),
++        (this.moduleDirectoryLocator = r),
++        (this.licenseMetaAggregator = n);
++    }
++    s(e, [
++      {
++        key: "writeLicenseFiles",
++        value: function e(e, t) {
++          var r = this;
++          return n(function () {
++            var n, i, a, s, o, u, l, c, h, d, y, v;
++            return p(this, function (p) {
++              switch (p.label) {
++                case 0:
++                  n = r.getModuleDirs(e);
++                  return [4, t.includePackages()];
++                case 1:
++                  i = p.sent();
++                  return [
++                    4,
++                    r.licenseMetaAggregator.aggregateMeta(
++                      f(new Set(f(n).concat(f(i)))),
++                    ),
++                  ];
++                case 2:
++                  (a = p.sent()), (s = JSON.stringify(a, null, 2));
++                  r.assetManager.addFile(t.outputFilename, s);
++                  (o = true), (u = false), (l = undefined);
++                  p.label = 3;
++                case 3:
++                  p.trys.push([3, 8, 9, 10]);
++                  c = Object.keys(t.additionalFiles)[Symbol.iterator]();
++                  p.label = 4;
++                case 4:
++                  if (!!(o = (h = c.next()).done)) return [3, 7];
++                  d = h.value;
++                  return [4, t.additionalFiles[d](a)];
++                case 5:
++                  y = p.sent();
++                  r.assetManager.addFile(d, y);
++                  p.label = 6;
++                case 6:
++                  o = true;
++                  return [3, 4];
++                case 7:
++                  return [3, 10];
++                case 8:
++                  v = p.sent();
++                  u = true;
++                  l = v;
++                  return [3, 10];
++                case 9:
++                  try {
++                    if (!o && c.return != null) {
++                      c.return();
++                    }
++                  } finally {
++                    if (u) {
++                      throw l;
++                    }
++                  }
++                  return [7];
++                case 10:
++                  return [2];
++              }
++            });
++          })();
++        },
++      },
++      {
++        key: "getModuleDirs",
++        value: function e(e) {
++          var t = this;
++          return S(
++            w(
++              e.map(function (e) {
++                return t.moduleDirectoryLocator.getModuleDir(e);
++              }),
++            ),
++          );
++        },
++      },
++    ]);
++    return e;
++  })()),
++  g(A, "LicenseFileWriter"),
++  A);
++import L from "spdx-expression-validate";
++var O, F;
++O =
++  ((F = /*#__PURE__*/ (function () {
++    "use strict";
++    function e(t) {
++      var r =
++        arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : [];
++      i(this, e);
++      m(this, "alertAggregator");
++      m(this, "preferredLicenses");
++      (this.alertAggregator = t), (this.preferredLicenses = r);
++    }
++    s(e, [
++      {
++        key: "identifyLicense",
++        value: function e(e, t) {
++          var r = "".concat(e.name, "@").concat(e.version),
++            n;
++          return (
++            t.licenseOverrides[r]
++              ? (n = t.licenseOverrides[r])
++              : typeof e.license == "object"
++                ? (n = e.license.type)
++                : e.license
++                  ? (n = e.license)
++                  : Array.isArray(e.licenses) && e.licenses.length > 0
++                    ? (n =
++                        this.findPreferredLicense(
++                          e.licenses.map(function (e) {
++                            return e.type;
++                          }),
++                        ) || e.licenses[0].type)
++                    : typeof e.licenses == "string" && (n = e.licenses),
++            n
++              ? t.unacceptableLicenseTest(n)
++                ? this.alertAggregator.addError(
++                    'Found unacceptable license "'
++                      .concat(n, '" for ')
++                      .concat(r),
++                  )
++                : L(n) ||
++                  this.alertAggregator.addError(
++                    'License "'
++                      .concat(n, '" for ')
++                      .concat(r, " is not a valid SPDX expression!"),
++                  )
++              : this.alertAggregator.addError(
++                  "Could not find license info for ".concat(r),
++                ),
++            n || null
++          );
++        },
++      },
++      {
++        key: "findPreferredLicense",
++        value: function e(e) {
++          var t = true,
++            r = false,
++            n = undefined,
++            i = true,
++            a = false,
++            s = undefined;
++          try {
++            for (
++              var o = this.preferredLicenses[Symbol.iterator](), u;
++              !(i = (u = o.next()).done);
++              i = true
++            ) {
++              var l = u.value;
++              try {
++                for (
++                  var c = e[Symbol.iterator](), f;
++                  !(t = (f = c.next()).done);
++                  t = true
++                ) {
++                  var h = f.value;
++                  if (l === h) return l;
++                }
++              } catch (e) {
++                r = true;
++                n = e;
++              } finally {
++                try {
++                  if (!t && c.return != null) {
++                    c.return();
++                  }
++                } finally {
++                  if (r) {
++                    throw n;
++                  }
++                }
++              }
++            }
++          } catch (e) {
++            a = true;
++            s = e;
++          } finally {
++            try {
++              if (!i && o.return != null) {
++                o.return();
++              }
++            } finally {
++              if (a) {
++                throw s;
++              }
++            }
++          }
++          return null;
++        },
++      },
++    ]);
++    return e;
++  })()),
++  g(F, "LicenseIdentifier"),
++  F);
++import { join as C } from "path";
++import P from "needle";
++function M(e) {
++  return E.apply(this, arguments);
++}
++function E() {
++  E = n(function (e) {
++    var t;
++    return p(this, function (r) {
++      switch (r.label) {
++        case 0:
++          return [4, P("get", e)];
++        case 1:
++          t = r.sent();
++          return [2, t.statusCode === 200 ? t.body : null];
++      }
++    });
++  });
++  return E.apply(this, arguments);
++}
++g(M, "fetch");
++var I = "https://raw.githubusercontent.com/spdx/license-list-data",
++  R,
++  T;
++R =
++  ((T = /*#__PURE__*/ (function () {
++    "use strict";
++    function e() {
++      var t =
++        arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : M;
++      i(this, e);
++      m(this, "request");
++      m(this, "cache");
++      (this.request = t), (this.cache = {});
++    }
++    s(e, [
++      {
++        key: "retrieveLicenseText",
++        value: function e(e) {
++          var t = this;
++          return n(function () {
++            var r;
++            return p(this, function (n) {
++              switch (n.label) {
++                case 0:
++                  if (!!t.cache[e]) return [3, 2];
++                  return [
++                    4,
++                    t.request("".concat(I, "/master/text/").concat(e, ".txt")),
++                  ];
++                case 1:
++                  r = n.sent();
++                  t.cache[e] = r;
++                  n.label = 2;
++                case 2:
++                  return [2, t.cache[e] || null];
++              }
++            });
++          })();
++        },
++      },
++    ]);
++    return e;
++  })()),
++  g(T, "DefaultLicenseTextProvider"),
++  T);
++var j, D;
++j =
++  ((D = /*#__PURE__*/ (function () {
++    "use strict";
++    function e(t, r, n) {
++      var a =
++        arguments.length > 3 && arguments[3] !== void 0
++          ? arguments[3]
++          : new R();
++      i(this, e);
++      m(this, "alertAggregator");
++      m(this, "fileSystem");
++      m(this, "options");
++      m(this, "defaultLicenseReader");
++      (this.alertAggregator = t),
++        (this.fileSystem = r),
++        (this.options = n),
++        (this.defaultLicenseReader = a);
++    }
++    s(e, [
++      {
++        key: "readLicenseText",
++        value: function e(e, t, r) {
++          var i = this;
++          return n(function () {
++            var n, a, s, o, u, l;
++            return p(this, function (c) {
++              switch (c.label) {
++                case 0:
++                  n = "".concat(e.name, "@").concat(e.version);
++                  if (!t) return [2, null];
++                  if (t.indexOf("SEE LICENSE IN ") === 0) {
++                    a = t.split(" ")[3];
++                    try {
++                      return [2, i.readFile(r, a)];
++                    } catch (e) {
++                      i.alertAggregator.addError(
++                        "could not find file specified in package.json license field of ".concat(
++                          n,
++                        ),
++                      );
++                    }
++                  }
++                  (s = i.fileSystem.listPaths(r)),
++                    (o = i.getLicenseFilename(s));
++                  if (!(o !== null)) return [3, 1];
++                  u = i.readFile(r, o);
++                  return [3, 5];
++                case 1:
++                  if (!i.options.replenishDefaultLicenseTexts) return [3, 3];
++                  return [4, i.getDefaultLicenseText(t)];
++                case 2:
++                  l = c.sent();
++                  return [3, 4];
++                case 3:
++                  l = null;
++                  c.label = 4;
++                case 4:
++                  u = l;
++                  c.label = 5;
++                case 5:
++                  return [2, u];
++              }
++            });
++          })();
++        },
++      },
++      {
++        key: "getLicenseFilename",
++        value: function e(e) {
++          var t = true,
++            r = false,
++            n = undefined;
++          try {
++            for (
++              var i = e[Symbol.iterator](), a;
++              !(t = (a = i.next()).done);
++              t = true
++            ) {
++              var s = a.value;
++              if (/^licen[cs]e/i.test(s)) return s;
++            }
++          } catch (e) {
++            r = true;
++            n = e;
++          } finally {
++            try {
++              if (!t && i.return != null) {
++                i.return();
++              }
++            } finally {
++              if (r) {
++                throw n;
++              }
++            }
++          }
++          return null;
++        },
++      },
++      {
++        key: "readFile",
++        value: function e(e, t) {
++          return this.fileSystem.readFile(C(e, t)).replace(/\r\n/g, "\n");
++        },
++      },
++      {
++        key: "getDefaultLicenseText",
++        value: function e(e) {
++          var t = this;
++          return n(function () {
++            return p(this, function (r) {
++              switch (r.label) {
++                case 0:
++                  return [4, t.defaultLicenseReader.retrieveLicenseText(e)];
++                case 1:
++                  return [2, r.sent()];
++              }
++            });
++          })();
++        },
++      },
++    ]);
++    return e;
++  })()),
++  g(D, "LicenseTextReader"),
++  D);
++var J, W;
++J =
++  ((W = /*#__PURE__*/ (function () {
++    "use strict";
++    function e(t, r, n, a) {
++      var s =
++          arguments.length > 4 && arguments[4] !== void 0
++            ? arguments[4]
++            : new O(r),
++        o =
++          arguments.length > 5 && arguments[5] !== void 0
++            ? arguments[5]
++            : new j(r, t, n);
++      i(this, e);
++      m(this, "options");
++      m(this, "packageJsonReader");
++      m(this, "licenseIdentifier");
++      m(this, "licenseTextReader");
++      (this.options = n),
++        (this.packageJsonReader = a),
++        (this.licenseIdentifier = s),
++        (this.licenseTextReader = o);
++    }
++    s(e, [
++      {
++        key: "getNpmTarballUrl",
++        value: function e(e, t) {
++          var r = e[0] !== "@" ? e : e.split("/")[1],
++            n = t.indexOf("+"),
++            i = n === -1 ? t : t.substring(0, n);
++          return "https://registry.npmjs.org/"
++            .concat(e, "/-/")
++            .concat(r, "-")
++            .concat(i, ".tgz");
++        },
++      },
++      {
++        key: "aggregateMeta",
++        value: function e(e) {
++          var t = this;
++          return n(function () {
++            var r, n, i, a, s, o, u, l, c, f, h, d, y, v;
++            return p(this, function (p) {
++              switch (p.label) {
++                case 0:
++                  (r = new Set()),
++                    (n = []),
++                    (i = e.sort(function (e, r) {
++                      return t.packageJsonReader
++                        .readPackageJson(e)
++                        .name.localeCompare(
++                          t.packageJsonReader.readPackageJson(r).name,
++                        );
++                    }));
++                  (a = true), (s = false), (o = undefined);
++                  p.label = 1;
++                case 1:
++                  p.trys.push([1, 6, 7, 8]);
++                  u = i[Symbol.iterator]();
++                  p.label = 2;
++                case 2:
++                  if (!!(a = (l = u.next()).done)) return [3, 5];
++                  c = l.value;
++                  (f = t.packageJsonReader.readPackageJson(c)),
++                    (h = "".concat(f.name, "@").concat(f.version));
++                  if (
++                    r.has(h) ||
++                    t.options.excludedPackageTest(f.name, f.version)
++                  )
++                    return [3, 4];
++                  r.add(h);
++                  d = t.licenseIdentifier.identifyLicense(f, t.options);
++                  return [4, t.licenseTextReader.readLicenseText(f, d, c)];
++                case 3:
++                  y = p.sent();
++                  n.push({
++                    name: f.name,
++                    version: f.version,
++                    author: t.getAuthor(f),
++                    repository: t.getRepository(f),
++                    source: t.getNpmTarballUrl(f.name, f.version),
++                    license: d,
++                    licenseText: y,
++                  });
++                  p.label = 4;
++                case 4:
++                  a = true;
++                  return [3, 2];
++                case 5:
++                  return [3, 8];
++                case 6:
++                  v = p.sent();
++                  s = true;
++                  o = v;
++                  return [3, 8];
++                case 7:
++                  try {
++                    if (!a && u.return != null) {
++                      u.return();
++                    }
++                  } finally {
++                    if (s) {
++                      throw o;
++                    }
++                  }
++                  return [7];
++                case 8:
++                  return [2, n];
++              }
++            });
++          })();
++        },
++      },
++      {
++        key: "getAuthor",
++        value: function e(e) {
++          return typeof e.author == "object"
++            ? ""
++                .concat(e.author.name)
++                .concat(e.author.email ? " <".concat(e.author.email, ">") : "")
++                .concat(e.author.url ? " (".concat(e.author.url, ")") : "")
++            : e.author;
++        },
++      },
++      {
++        key: "getRepository",
++        value: function e(e) {
++          return e.repository && e.repository.url
++            ? e.repository.url
++            : typeof e.repository == "string"
++              ? e.repository
++              : null;
++        },
++      },
++    ]);
++    return e;
++  })()),
++  g(W, "LicenseMetaAggregator"),
++  W);
++import { resolve as N, sep as z } from "path";
++var G, q;
++G =
++  ((q = /*#__PURE__*/ (function () {
++    "use strict";
++    function e(t, r, n) {
++      i(this, e);
++      m(this, "fileSystem");
++      m(this, "buildRoot");
++      m(this, "packageJsonReader");
++      (this.fileSystem = t), (this.buildRoot = r), (this.packageJsonReader = n);
++    }
++    s(e, [
++      {
++        key: "getModuleDir",
++        value: function e(e) {
++          var t = e.substring(0, e.lastIndexOf(z));
++          return this.checkModuleDir(t);
++        },
++      },
++      {
++        key: "checkModuleDir",
++        value: function e(e) {
++          var t = null,
++            r = null,
++            n = null;
++          do {
++            if (
++              this.fileSystem.pathExists("".concat(e).concat(z, "package.json"))
++            ) {
++              var i = this.packageJsonReader.readPackageJson(e);
++              i.name !== void 0 &&
++                i.version !== void 0 &&
++                ((t = e),
++                (i.license !== void 0 || i.licenses !== void 0) && (r = e));
++            }
++            (n = e), (e = N("".concat(e).concat(z, "..").concat(z)));
++          } while (!r && e !== n && e !== this.buildRoot);
++          return r || t;
++        },
++      },
++    ]);
++    return e;
++  })()),
++  g(q, "ModuleDirectoryLocator"),
++  q);
++import _ from "spdx-expression-validate";
++var U = {
++    additionalFiles: {},
++    licenseOverrides: {},
++    outputFilename: "oss-licenses.json",
++    replenishDefaultLicenseTexts: !1,
++    unacceptableLicenseTest: function () {
++      return !1;
++    },
++    excludedPackageTest: function () {
++      return !1;
++    },
++    includePackages: function () {
++      return [];
++    },
++  },
++  X = U;
++var V, Y;
++V =
++  ((Y = /*#__PURE__*/ (function () {
++    "use strict";
++    function e(t) {
++      i(this, e);
++      m(this, "alertAggregator");
++      this.alertAggregator = t;
++    }
++    s(e, [
++      {
++        key: "getOptions",
++        value: function e(e) {
++          return this.validateOptions(e), c({}, X, e);
++        },
++      },
++      {
++        key: "validateOptions",
++        value: function e(e) {
++          var t = true,
++            r = false,
++            n = undefined;
++          if (e.additionalFiles)
++            try {
++              for (
++                var i = Object.keys(e.additionalFiles)[Symbol.iterator](), a;
++                !(t = (a = i.next()).done);
++                t = true
++              ) {
++                var s = a.value;
++                typeof e.additionalFiles[s] != "function" &&
++                  this.alertAggregator.addError(
++                    'Invalid additionalFiles option: Value for key "'.concat(
++                      s,
++                      '" is not a function!',
++                    ),
++                  );
++              }
++            } catch (e) {
++              r = true;
++              n = e;
++            } finally {
++              try {
++                if (!t && i.return != null) {
++                  i.return();
++                }
++              } finally {
++                if (r) {
++                  throw n;
++                }
++              }
++            }
++          var o = true,
++            u = false,
++            l = undefined;
++          if (e.licenseOverrides)
++            try {
++              for (
++                var c = Object.keys(e.licenseOverrides)[Symbol.iterator](), f;
++                !(o = (f = c.next()).done);
++                o = true
++              ) {
++                var h = f.value;
++                _(e.licenseOverrides[h]) ||
++                  this.alertAggregator.addError(
++                    'Invalid licenseOverrides option: "'.concat(
++                      e.licenseOverrides[h],
++                      '" is not a valid SPDX expression!',
++                    ),
++                  );
++              }
++            } catch (e) {
++              u = true;
++              l = e;
++            } finally {
++              try {
++                if (!o && c.return != null) {
++                  c.return();
++                }
++              } finally {
++                if (u) {
++                  throw l;
++                }
++              }
++            }
++          e.replenishDefaultLicenseTexts &&
++            typeof e.replenishDefaultLicenseTexts != "boolean" &&
++            this.alertAggregator.addError(
++              "Invalid replenishDefaultLicenseTexts option: Not a boolean!",
++            ),
++            e.includePackages &&
++              typeof e.includePackages != "function" &&
++              this.alertAggregator.addError(
++                "Invalid includePackages option: Not a function!",
++              );
++        },
++      },
++    ]);
++    return e;
++  })()),
++  g(Y, "OptionsProvider"),
++  Y);
++import { join as $ } from "path";
++var B, H;
++B =
++  ((H = /*#__PURE__*/ (function () {
++    "use strict";
++    function e(t) {
++      i(this, e);
++      m(this, "fileSystem");
++      m(this, "cache");
++      (this.fileSystem = t), (this.cache = {});
++    }
++    s(e, [
++      {
++        key: "readPackageJson",
++        value: function e(e) {
++          if (!this.cache[e]) {
++            var t = $(e, "package.json"),
++              r = JSON.parse(this.fileSystem.readFile(t));
++            this.cache[e] = r;
++          }
++          return this.cache[e];
++        },
++      },
++    ]);
++    return e;
++  })()),
++  g(H, "PackageJsonReader"),
++  H);
++const { WebpackError : K } =webpackpkg;
++
++var Q, Z;
++Q =
++  ((Z = /*#__PURE__*/ (function () {
++    "use strict";
++    function e(t) {
++      i(this, e);
++      m(this, "compilation");
++      m(this, "errors");
++      m(this, "warnings");
++      (this.compilation = t), (this.errors = []), (this.warnings = []);
++    }
++    s(e, [
++      {
++        key: "addError",
++        value: function e(e) {
++          this.errors.push(e);
++        },
++      },
++      {
++        key: "addWarning",
++        value: function e(e) {
++          this.warnings.push(e);
++        },
++      },
++      {
++        key: "flushAlerts",
++        value: function e(e) {
++          var t, r;
++          (t = this.compilation.errors).push.apply(
++            t,
++            f(
++              this.errors.map(function (t) {
++                return new K("".concat(e, ": ").concat(t));
++              }),
++            ),
++          ),
++            (this.errors = []),
++            (r = this.compilation.warnings).push.apply(
++              r,
++              f(
++                this.warnings.map(function (t) {
++                  return new K("".concat(e, ": ").concat(t));
++                }),
++              ),
++            ),
++            (this.warnings = []);
++        },
++      },
++    ]);
++    return e;
++  })()),
++  g(Z, "WebpackAlertAggregator"),
++  Z);
++const { sources : ee } = webpackpkg;
++var et, er;
++et =
++  ((er = /*#__PURE__*/ (function () {
++    "use strict";
++    function e(t) {
++      i(this, e);
++      m(this, "compilation");
++      this.compilation = t;
++    }
++    s(e, [
++      {
++        key: "addFile",
++        value: function e(e, t) {
++          this.compilation.assets[e] = new ee.RawSource(t);
++        },
++      },
++    ]);
++    return e;
++  })()),
++  g(er, "WebpackAssetManager"),
++  er);
++var en, ei;
++en =
++  ((ei = /*#__PURE__*/ (function () {
++    "use strict";
++    function e() {
++      i(this, e);
++    }
++    s(e, [
++      {
++        key: "iterateModules",
++        value: function e(e, t, r) {
++          var n = true,
++            i = false,
++            a = undefined,
++            s = true,
++            o = false,
++            u = undefined;
++          if (h(e.chunkGraph) < "u")
++            try {
++              for (
++                var l = e.chunkGraph
++                    .getChunkModulesIterable(t)
++                    [Symbol.iterator](),
++                  c;
++                !(n = (c = l.next()).done);
++                n = true
++              ) {
++                var f = c.value;
++                r(f);
++              }
++            } catch (e) {
++              i = true;
++              a = e;
++            } finally {
++              try {
++                if (!n && l.return != null) {
++                  l.return();
++                }
++              } finally {
++                if (i) {
++                  throw a;
++                }
++              }
++            }
++          else if (h(t.modulesIterable) < "u")
++            try {
++              for (
++                var d = t.modulesIterable[Symbol.iterator](), p;
++                !(s = (p = d.next()).done);
++                s = true
++              ) {
++                var y = p.value;
++                r(y);
++              }
++            } catch (e) {
++              o = true;
++              u = e;
++            } finally {
++              try {
++                if (!s && d.return != null) {
++                  d.return();
++                }
++              } finally {
++                if (o) {
++                  throw u;
++                }
++              }
++            }
++          else
++            typeof t.forEachModule == "function"
++              ? t.forEachModule(r)
++              : Array.isArray(t.modules) &&
++                t.modules.forEach(function (e) {
++                  return r(e);
++                });
++          var v = true,
++            g = false,
++            m = undefined;
++          if (h(e.chunkGraph) < "u")
++            try {
++              for (
++                var b = e.chunkGraph
++                    .getChunkEntryModulesIterable(t)
++                    [Symbol.iterator](),
++                  k;
++                !(v = (k = b.next()).done);
++                v = true
++              ) {
++                var w = k.value;
++                r(w);
++              }
++            } catch (e) {
++              g = true;
++              m = e;
++            } finally {
++              try {
++                if (!v && b.return != null) {
++                  b.return();
++                }
++              } finally {
++                if (g) {
++                  throw m;
++                }
++              }
++            }
++          else t.entryModule && r(t.entryModule);
++        },
++      },
++    ]);
++    return e;
++  })()),
++  g(ei, "WebpackChunkModuleIterator"),
++  ei);
++var ea, es;
++ea =
++  ((es = /*#__PURE__*/ (function () {
++    "use strict";
++    function e() {
++      i(this, e);
++    }
++    s(e, [
++      {
++        key: "iterateFiles",
++        value: function e(e, t) {
++          var r = e.resource,
++            n = e.rootModule,
++            i = e.fileDependencies,
++            a = e.dependencies;
++          r
++            ? t(r)
++            : (n === null || n === void 0 ? void 0 : n.resource) &&
++              t(n.resource),
++            i &&
++              i.forEach(function (e) {
++                return t(e);
++              }),
++            a &&
++              a.forEach(function (e) {
++                var r = e.originModule,
++                  n = e._parentModule;
++                (r === null || r === void 0 ? void 0 : r.resource) &&
++                  t(r.resource),
++                  (n === null || n === void 0 ? void 0 : n.resource) &&
++                    t(n.resource);
++              });
++        },
++      },
++    ]);
++    return e;
++  })()),
++  g(es, "WebpackModuleFileIterator"),
++  es);
++var eo, eu;
++eo =
++  ((eu = /*#__PURE__*/ (function () {
++    "use strict";
++    function e() {
++      var t =
++          arguments.length > 0 && arguments[0] !== void 0
++            ? arguments[0]
++            : new en(),
++        r =
++          arguments.length > 1 && arguments[1] !== void 0
++            ? arguments[1]
++            : new ea();
++      i(this, e);
++      m(this, "moduleIterator");
++      m(this, "fileIterator");
++      (this.moduleIterator = t), (this.fileIterator = r);
++    }
++    s(e, [
++      {
++        key: "iterateChunks",
++        value: function e(e, t) {
++          var r = this;
++          var n = [];
++          var i = true,
++            a = false,
++            s = undefined;
++          try {
++            for (
++              var o = t[Symbol.iterator](), u;
++              !(i = (u = o.next()).done);
++              i = true
++            ) {
++              var l = u.value;
++              this.moduleIterator.iterateModules(e, l, function (e) {
++                r.fileIterator.iterateFiles(e, function (e) {
++                  n.push(e);
++                });
++              });
++            }
++          } catch (e) {
++            a = true;
++            s = e;
++          } finally {
++            try {
++              if (!i && o.return != null) {
++                o.return();
++              }
++            } finally {
++              if (a) {
++                throw s;
++              }
++            }
++          }
++          return n;
++        },
++      },
++    ]);
++    return e;
++  })()),
++  g(eu, "WebpackChunkIterator"),
++  eu);
++var el, ec;
++el =
++  ((ec = /*#__PURE__*/ (function () {
++    "use strict";
++    function e(t) {
++      i(this, e);
++      m(this, "fs");
++      this.fs = t;
++    }
++    s(e, [
++      {
++        key: "pathExists",
++        value: function e(e) {
++          try {
++            return this.fs.statSync(e), !0;
++          } catch (e) {
++            return !1;
++          }
++        },
++      },
++      {
++        key: "readFile",
++        value: function e(e) {
++          return this.fs.readFileSync(e).toString("utf8");
++        },
++      },
++      {
++        key: "listPaths",
++        value: function e(e) {
++          return this.fs.readdirSync(e);
++        },
++      },
++    ]);
++    return e;
++  })()),
++  g(ec, "WebpackFileSystem"),
++  ec);
++var ef = "WebpackLicensePlugin",
++  eh,
++  ed;
++eh =
++  ((ed = /*#__PURE__*/ (function () {
++    "use strict";
++    function e() {
++      var t =
++        arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : {};
++      i(this, e);
++      m(this, "pluginOptions");
++      m(this, "filenames");
++      m(this, "createdFiles");
++      m(this, "observedCompilers");
++      (this.pluginOptions = t),
++        (this.filenames = new Set()),
++        (this.createdFiles = !1),
++        (this.observedCompilers = []);
++    }
++    s(e, [
++      {
++        key: "apply",
++        value: function e(e) {
++          h(e.hooks) < "u"
++            ? (e.hooks.compilation.tap(
++                "webpack-license-plugin",
++                this.handleCompilation.bind(this, e),
++              ),
++              e.hooks.watchRun.tapAsync(
++                "webpack-license-plugin",
++                this.handleWatchRun.bind(this),
++              ))
++            : h(e.plugin) < "u" &&
++              (e.plugin("compilation", this.handleCompilation.bind(this, e)),
++              e.plugin("watchRun", this.handleWatchRun.bind(this)));
++        },
++      },
++      {
++        key: "handleWatchRun",
++        value: function e(e, t) {
++          var r = this;
++          return n(function () {
++            return p(this, function (e) {
++              (r.createdFiles = !1), (r.observedCompilers = []), t();
++              return [2];
++            });
++          })();
++        },
++      },
++      {
++        key: "handleCompilation",
++        value: function e(e, t) {
++          if (h(t.hooks) < "u")
++            if (h(t.hooks.processAssets) < "u") {
++              var r = this.handleChunkAssetOptimization.bind(
++                this,
++                e,
++                t,
++                t.chunks,
++              );
++              t.hooks.processAssets.tapAsync(
++                {
++                  name: "webpack-license-plugin",
++                  stage: b.Compilation.PROCESS_ASSETS_STAGE_ANALYSE,
++                },
++                function (e, t) {
++                  return r(t);
++                },
++              );
++            } else
++              t.hooks.optimizeChunkAssets.tapAsync(
++                "webpack-license-plugin",
++                this.handleChunkAssetOptimization.bind(this, e, t),
++              );
++          else
++            h(t.plugin) < "u" &&
++              t.plugin(
++                "optimize-chunk-assets",
++                this.handleChunkAssetOptimization.bind(this, e, t),
++              );
++        },
++      },
++      {
++        key: "handleChunkAssetOptimization",
++        value: function e(e, t, r, i) {
++          var a = this;
++          return n(function () {
++            var n, s, o, u, l, c, h, d, y, v, g, m, b;
++            return p(this, function (p) {
++              switch (p.label) {
++                case 0:
++                  if (
++                    (a.observedCompilers.push({
++                      name: t.compiler.name,
++                      isChild: t.compiler.isChild(),
++                    }),
++                    a.createdFiles)
++                  ) {
++                    (n = a.observedCompilers
++                      .map(function (e) {
++                        var t = e.name,
++                          r = e.isChild;
++                        return "compiler: ".concat(t, ", isChild: ").concat(r);
++                      })
++                      .join("\n")),
++                      (s = new k(
++                        ""
++                          .concat(
++                            ef,
++                            ": Found licenses after license files were already created.\nIf you see this message, you ran into an edge case we thought would not happen. Please open an isssue at https://github.com/codepunkt/webpack-license-plugin/issues with details of your webpack configuration so we can invastigate it further.\n",
++                          )
++                          .concat(n),
++                      ));
++                    t.errors.push(s), i();
++                    return [2];
++                  }
++                  t.compiler.isChild() || (a.createdFiles = !0);
++                  (o = new Q(t)), (u = new V(o).getOptions(a.pluginOptions));
++                  o.flushAlerts(ef);
++                  l = new eo();
++                  (c = true), (h = false), (d = undefined);
++                  try {
++                    for (
++                      y = l.iterateChunks(t, r)[Symbol.iterator]();
++                      !(c = (v = y.next()).done);
++                      c = true
++                    ) {
++                      g = v.value;
++                      a.filenames.add(g);
++                    }
++                  } catch (e) {
++                    h = true;
++                    d = e;
++                  } finally {
++                    try {
++                      if (!c && y.return != null) {
++                        y.return();
++                      }
++                    } finally {
++                      if (h) {
++                        throw d;
++                      }
++                    }
++                  }
++                  if (t.compiler.isChild()) {
++                    i();
++                    return [2];
++                  }
++                  (m = new el(e.inputFileSystem)), (b = new B(m));
++                  return [
++                    4,
++                    new x(
++                      new et(t),
++                      new G(m, e.options.context, b),
++                      new J(m, o, u, b),
++                    ).writeLicenseFiles(f(a.filenames), u),
++                  ];
++                case 1:
++                  p.sent(), o.flushAlerts(ef), i();
++                  return [2];
++              }
++            });
++          })();
++        },
++      },
++    ]);
++    return e;
++  })()),
++  g(ed, "WebpackLicensePlugin"),
++  ed);
++var ep = eh;
++export { ep as default }; //# sourceMappingURL=index.js.map

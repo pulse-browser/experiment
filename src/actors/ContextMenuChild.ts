@@ -103,6 +103,7 @@ export class ContextMenuChild extends JSWindowActorChild {
 
     const selectionInfo = lazy.SelectionUtils.getSelectionDetails(
       this.contentWindow,
+      undefined,
     )
     if (selectionInfo.fullText) {
       data.textSelection = selectionInfo.fullText

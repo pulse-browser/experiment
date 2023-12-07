@@ -328,7 +328,7 @@ class FaviconLoad {
     }
 
     try {
-      const stream = new BinaryInputStream(this.dataBuffer?.newInputStream(0))
+      const stream = new BinaryInputStream(this.dataBuffer!.newInputStream(0))
       const buffer = new ArrayBuffer(this.dataBuffer?.length)
       stream.readArrayBuffer(buffer.byteLength, buffer)
 
@@ -357,7 +357,7 @@ class FaviconLoad {
 
         let image
         try {
-          image = await promiseImage(this.dataBuffer?.newInputStream(0), type)
+          image = await promiseImage(this.dataBuffer!.newInputStream(0), type)
         } catch (e) {
           throw Components.Exception(
             `Favicon at "${this.icon.iconUri.spec}" could not be decoded.`,
@@ -676,6 +676,7 @@ export class FaviconLoader {
     this.iconTask = new lazy.DeferredTask(
       () => this.loadIcons(),
       FAVICON_PARSING_TIMEOUT,
+      null,
     )
   }
 
