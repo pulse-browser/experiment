@@ -3,7 +3,8 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 import 'remixicon/fonts/remixicon.css'
 
-import '../global.css'
+import '@shared/styles/window.css'
+
 import History from './History.svelte'
 
 new History({

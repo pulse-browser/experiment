@@ -4,9 +4,9 @@
 /// <reference types="gecko-types" />
 import 'remixicon/fonts/remixicon.css'
 
-import '../global.css'
+import '@shared/styles/window.css'
+
 import App from './Browser.svelte'
-import './browser.css'
 import './lib/globalApi'
 import { initializeShortcuts } from './lib/shortcuts'
 

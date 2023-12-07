@@ -4,8 +4,8 @@
 /// <reference path="../../link.d.ts" />
 import 'remixicon/fonts/remixicon.css'
 
-import '../global.css'
+import '@shared/styles/window.css'
+
 import App from './Bookmarks.svelte'
-import './bookmarks.css'
 
 new App({ target: document.body })

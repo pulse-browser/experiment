@@ -1,3 +1,7 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+
 import { lazy } from './lazy'
 
 const DAY_MS = 24 * 60 * 60 * 1000
@@ -138,19 +142,19 @@ export interface VisitItem {
 // =============================================================================
 // Gecko types
 
-interface GeckoVisitInfo {
-  date: Date
-  transition: number
-  referrer?: URL | nsIURIType | string
-}
+// interface GeckoVisitInfo {
+//   date: Date
+//   transition: number
+//   referrer?: URL | nsIURIType | string
+// }
 
-interface GeckoPageInfo {
-  guid: string
-  url: URL | nsIURIType | string
-  title?: string
-  description?: string
-  previewImageURL?: URL | nsIURIType | string
-  frequency?: number
-  visits?: GeckoVisitInfo[]
-  annotations?: Map<unknown, unknown>
-}
+// interface GeckoPageInfo {
+//   guid: string
+//   url: URL | nsIURIType | string
+//   title?: string
+//   description?: string
+//   previewImageURL?: URL | nsIURIType | string
+//   frequency?: number
+//   visits?: GeckoVisitInfo[]
+//   annotations?: Map<unknown, unknown>
+// }

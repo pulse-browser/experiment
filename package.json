@@ -17,7 +17,7 @@
     "build-modules": "tsc -p ./tsconfigs/tsconfig.modules.json",
     "build-actors": "tsc -p ./tsconfigs/tsconfig.actors.json",
     "dev": "concurrently -c auto pnpm:dev-*",
-    "dev-content": "webpack serve --mode development -c ./.config/webpack.config.cjs",
+    "dev-content": "webpack serve --mode development -c ./.config/webpack.config.js",
     "dev-modules": "tsc -w -p ./tsconfigs/tsconfig.modules.json",
     "dev-actors": "tsc -w -p ./tsconfigs/tsconfig.actors.json",
     "rt:slink": "rm --force ./.store/artifact.tar.bz2 && ln -s ../../experiment-runtime/dist/experiment-runtime-1.0.0.en-US.linux-x86_64.tar.bz2 ./.store/artifact.tar.bz2",
@@ -30,6 +30,8 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@melt-ui/pp": "^0.1.4",
+    "@melt-ui/svelte": "^0.64.0",
     "@tinyhttp/app": "^2.2.1",
     "@trivago/prettier-plugin-sort-imports": "^4.3.0",
     "@tsconfig/svelte": "^5.0.2",
@@ -54,6 +56,7 @@
     "svelte": "^4.2.1",
     "svelte-loader": "^3.1.9",
     "svelte-preprocess": "^5.0.4",
+    "svelte-sequential-preprocessor": "^2.0.1",
     "ts-loader": "^9.5.0",
     "typescript": "^5.2.2",
     "webpack": "^5.89.0",
@@ -72,7 +75,9 @@
   },
   "pnpm": {
     "patchedDependencies": {
-      "svelte@4.2.1": "patches/svelte@4.2.1.patch"
+      "svelte@4.2.1": "patches/svelte@4.2.1.patch",
+      "webpack-license-plugin@4.4.2": "patches/webpack-license-plugin@4.4.2.patch",
+      "@melt-ui/svelte@0.64.5": "patches/@melt-ui__svelte@0.64.5.patch"
     }
   },
   "prettier": {
