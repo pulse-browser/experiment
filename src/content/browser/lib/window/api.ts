@@ -16,30 +16,37 @@ export type WindowTriggers = {
 
 export const windowApi = {
   windowTriggers: mitt<WindowTriggers>(),
-  closeTab,
-  openTab,
-  get tabs() {
-    return tabs.readOnce()
+  tabs: {
+    closeTab,
+    openTab,
+    get tabs() {
+      return tabs.readOnce()
+    },
+    setIcon: (browser: XULBrowserElement, iconURL: string) =>
+      tabs
+        .readOnce()
+        .find((tab) => tab.getTabId() == browser.browserId)
+        ?.icon.set(iconURL),
   },
-  setIcon: (browser: XULBrowserElement, iconURL: string) =>
-    tabs
-      .readOnce()
-      .find((tab) => tab.getTabId() == browser.browserId)
-      ?.icon.set(iconURL),
-  showContextMenu: (menuInfo: ContextMenuInfo, actor: JSWindowActorParent) => {
-    browserContextMenuInfo.set(menuInfo)
-    setContextMenuParentActor(actor)
+  contextMenu: {
+    showContextMenu: (
+      menuInfo: ContextMenuInfo,
+      actor: JSWindowActorParent,
+    ) => {
+      browserContextMenuInfo.set(menuInfo)
+      setContextMenuParentActor(actor)
 
-    requestAnimationFrame(() => {
-      const contextMenu = document.getElementById(
-        'browser_context_menu',
-      ) as XULMenuPopup
-      contextMenu.openPopupAtScreen(
-        menuInfo.position.screenX,
-        menuInfo.position.screenY,
-        true,
-      )
-    })
+      requestAnimationFrame(() => {
+        const contextMenu = document.getElementById(
+          'browser_context_menu',
+        ) as XULMenuPopup
+        contextMenu.openPopupAtScreen(
+          menuInfo.position.screenX,
+          menuInfo.position.screenY,
+          true,
+        )
+      })
+    },
   },
 }
 
