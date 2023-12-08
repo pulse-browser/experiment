@@ -11,10 +11,21 @@
 
   const openDialogWindowAction = (url: string) => () =>
     Services.ww.openWindow(window, url, '_blank', 'chrome,dialog=yes,all', null)
+
+  const openChromeWindowAction = (url: string) => () =>
+    Services.ww.openWindow(null, url, '_blank', 'chrome,dialog=no,all', null)
 </script>
 
 <xul:panel class="panel" id="hamburgerMenu">
   <div class="panel__container">
+    <HamburgerMenuItem
+      on:click={openChromeWindowAction(
+        Services.prefs.getStringPref('app.content'),
+      )}
+    >
+      New Window
+    </HamburgerMenuItem>
+
     <HamburgerMenuItem
       on:click={openDialogWindowAction(
         'chrome://browser/content/settings/index.html',
