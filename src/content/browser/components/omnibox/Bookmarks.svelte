@@ -15,7 +15,7 @@
   } from '@shared/ExtBookmarkAPI'
   import ToolbarButton from '@shared/components/ToolbarButton.svelte'
 
-  import type { Tab } from '../tabs/tab'
+  import type { Tab } from '@browser/lib/window/tab'
 
   export let tab: Tab
 

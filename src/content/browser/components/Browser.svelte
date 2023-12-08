@@ -4,7 +4,7 @@
 
 <script lang="ts">
   import { createEventDispatcher, onDestroy, onMount } from 'svelte'
-  import { Tab } from './tabs/tab'
+  import { Tab } from '@browser/lib/window/tab'
 
   export let tab: Tab
   export let selectedTab: number

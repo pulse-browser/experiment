@@ -5,9 +5,8 @@ import { writable } from 'svelte/store'
 
 import { viewableWritable } from '@shared/svelteUtils'
 
-import { Tab } from '@browser/components/tabs/tab'
-
 import { resource } from '../resources'
+import { Tab } from './tab'
 
 let internalSelectedTab = -1
 export const selectedTab = writable(-1)

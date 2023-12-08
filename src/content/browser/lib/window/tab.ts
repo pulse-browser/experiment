@@ -4,26 +4,20 @@
 import mitt from 'mitt'
 import { type Writable, writable } from 'svelte/store'
 
-import { type BookmarkTreeNode, search } from '../../../shared/ExtBookmarkAPI'
-import {
-  type ViewableWritable,
-  viewableWritable,
-} from '../../../shared/svelteUtils'
-import { spinLock } from '../../lib/spinlock'
-import {
-  createBrowser,
-  getBrowserRemoteType,
-  setURI,
-} from '../../lib/xul/browser'
-import { domContentLoaded } from '../../lib/xul/domevents'
+import { type BookmarkTreeNode, search } from '@shared/ExtBookmarkAPI'
+import { type ViewableWritable, viewableWritable } from '@shared/svelteUtils'
+
+import { spinLock } from '../spinlock'
+import { createBrowser, getBrowserRemoteType, setURI } from '../xul/browser'
+import { domContentLoaded } from '../xul/domevents'
 
 export const lastTabAction = { id: -1, before: false }
 
 let localTabId = 0
 
 /**
- * This provides a consistent internal representation of a tab, including the browser elements
- * it contains & information derived from listeners about its current state
+ * This provides a consistent internal representation of a tab, including the
+ * browser elements it contains & information derived from listeners about its current state
  */
 export class Tab {
   private _id: number = ++localTabId

@@ -8,7 +8,7 @@
     IconComponent,
     Component,
   } from '@shared/customizableUI'
-  import type { Tab } from '../tabs/tab'
+  import type { Tab } from '@browser/lib/window/tab'
   import { ToolbarButton } from '@shared/components'
   import UIItemBase from './UIItemBase.svelte'
 
