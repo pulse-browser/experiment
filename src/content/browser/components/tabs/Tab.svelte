@@ -4,59 +4,41 @@
 
 <script lang="ts">
   import type { Tab } from '@browser/lib/window/tab'
-  import type { DragEventHandler } from 'svelte/elements'
   import Spinner from '@shared/components/Spinner.svelte'
-  import {
-    moveTabBefore,
-    moveTabAfter,
-    closeTab,
-  } from '@browser/lib/window/tabs'
+  import { closeTab } from '@browser/lib/window/tabs'
+  import { createTabDrag } from './tabDrag'
 
   export let tab: Tab
   export let selectedTab: number
 
-  let lastDragIsBefore: undefined | boolean
+  $: title = tab.title
+  $: icon = tab.icon
+  $: uri = tab.uri
+  $: loading = tab.loading
 
-  const { title, icon, uri, loading } = tab
+  $: tabDragInfo = createTabDrag(tab)
+  $: tabDrag = tabDragInfo.tabDrag
+  $: before = tabDragInfo.drop.before
+  $: after = tabDragInfo.drop.after
 
-  $: tab.getId() == selectedTab && (document.title = $title)
-
-  const dragOver: DragEventHandler<HTMLDivElement> = (e) => {
-    if (!e.currentTarget.classList.contains('tab')) return
-
-    const boundingRect = e.currentTarget.getBoundingClientRect()
-
-    const xMiddle = boundingRect.x + boundingRect.width / 2
-    const isBefore = e.x <= xMiddle
-
-    const dragId = parseInt(e.dataTransfer?.getData('text/plain') || '-1')
-    if (dragId == tab.getId()) return
-    if (lastDragIsBefore === isBefore) return
-    lastDragIsBefore = isBefore
-
-    if (isBefore) {
-      moveTabBefore(dragId, tab.getId())
-    } else {
-      moveTabAfter(dragId, tab.getId())
-    }
-  }
+  $: selected = tab.getId() === selectedTab
+  $: selected && (document.title = $title)
 </script>
+
+<div class="drop-indicator" data-active={$before} />
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <div
+  use:tabDrag
   on:click={() => (selectedTab = tab.getId())}
   on:mouseup={(e) => {
     // When the middle mouse button is clicked, close this tab
     if (e.button == 1) closeTab(tab)
   }}
-  on:dragstart={(e) =>
-    e.dataTransfer?.setData('text/plain', tab.getId().toString())}
-  on:dragover={dragOver}
   class="tab"
   role="tab"
   tabindex={tab.getId()}
-  aria-selected={tab.getId() == selectedTab}
-  draggable="true"
+  aria-selected={selected}
 >
   {#if $loading}
     <div class="tab__start-item">
@@ -74,6 +56,8 @@
     <i class="ri-close-line" />
   </button>
 </div>
+
+<div class="drop-indicator" data-active={$after} />
 
 <style>
   .tab {
@@ -139,5 +123,13 @@
   .tab__icon {
     height: 1.5rem;
     width: 1.5rem;
+  }
+
+  .drop-indicator {
+    width: 1px;
+  }
+
+  .drop-indicator[data-active='true'] {
+    background: var(--active);
   }
 </style>

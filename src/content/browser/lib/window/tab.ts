@@ -89,6 +89,13 @@ export class Tab {
     return this.tabId || 0
   }
 
+  public getDragRepresentation() {
+    return {
+      windowId: window.windowApi.id,
+      tabId: this.getId(),
+    }
+  }
+
   protected useProgressListener() {
     this.progressListener.events.on('locationChange', (event) => {
       if (!event.aWebProgress.isTopLevel) return

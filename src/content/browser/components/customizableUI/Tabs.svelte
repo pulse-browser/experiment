@@ -18,15 +18,13 @@
 </script>
 
 <UiItemBase {component} {root} class="tabs" on:drop={(e) => e.preventDefault()}>
-  {#each $tabs as tab}
+  {#each $tabs as tab (tab.getId())}
     <Tab {tab} bind:selectedTab={$selectedTab} />
   {/each}
 </UiItemBase>
 
 <style>
   :global(.component.tabs) {
-    display: flex;
-    gap: 0.25;
     overflow: scroll;
   }
 </style>

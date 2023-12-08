@@ -60,7 +60,8 @@ export class EngineProvider extends Provider {
     }
 
     try {
-      const json = JSON.parse(body)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const json = JSON.parse(body) as any
       const results = json[1].map((result: string) => {
         return {
           title: result,

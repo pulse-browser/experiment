@@ -290,5 +290,5 @@ export const fromExportTypeStable = (component: ExportComponent) =>
   fromExportTypeStableInternal('root')(component, 0)
 
 export const customizableUIDynamicPref = dynamicStringPref((json) =>
-  fromExportTypeStable(JSON.parse(json)),
+  fromExportTypeStable(JSON.parse(json) as ExportComponent),
 )
