@@ -2,11 +2,19 @@
    - License, v. 2.0. If a copy of the MPL was not distributed with this
    - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
 
+<!-- This Source Code Form is subject to the terms of the Mozilla Pimport { closeTab, moveTabBefore, moveTabAfter } from '@browser/lib/tabs';
+is
+   - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
+
 <script lang="ts">
   import { type Tab } from './tab'
-  import { closeTab, moveTabBefore, moveTabAfter } from '../../lib/globalApi'
   import type { DragEventHandler } from 'svelte/elements'
-  import Spinner from '../../../shared/components/Spinner.svelte'
+  import Spinner from '@shared/components/Spinner.svelte'
+  import {
+    moveTabBefore,
+    moveTabAfter,
+    closeTab,
+  } from '@browser/lib/window/tabs'
 
   export let tab: Tab
   export let selectedTab: number

@@ -74,7 +74,6 @@ export function setNodeOpened(
   node: nsINavHistoryContainerResultNodeType,
   opened = true,
 ) {
-  console.log(node)
   node.containerOpen = opened
 }
 

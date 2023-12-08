@@ -90,6 +90,7 @@
     "importOrder": [
       "^resource://(.*)$",
       "^@shared/(.*)$",
+      "^@browser/(.*)$",
       "^[./]"
     ],
     "importOrderSeparation": true,

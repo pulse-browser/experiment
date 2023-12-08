@@ -1,24 +1,18 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
-import mitt from 'mitt'
+
 import { writable } from 'svelte/store'
 
-import type { ContextMenuInfo } from '../../../actors/ContextMenu.types'
-import { viewableWritable } from '../../shared/svelteUtils'
-import { Tab } from '../components/tabs/tab'
-import { resource } from './resources'
+import { viewableWritable } from '@shared/svelteUtils'
 
-export let contextMenuParentActor: JSWindowActorParent
-export const browserContextMenuInfo = writable<ContextMenuInfo>({
-  position: { screenX: 0, screenY: 0, inputSource: 0 },
-  context: {},
-})
+import { Tab } from '@browser/components/tabs/tab'
+
+import { resource } from '../resources'
 
 let internalSelectedTab = -1
 export const selectedTab = writable(-1)
 selectedTab.subscribe((v) => (internalSelectedTab = v))
-
 const uriPref = (pref: string) => (): nsIURIType =>
   resource.NetUtil.newURI(Services.prefs.getStringPref(pref, 'about:blank'))
 const newTabUri = uriPref('browser.newtab.default')
@@ -56,7 +50,6 @@ export function closeTab(tab: Tab) {
     return filtered
   })
 }
-
 function getCurrent(): Tab | undefined {
   return tabs.readOnce().find((t) => t.getId() == internalSelectedTab)
 }
@@ -113,43 +106,7 @@ export function moveTabAfter(toMoveId: number, targetId: number) {
     return newTabs
   })
 }
-
 function insertAndShift<T>(arr: T[], from: number, to: number) {
   const cutOut = arr.splice(from, 1)[0]
   arr.splice(to, 0, cutOut)
 }
-
-export type WindowTriggers = {
-  bookmarkCurrentPage: undefined
-}
-
-export const windowApi = {
-  windowTriggers: mitt<WindowTriggers>(),
-  closeTab,
-  openTab,
-  get tabs() {
-    return tabs.readOnce()
-  },
-  setIcon: (browser: XULBrowserElement, iconURL: string) =>
-    tabs
-      .readOnce()
-      .find((tab) => tab.getTabId() == browser.browserId)
-      ?.icon.set(iconURL),
-  showContextMenu: (menuInfo: ContextMenuInfo, actor: JSWindowActorParent) => {
-    browserContextMenuInfo.set(menuInfo)
-    contextMenuParentActor = actor
-
-    requestAnimationFrame(() => {
-      const contextMenu = document.getElementById(
-        'browser_context_menu',
-      ) as XULMenuPopup
-      contextMenu.openPopupAtScreen(
-        menuInfo.position.screenX,
-        menuInfo.position.screenY,
-        true,
-      )
-    })
-  },
-}
-
-window.windowApi = windowApi

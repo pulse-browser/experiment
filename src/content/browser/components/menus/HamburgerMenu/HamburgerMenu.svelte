@@ -4,10 +4,10 @@
 
 <script lang="ts">
   import { initDevTools } from '@browser/lib/devtools'
-  import { openTab } from '@browser/lib/globalApi'
   import { resource } from '@browser/lib/resources'
 
   import HamburgerMenuItem from './HamburgerMenuItem.svelte'
+  import { openTab } from '@browser/lib/window/tabs'
 
   const openDialogWindowAction = (url: string) => () =>
     Services.ww.openWindow(window, url, '_blank', 'chrome,dialog=yes,all', null)

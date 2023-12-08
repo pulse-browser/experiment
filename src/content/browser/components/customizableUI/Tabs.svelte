@@ -8,10 +8,10 @@
     ComponentId,
     TabsComponent,
   } from '@shared/customizableUI'
-  import { tabs, selectedTab } from '@browser/lib/globalApi'
   import Tab from '@browser/components/tabs/Tab.svelte'
 
   import UiItemBase from './UIItemBase.svelte'
+  import { selectedTab, tabs } from '@browser/lib/window/tabs'
 
   export let component: ComponentId & TabsComponent
   export let root: Component

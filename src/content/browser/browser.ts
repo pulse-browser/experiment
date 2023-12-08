@@ -7,8 +7,8 @@ import 'remixicon/fonts/remixicon.css'
 import '@shared/styles/window.css'
 
 import App from './Browser.svelte'
-import './lib/globalApi'
 import { initializeShortcuts } from './lib/shortcuts'
+import './lib/window/api'
 
 // TODO: WTF is this and do we care
 // This needs setting up before we create the first remote browser.

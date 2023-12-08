@@ -3,16 +3,19 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 import curry from 'fnts/curry'
 
-import type { MenuItemAction, VisibilityCheck } from '.'
-import type { ContextMenuInfo } from '../../../actors/ContextMenu.types'
+import { resource } from '@browser/lib/resources'
 import {
+  type ContextMenuInfo,
   contextMenuParentActor,
+} from '@browser/lib/window/contextMenu'
+import {
   openTab,
   runOnCurrentTab,
   setCurrentTab,
-} from '../../browser/lib/globalApi'
-import { resource } from '../../browser/lib/resources'
-import { getClipboardHelper } from '../../browser/lib/xul/ccWrapper'
+} from '@browser/lib/window/tabs'
+import { getClipboardHelper } from '@browser/lib/xul/ccWrapper'
+
+import type { MenuItemAction, VisibilityCheck } from '.'
 
 const ALWAYS = () => true
 const HAS_TEXT_SELECTION: VisibilityCheck = (info) =>
@@ -42,6 +45,10 @@ const openInNewTab = onStringValue((value) => {
   if (Services.prefs.getBoolPref('browser.tabs.newTabFocus')) {
     queueMicrotask(() => setCurrentTab(tab))
   }
+})
+
+const openInNewWindow = onStringValue(() => {
+  // TODO
 })
 
 const saveImageUrl = onStringValue((value, info) => {
@@ -94,6 +101,13 @@ export const MENU_ITEM_ACTIONS: MenuItemAction[] = (
 
       visible: HAS_HREF,
       action: openInNewTab('href'),
+    },
+    {
+      id: 'link__new-window',
+      title: 'Open Link in New Window',
+
+      visible: HAS_HREF,
+      action: openInNewWindow('href'),
     },
     {
       id: 'navigation__back',
