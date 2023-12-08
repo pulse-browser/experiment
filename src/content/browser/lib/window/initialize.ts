@@ -18,6 +18,12 @@ export function initializeWindow(args: WindowArguments | undefined) {
 
   const configuration = getFullWindowConfiguration(args || {})
 
+  // Register the window & setup the teardown event
+  resource.WindowTracker.registerWindow(window)
+  window.addEventListener('unload', () =>
+    resource.WindowTracker.removeWindow(window),
+  )
+
   // Setup tabs
   openTab(resource.NetUtil.newURI(configuration.initialUrl))
 }

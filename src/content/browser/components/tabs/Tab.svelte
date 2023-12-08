@@ -15,6 +15,7 @@
   $: icon = tab.icon
   $: uri = tab.uri
   $: loading = tab.loading
+  $: hidden = tab.hidden
 
   $: tabDragInfo = createTabDrag(tab)
   $: tabDrag = tabDragInfo.tabDrag
@@ -25,39 +26,41 @@
   $: selected && (document.title = $title)
 </script>
 
-<div class="drop-indicator" data-active={$before} />
+{#if !$hidden}
+  <div class="drop-indicator" data-active={$before} />
 
-<!-- svelte-ignore a11y-click-events-have-key-events -->
-<div
-  use:tabDrag
-  on:click={() => (selectedTab = tab.getId())}
-  on:mouseup={(e) => {
-    // When the middle mouse button is clicked, close this tab
-    if (e.button == 1) closeTab(tab)
-  }}
-  class="tab"
-  role="tab"
-  tabindex={tab.getId()}
-  aria-selected={selected}
->
-  {#if $loading}
-    <div class="tab__start-item">
-      <Spinner />
-    </div>
-  {:else if $icon}
-    <img class="tab__icon tab__start-item" src={$icon} alt="favicon" />
-  {/if}
-  <span>{$title || $uri.asciiSpec}</span>
-  <button
-    class="tab__close"
-    on:click={() => closeTab(tab)}
-    on:keydown={(e) => e.key === 'Enter' && closeTab(tab)}
+  <!-- svelte-ignore a11y-click-events-have-key-events -->
+  <div
+    use:tabDrag
+    on:click={() => (selectedTab = tab.getId())}
+    on:mouseup={(e) => {
+      // When the middle mouse button is clicked, close this tab
+      if (e.button == 1) closeTab(tab)
+    }}
+    class="tab"
+    role="tab"
+    tabindex={tab.getId()}
+    aria-selected={selected}
   >
-    <i class="ri-close-line" />
-  </button>
-</div>
+    {#if $loading}
+      <div class="tab__start-item">
+        <Spinner />
+      </div>
+    {:else if $icon}
+      <img class="tab__icon tab__start-item" src={$icon} alt="favicon" />
+    {/if}
+    <span>{$title || $uri.asciiSpec}</span>
+    <button
+      class="tab__close"
+      on:click={() => closeTab(tab)}
+      on:keydown={(e) => e.key === 'Enter' && closeTab(tab)}
+    >
+      <i class="ri-close-line" />
+    </button>
+  </div>
 
-<div class="drop-indicator" data-active={$after} />
+  <div class="drop-indicator" data-active={$after} />
+{/if}
 
 <style>
   .tab {

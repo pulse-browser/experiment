@@ -2,7 +2,6 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 import mitt from 'mitt'
-import { nanoid } from 'nanoid'
 
 import type { WindowArguments } from '.'
 import type { ContextMenuInfo } from '../../../../actors/ContextMenu.types'
@@ -11,6 +10,7 @@ import {
   setContextMenuParentActor,
 } from './contextMenu'
 import { closeTab, openTab, runOnCurrentTab, setCurrentTab, tabs } from './tabs'
+import { id } from './window'
 
 export type WindowTriggers = {
   bookmarkCurrentPage: undefined
@@ -21,7 +21,7 @@ export const windowApi = {
    * Identify which window this is. This should be used for actions like tab
    * moving that go across windows
    */
-  id: nanoid(),
+  id,
 
   windowTriggers: mitt<WindowTriggers>(),
   window: {

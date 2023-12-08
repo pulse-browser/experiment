@@ -47,6 +47,8 @@ export class Tab {
    */
   public tabJustOpened = true
 
+  public hidden = writable(false)
+
   constructor(uri: nsIURIType) {
     this.uri = viewableWritable(uri)
     this.goToUri(uri)

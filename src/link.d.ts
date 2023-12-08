@@ -16,10 +16,12 @@ declare module 'resource://app/modules/TypedImportUtils.sys.mjs' {
 
 declare interface MozESMExportFile {
   TypedImportUtils: 'resource://app/modules/TypedImportUtils.sys.mjs'
+  WindowTracker: 'resource://app/modules/BrowserWindowTracker.sys.mjs'
 }
 
 declare interface MozESMExportType {
   TypedImportUtils: typeof import('./modules/TypedImportUtils')
+  WindowTracker: typeof import('./modules/BrowserWindowTracker').WindowTracker
 }
 
 declare let Cr: Record<string, nsresult>

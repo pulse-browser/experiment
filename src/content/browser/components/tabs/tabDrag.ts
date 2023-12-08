@@ -1,3 +1,6 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 import type { Action } from 'svelte/action'
 import { type Readable, type Writable, writable } from 'svelte/store'
 
@@ -55,6 +58,24 @@ const dragOver = (
   }
 }
 
+const drop = (tab: Tab) => (event: DragEvent) => {
+  const currentTarget = event.currentTarget as HTMLDivElement
+  const rawDragRepresentation = event.dataTransfer?.getData(TAB_DATA_TYPE)
+
+  if (!currentTarget.classList.contains('tab')) return
+  if (!rawDragRepresentation) {
+    console.warn('No drag representation')
+    return
+  }
+
+  const { windowId, tabId } = JSON.parse(rawDragRepresentation) as ReturnType<
+    Tab['getDragRepresentation']
+  >
+  const sameWindow = windowId === window.windowApi.id
+
+  if (sameWindow) return
+}
+
 export function createTabDrag(tab: Tab) {
   const dropBefore = writable(false)
   const dropAfter = writable(false)
@@ -69,6 +90,8 @@ export function createTabDrag(tab: Tab) {
     dropBefore.set(false)
     dropAfter.set(false)
   }
+  const preventDefault = (event: DragEvent) => event.preventDefault()
+  const onDrop = drop(tab)
 
   const tabDrag: Action<HTMLDivElement> = (node) => {
     const initialDraggable = node.draggable
@@ -77,14 +100,18 @@ export function createTabDrag(tab: Tab) {
     node.addEventListener('dragstart', setDataTransferEvent)
     node.addEventListener('dragover', dragOverEvent)
     node.addEventListener('dragleave', dragLeaveEvent)
+    node.addEventListener('drop', preventDefault)
+    node.addEventListener('drop', onDrop)
 
     return {
       destroy() {
+        node.draggable = initialDraggable
+
         node.removeEventListener('dragstart', setDataTransferEvent)
         node.removeEventListener('dragover', dragOverEvent)
         node.removeEventListener('dragleave', dragLeaveEvent)
-
-        node.draggable = initialDraggable
+        node.removeEventListener('drop', preventDefault)
+        node.removeEventListener('drop', onDrop)
       },
     }
   }
