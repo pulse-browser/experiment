@@ -8,6 +8,7 @@ import '@shared/styles/window.css'
 
 import App from './Browser.svelte'
 import { initializeShortcuts } from './lib/shortcuts'
+import { initializeWindow } from './lib/window'
 import './lib/window/api'
 
 // TODO: WTF is this and do we care
@@ -16,6 +17,8 @@ import './lib/window/api'
 //  .QueryInterface(Ci.nsIInterfaceRequestor)
 //  .getInterface(Ci.nsIAppWindow).XULBrowserWindow = window.XULBrowserWindow
 //window.browserDOMWindow = new nsBrowserAccess()
+
+initializeWindow(window.arguments)
 
 new App({
   target: document.body,
