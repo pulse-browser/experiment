@@ -18,7 +18,7 @@ import './lib/window/api'
 //  .getInterface(Ci.nsIAppWindow).XULBrowserWindow = window.XULBrowserWindow
 //window.browserDOMWindow = new nsBrowserAccess()
 
-initializeWindow(window.arguments)
+initializeWindow(window.arguments && window.arguments[0])
 
 new App({
   target: document.body,

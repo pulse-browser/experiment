@@ -8,11 +8,6 @@ import {
   type ContextMenuInfo,
   contextMenuParentActor,
 } from '@browser/lib/window/contextMenu'
-import {
-  openTab,
-  runOnCurrentTab,
-  setCurrentTab,
-} from '@browser/lib/window/tabs'
 import { getClipboardHelper } from '@browser/lib/xul/ccWrapper'
 
 import type { MenuItemAction, VisibilityCheck } from '.'
@@ -41,15 +36,17 @@ const copyProp = onStringValue((value) => {
 })
 
 const openInNewTab = onStringValue((value) => {
-  const tab = openTab(resource.NetUtil.newURI(value))
+  const tab = window.windowApi.tabs.openTab(resource.NetUtil.newURI(value))
   if (Services.prefs.getBoolPref('browser.tabs.newTabFocus')) {
-    queueMicrotask(() => setCurrentTab(tab))
+    queueMicrotask(() => window.windowApi.tabs.setCurrentTab(tab))
   }
 })
 
-const openInNewWindow = onStringValue(() => {
-  // TODO
-})
+const openInNewWindow = onStringValue((initialUrl) =>
+  window.windowApi.window.new({
+    initialUrl: initialUrl,
+  }),
+)
 
 const saveImageUrl = onStringValue((value, info) => {
   if (!info.context.principal)
@@ -114,21 +111,24 @@ export const MENU_ITEM_ACTIONS: MenuItemAction[] = (
       title: 'Back',
 
       visible: ALWAYS,
-      action: () => runOnCurrentTab((tab) => tab.goBack()),
+      action: () =>
+        window.windowApi.tabs.runOnCurrentTab((tab) => tab.goBack()),
     },
     {
       id: 'navigation__forward',
       title: 'Forward',
 
       visible: ALWAYS,
-      action: () => runOnCurrentTab((tab) => tab.goForward()),
+      action: () =>
+        window.windowApi.tabs.runOnCurrentTab((tab) => tab.goForward()),
     },
     {
       id: 'navigation__reload',
       title: 'Reload',
 
       visible: ALWAYS,
-      action: () => runOnCurrentTab((tab) => tab.reload()),
+      action: () =>
+        window.windowApi.tabs.runOnCurrentTab((tab) => tab.reload()),
     },
     {
       id: 'navigation__bookmark',

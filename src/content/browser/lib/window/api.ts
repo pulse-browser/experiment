@@ -3,12 +3,13 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 import mitt from 'mitt'
 
+import type { WindowArguments } from '.'
 import type { ContextMenuInfo } from '../../../../actors/ContextMenu.types'
 import {
   browserContextMenuInfo,
   setContextMenuParentActor,
 } from './contextMenu'
-import { closeTab, openTab, tabs } from './tabs'
+import { closeTab, openTab, runOnCurrentTab, setCurrentTab, tabs } from './tabs'
 
 export type WindowTriggers = {
   bookmarkCurrentPage: undefined
@@ -16,9 +17,22 @@ export type WindowTriggers = {
 
 export const windowApi = {
   windowTriggers: mitt<WindowTriggers>(),
+  window: {
+    new: (args?: WindowArguments) =>
+      Services.ww.openWindow(
+        // @ts-expect-error Incorrect type generation
+        null,
+        Services.prefs.getStringPref('app.content'),
+        '_blank',
+        'chrome,dialog=no,all',
+        args,
+      ),
+  },
   tabs: {
     closeTab,
     openTab,
+    runOnCurrentTab,
+    setCurrentTab,
     get tabs() {
       return tabs.readOnce()
     },

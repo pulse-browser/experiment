@@ -20,7 +20,7 @@ declare interface Window {
    *
    * @see {@link file://./browser/lib/window/arguments.ts}
    */
-  arguments?: import('./browser/lib/window/arguments').WindowArguments
+  arguments?: [import('./browser/lib/window/arguments').WindowArguments]
 }
 
 declare interface NodeModule {
