@@ -66,6 +66,8 @@ declare interface XULBrowserElement extends HTMLElement {
   browserId: number
   mInitialized: boolean
   webProgress: nsIWebProgressType
+
+  swapDocShells(aOtherBrowser: XULBrowserElement)
 }
 
 declare interface XULFindBarElement extends HTMLElement {

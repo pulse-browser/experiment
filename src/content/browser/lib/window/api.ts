@@ -9,7 +9,14 @@ import {
   browserContextMenuInfo,
   setContextMenuParentActor,
 } from './contextMenu'
-import { closeTab, openTab, runOnCurrentTab, setCurrentTab, tabs } from './tabs'
+import {
+  closeTab,
+  getTabById,
+  openTab,
+  runOnCurrentTab,
+  setCurrentTab,
+  tabs,
+} from './tabs'
 import { id } from './window'
 
 export type WindowTriggers = {
@@ -40,6 +47,7 @@ export const windowApi = {
     openTab,
     runOnCurrentTab,
     setCurrentTab,
+    getTabById,
     get tabs() {
       return tabs.readOnce()
     },

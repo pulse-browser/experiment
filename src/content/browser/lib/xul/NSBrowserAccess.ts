@@ -44,7 +44,8 @@ export class NSBrowserAccess {
     throw new Error('Method not implemented.')
   }
   canClose(): boolean {
-    throw new Error('Method not implemented.')
+    // TODO: Logic
+    return true
   }
   tabCount: number = 0
 

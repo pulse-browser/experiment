@@ -1,9 +1,8 @@
 import { nanoid } from 'nanoid'
 
+import { resource } from '../resources'
+
 export const id = nanoid()
 
-export function getWindowById(wid: string) {
-  if (wid === id) return window
-
-  const windows = Services.ww.getWindowEnumerator()
-}
+export const getWindowById = (id: string) =>
+  resource.WindowTracker.getWindowById(id)

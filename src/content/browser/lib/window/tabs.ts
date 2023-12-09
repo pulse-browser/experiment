@@ -15,6 +15,7 @@ selectedTab.subscribe((v) => (internalSelectedTab = v))
 const uriPref = (pref: string) => (): nsIURIType =>
   resource.NetUtil.newURI(Services.prefs.getStringPref(pref, 'about:blank'))
 const newTabUri = uriPref('browser.newtab.default')
+export const ABOUT_BLANK = resource.NetUtil.newURI('about:blank')
 
 export const tabs = viewableWritable<Tab[]>([])
 
@@ -48,8 +49,12 @@ export function closeTab(tab: Tab) {
   })
 }
 
+export function getTabById(id: number): Tab | undefined {
+  return tabs.readOnce().find((tab) => tab.getId() == id)
+}
+
 function getCurrent(): Tab | undefined {
-  return tabs.readOnce().find((t) => t.getId() == internalSelectedTab)
+  return getTabById(internalSelectedTab)
 }
 
 export function setCurrentTab(tab: Tab) {
