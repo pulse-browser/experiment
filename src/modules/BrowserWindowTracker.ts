@@ -11,11 +11,13 @@ export const WindowTracker = {
    * @param w The window to register
    */
   registerWindow(w: typeof window) {
-    this.registeredWindows.set(w.windowApi.id, w)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    this.registeredWindows.set((w as any).windowApi.id, w)
   },
 
   removeWindow(w: typeof window) {
-    this.registeredWindows.delete(w.windowApi.id)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    this.registeredWindows.delete((w as any).windowApi.id)
   },
 
   getWindowById(wid: string) {
