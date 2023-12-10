@@ -4,6 +4,9 @@
 import type { Action } from 'svelte/action'
 import { type Readable, type Writable, get, writable } from 'svelte/store'
 
+import { waitForEvent } from '@shared/mittUtils'
+
+import { resource } from '@browser/lib/resources'
 import { spinLock } from '@browser/lib/spinlock'
 import type { Tab } from '@browser/lib/window/tab'
 import {
@@ -46,14 +49,14 @@ const dragOver = (
       return
     lastDragIsBefore = isBefore
 
-    if (!sameWindow) {
-      console.warn('Tab is from a different window')
+    // Trigger the drop handler
+    if (event.dataTransfer) event.dataTransfer.dropEffect = 'move'
+    event.preventDefault()
+    event.stopPropagation()
 
+    if (!sameWindow) {
       dropBefore.set(isBefore)
       dropAfter.set(!isBefore)
-
-      // Trigger the drop handler
-      event.preventDefault()
 
       return
     }
@@ -61,14 +64,12 @@ const dragOver = (
     dropBefore.set(false)
     dropAfter.set(false)
 
-    event.preventDefault()
-    event.stopPropagation()
     if (isBefore) moveTabBefore(tabId, tab.getId())
     else moveTabAfter(tabId, tab.getId())
   }
 }
 
-const drop = (tab: Tab) => async (event: DragEvent) => {
+const drop = async (event: DragEvent) => {
   const currentTarget = event.currentTarget as HTMLDivElement
   const rawDragRepresentation = event.dataTransfer?.getData(TAB_DATA_TYPE)
 
@@ -107,7 +108,6 @@ const drop = (tab: Tab) => async (event: DragEvent) => {
   // 4. Destroy the tab to move
   // 5. Show the donor tab
 
-  console.log('attempting swap...')
   const donorTab = openTab(ABOUT_BLANK)
   donorTab.hidden.set(true)
   await donorTab.goToUri(ABOUT_BLANK)
@@ -119,22 +119,52 @@ const drop = (tab: Tab) => async (event: DragEvent) => {
   toMoveWindow.windowApi.tabs.closeTab(tabToMove)
 }
 
+const dragEnd = (tabToMove: Tab) => async (event: DragEvent) => {
+  if (event.dataTransfer?.dropEffect != 'none') return
+
+  console.log('dropped outside of window!')
+
+  // The next window that is created is going to be for the new tab
+  const newWindowPromise = waitForEvent(
+    resource.WindowTracker.events,
+    'windowCreated',
+  )
+
+  // Create the new window
+  window.windowApi.window.new({
+    initialUrl: 'about:blank',
+  })
+
+  const newWindow = await newWindowPromise
+  const donorTab = newWindow.windowApi.tabs.tabs[0]
+  donorTab.hidden.set(true)
+  await donorTab.goToUri(ABOUT_BLANK)
+  await spinLock(() => !get(donorTab.loading))
+
+  donorTab.swapWithTab(tabToMove)
+  donorTab.hidden.set(false)
+
+  window.windowApi.tabs.closeTab(tabToMove)
+}
+
 export function createTabDrag(tab: Tab) {
   const dropBefore = writable(false)
   const dropAfter = writable(false)
 
   const dragOverEvent = dragOver(tab, dropBefore, dropAfter)
-  const setDataTransferEvent = (event: DragEvent) =>
+  const setDataTransferEvent = (event: DragEvent) => {
     event.dataTransfer?.setData(
       TAB_DATA_TYPE,
       JSON.stringify(tab.getDragRepresentation()),
     )
+  }
   const dragLeaveEvent = () => {
     dropBefore.set(false)
     dropAfter.set(false)
   }
   const preventDefault = (event: DragEvent) => event.preventDefault()
-  const onDrop = drop(tab)
+  const onDrop = drop
+  const onDragEnd = dragEnd(tab)
 
   const tabDrag: Action<HTMLDivElement> = (node) => {
     const initialDraggable = node.draggable
@@ -145,6 +175,7 @@ export function createTabDrag(tab: Tab) {
     node.addEventListener('dragleave', dragLeaveEvent)
     node.addEventListener('drop', preventDefault)
     node.addEventListener('drop', onDrop)
+    node.addEventListener('dragend', onDragEnd)
 
     return {
       destroy() {
@@ -155,6 +186,7 @@ export function createTabDrag(tab: Tab) {
         node.removeEventListener('dragleave', dragLeaveEvent)
         node.removeEventListener('drop', preventDefault)
         node.removeEventListener('drop', onDrop)
+        node.removeEventListener('dragend', onDragEnd)
       },
     }
   }

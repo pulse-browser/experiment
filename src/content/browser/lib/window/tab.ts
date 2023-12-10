@@ -88,6 +88,8 @@ export class Tab {
   _initialized: Promise<void> | undefined
   public get initialized() {
     if (this._initialized) return this._initialized
+    // Force fetching the docshell
+    this.browserElement.docShell
     return (this._initialized = spinLock(
       () => this.browserElement.mInitialized,
     ))

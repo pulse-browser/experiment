@@ -32,6 +32,9 @@ export const windowApi = {
 
   windowTriggers: mitt<WindowTriggers>(),
   window: {
+    /**
+     * @todo Move this into BrowserWindowTracker
+     */
     new: (args?: WindowArguments) =>
       Services.ww.openWindow(
         // @ts-expect-error Incorrect type generation

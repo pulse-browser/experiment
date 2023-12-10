@@ -14,6 +14,13 @@ declare module 'resource://app/modules/TypedImportUtils.sys.mjs' {
   export const lazyESModuleGetters: typeof import('./modules/TypedImportUtils').lazyESModuleGetters
 }
 
+declare module 'resource://app/modules/mitt.sys.mjs' {
+  export type * from 'mitt'
+
+  declare const mitt: typeof import('mitt').default
+  export default mitt
+}
+
 declare interface MozESMExportFile {
   TypedImportUtils: 'resource://app/modules/TypedImportUtils.sys.mjs'
   WindowTracker: 'resource://app/modules/BrowserWindowTracker.sys.mjs'
@@ -67,6 +74,7 @@ declare interface XULBrowserElement extends HTMLElement {
   mInitialized: boolean
   webProgress: nsIWebProgressType
 
+  docShell: unknown
   swapDocShells(aOtherBrowser: XULBrowserElement)
 }
 
