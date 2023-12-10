@@ -2,28 +2,23 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 import mitt from 'mitt'
-import { type Writable, writable } from 'svelte/store'
+import { type Writable, get, writable } from 'svelte/store'
 
-import { type BookmarkTreeNode, search } from '../../../shared/ExtBookmarkAPI'
-import {
-  type ViewableWritable,
-  viewableWritable,
-} from '../../../shared/svelteUtils'
-import { spinLock } from '../../lib/spinlock'
-import {
-  createBrowser,
-  getBrowserRemoteType,
-  setURI,
-} from '../../lib/xul/browser'
-import { domContentLoaded } from '../../lib/xul/domevents'
+import { type BookmarkTreeNode, search } from '@shared/ExtBookmarkAPI'
+import { type ViewableWritable, viewableWritable } from '@shared/svelteUtils'
+
+import { resource } from '../resources'
+import { spinLock } from '../spinlock'
+import { createBrowser, getBrowserRemoteType, setURI } from '../xul/browser'
+import { domContentLoaded } from '../xul/domevents'
 
 export const lastTabAction = { id: -1, before: false }
 
 let localTabId = 0
 
 /**
- * This provides a consistent internal representation of a tab, including the browser elements
- * it contains & information derived from listeners about its current state
+ * This provides a consistent internal representation of a tab, including the
+ * browser elements it contains & information derived from listeners about its current state
  */
 export class Tab {
   private _id: number = ++localTabId
@@ -53,6 +48,8 @@ export class Tab {
    */
   public tabJustOpened = true
 
+  public hidden = writable(false)
+
   constructor(uri: nsIURIType) {
     this.uri = viewableWritable(uri)
     this.goToUri(uri)
@@ -61,10 +58,6 @@ export class Tab {
     })
     this.title.set(uri.asciiHost)
 
-    this.browserElement.addEventListener('pagetitlechanged', () => {
-      this.title.set(this.browserElement.contentTitle)
-    })
-
     this.uri.subscribe(async (uri) =>
       this.bookmarkInfo.set(
         await search({ url: uri.spec }).then((r) =>
@@ -72,15 +65,6 @@ export class Tab {
         ),
       ),
     )
-
-    this.browserElement.addEventListener('DidChangeBrowserRemoteness', (e) => {
-      const browser = e.target as XULBrowserElement
-      // TODO: Does this leak memory?
-      this.progressListener.filter = undefined
-      this.progressListener = new TabProgressListener()
-      this.progressListener.setup(browser)
-      this.useProgressListener()
-    })
   }
 
   public getId(): number {
@@ -93,6 +77,69 @@ export class Tab {
    */
   public getTabId(): number {
     return this.tabId || 0
+  }
+
+  public getDragRepresentation() {
+    return {
+      windowId: window.windowApi.id,
+      tabId: this.getId(),
+    }
+  }
+
+  _initialized: Promise<void> | undefined
+  public get initialized() {
+    if (this._initialized) return this._initialized
+    // Force fetching the docshell
+    this.browserElement.docShell
+    return (this._initialized = spinLock(
+      () => this.browserElement.mInitialized,
+    ))
+  }
+
+  // ===========================================================================
+  // Event listeners
+
+  protected useEventListeners() {
+    this.browserElement.addEventListener(
+      'pagetitlechanged',
+      this.onPageTitleChanged.bind(this),
+    )
+
+    this.browserElement.addEventListener(
+      'DidChangeBrowserRemoteness',
+      this.onDidChangeBrowserRemoteness.bind(this),
+    )
+
+    // Set up progress notifications. These are used for listening on location change etc
+    this.progressListener.setup(this.browserElement)
+    this.useProgressListener()
+  }
+
+  protected removeEventListeners() {
+    this.browserElement.removeEventListener(
+      'pagetitlechanged',
+      this.onPageTitleChanged.bind(this),
+    )
+
+    this.browserElement.removeEventListener(
+      'DidChangeBrowserRemoteness',
+      this.onDidChangeBrowserRemoteness.bind(this),
+    )
+
+    this.progressListener.remove(this.browserElement)
+  }
+
+  protected onPageTitleChanged() {
+    this.title.set(this.browserElement.contentTitle)
+  }
+
+  protected onDidChangeBrowserRemoteness(e: Event) {
+    const browser = e.target as XULBrowserElement
+    // TODO: Does this leak memory?
+    this.progressListener.remove(browser)
+    this.progressListener = new TabProgressListener()
+    this.progressListener.setup(browser)
+    this.useProgressListener()
   }
 
   protected useProgressListener() {
@@ -114,16 +161,14 @@ export class Tab {
     container.appendChild(this.browserElement)
     this.tabId = this.browserElement.browserId
 
-    // Set up progress notifications. These are used for listening on location change etc
-    this.progressListener.setup(this.browserElement)
-    this.useProgressListener()
+    this.useEventListeners()
   }
 
   public async goToUri(uri: nsIURIType) {
     // Load the URI once we are sure that the dom has fully loaded
     await domContentLoaded.promise
     // Wait for browser to initialize
-    await spinLock(() => this.browserElement.mInitialized)
+    await this.initialized
     setURI(this.browserElement, uri)
   }
 
@@ -167,6 +212,59 @@ export class Tab {
     await new Promise((r) => requestAnimationFrame(r))
     findbar.browser = this.browserElement
     this.showFindBar()
+  }
+
+  public swapWithTab(tab: Tab) {
+    this.removeEventListeners()
+    tab.removeEventListeners()
+
+    this.browserElement.swapDocShells(tab.browserElement)
+
+    this.useEventListeners()
+    tab.useEventListeners()
+
+    if (this.browserElement.id) this.tabId = this.browserElement.browserId
+    if (tab.browserElement.id) tab.tabId = tab.browserElement.browserId
+
+    const otherTitle = get(tab.title)
+    const otherIcon = get(tab.icon)
+    const otherUri = get(tab.uri)
+    const otherBookmarkInfo = get(tab.bookmarkInfo)
+
+    tab.title.set(get(this.title))
+    tab.icon.set(get(this.icon))
+    tab.uri.set(get(this.uri))
+    tab.bookmarkInfo.set(get(this.bookmarkInfo))
+
+    this.title.set(otherTitle)
+    this.icon.set(otherIcon)
+    this.uri.set(otherUri)
+    this.bookmarkInfo.set(otherBookmarkInfo)
+
+    const thisFindbar = get(this.findbar)
+    thisFindbar?.remove()
+    this.findbar.set(undefined)
+
+    const otherFindbar = get(tab.findbar)
+    otherFindbar?.remove()
+    tab.findbar.set(undefined)
+  }
+
+  public async captureTabToCanvas(
+    canvas: HTMLCanvasElement | null = resource.PageThumbs.createCanvas(window),
+  ) {
+    try {
+      await resource.PageThumbs.captureToCanvas(
+        this.browserElement,
+        canvas,
+        undefined,
+      )
+    } catch (e) {
+      console.error(e)
+      canvas = null
+    }
+
+    return canvas
   }
 }
 
@@ -215,6 +313,16 @@ class TabProgressListener
       this.filter,
       Ci.nsIWebProgress.NOTIFY_ALL,
     )
+  }
+
+  remove(browser: XULBrowserElement) {
+    browser.webProgress.removeProgressListener(
+      this.filter as nsIWebProgressListenerType,
+    )
+    // @ts-expect-error Incorrect type generation
+    this.filter?.removeProgressListener(this)
+
+    this.filter = undefined
   }
 
   /**

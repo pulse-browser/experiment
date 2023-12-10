@@ -3,73 +3,64 @@
    - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
 
 <script lang="ts">
-  import { type Tab } from './tab'
-  import { closeTab, moveTabBefore, moveTabAfter } from '../../lib/globalApi'
-  import type { DragEventHandler } from 'svelte/elements'
-  import Spinner from '../../../shared/components/Spinner.svelte'
+  import type { Tab } from '@browser/lib/window/tab'
+  import Spinner from '@shared/components/Spinner.svelte'
+  import { closeTab } from '@browser/lib/window/tabs'
+  import { createTabDrag } from './tabDrag'
 
   export let tab: Tab
   export let selectedTab: number
 
-  let lastDragIsBefore: undefined | boolean
+  $: title = tab.title
+  $: icon = tab.icon
+  $: uri = tab.uri
+  $: loading = tab.loading
+  $: hidden = tab.hidden
 
-  const { title, icon, uri, loading } = tab
+  $: tabDragInfo = createTabDrag(tab)
+  $: tabDrag = tabDragInfo.tabDrag
+  $: before = tabDragInfo.drop.before
+  $: after = tabDragInfo.drop.after
 
-  $: tab.getId() == selectedTab && (document.title = $title)
-
-  const dragOver: DragEventHandler<HTMLDivElement> = (e) => {
-    if (!e.currentTarget.classList.contains('tab')) return
-
-    const boundingRect = e.currentTarget.getBoundingClientRect()
-
-    const xMiddle = boundingRect.x + boundingRect.width / 2
-    const isBefore = e.x <= xMiddle
-
-    const dragId = parseInt(e.dataTransfer?.getData('text/plain') || '-1')
-    if (dragId == tab.getId()) return
-    if (lastDragIsBefore === isBefore) return
-    lastDragIsBefore = isBefore
-
-    if (isBefore) {
-      moveTabBefore(dragId, tab.getId())
-    } else {
-      moveTabAfter(dragId, tab.getId())
-    }
-  }
+  $: selected = tab.getId() === selectedTab
+  $: selected && (document.title = $title)
 </script>
 
-<!-- svelte-ignore a11y-click-events-have-key-events -->
-<div
-  on:click={() => (selectedTab = tab.getId())}
-  on:mouseup={(e) => {
-    // When the middle mouse button is clicked, close this tab
-    if (e.button == 1) closeTab(tab)
-  }}
-  on:dragstart={(e) =>
-    e.dataTransfer?.setData('text/plain', tab.getId().toString())}
-  on:dragover={dragOver}
-  class="tab"
-  role="tab"
-  tabindex={tab.getId()}
-  aria-selected={tab.getId() == selectedTab}
-  draggable="true"
->
-  {#if $loading}
-    <div class="tab__start-item">
-      <Spinner />
-    </div>
-  {:else if $icon}
-    <img class="tab__icon tab__start-item" src={$icon} alt="favicon" />
-  {/if}
-  <span>{$title || $uri.asciiSpec}</span>
-  <button
-    class="tab__close"
-    on:click={() => closeTab(tab)}
-    on:keydown={(e) => e.key === 'Enter' && closeTab(tab)}
+{#if !$hidden}
+  <div class="drop-indicator" data-active={$before} />
+
+  <!-- svelte-ignore a11y-click-events-have-key-events -->
+  <div
+    use:tabDrag
+    on:click={() => (selectedTab = tab.getId())}
+    on:mouseup={(e) => {
+      // When the middle mouse button is clicked, close this tab
+      if (e.button == 1) closeTab(tab)
+    }}
+    class="tab"
+    role="tab"
+    tabindex={tab.getId()}
+    aria-selected={selected}
   >
-    <i class="ri-close-line" />
-  </button>
-</div>
+    {#if $loading}
+      <div class="tab__start-item">
+        <Spinner />
+      </div>
+    {:else if $icon}
+      <img class="tab__icon tab__start-item" src={$icon} alt="favicon" />
+    {/if}
+    <span>{$title || $uri.asciiSpec}</span>
+    <button
+      class="tab__close"
+      on:click={() => closeTab(tab)}
+      on:keydown={(e) => e.key === 'Enter' && closeTab(tab)}
+    >
+      <i class="ri-close-line" />
+    </button>
+  </div>
+
+  <div class="drop-indicator" data-active={$after} />
+{/if}
 
 <style>
   .tab {
@@ -135,5 +126,13 @@
   .tab__icon {
     height: 1.5rem;
     width: 1.5rem;
+  }
+
+  .drop-indicator {
+    width: 1px;
+  }
+
+  .drop-indicator[data-active='true'] {
+    background: var(--active);
   }
 </style>

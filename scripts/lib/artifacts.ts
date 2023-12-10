@@ -1,6 +1,8 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+
+/* eslint-disable no-console */
 import { existsSync } from 'fs'
 import { readFile, rm } from 'fs/promises'
 
@@ -59,7 +61,7 @@ export async function downloadArtifact(artifact: Artifact): Promise<string> {
     await rm(artifactFile)
   }
 
-  // Write out a new line so that progress doesn't overwrite exising logs
+  // Write out a new line so that progress doesn't overwrite existing logs
   console.info(artifact.archive_download_url)
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

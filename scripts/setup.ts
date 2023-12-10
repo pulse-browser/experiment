@@ -21,7 +21,7 @@ import {
   getSrcFile,
 } from './lib/constants.js'
 import { setupFiles } from './lib/files.js'
-import { linkFolder } from './lib/linker.js'
+import { linkStaticFolder, linkTscFolder } from './lib/linker.js'
 import { failure, info } from './lib/logging.js'
 import { downloadReleaseAsset, getLatestRelease } from './lib/releases.js'
 
@@ -80,8 +80,12 @@ const prefFileSrc = getSrcFile('prefs.js')
 await rm(prefFile, { recursive: true, force: true })
 await symlink(prefFileSrc, prefFile)
 
-await linkFolder('modules')
-await linkFolder('actors')
+// Link typescript folders
+await linkTscFolder('modules')
+await linkTscFolder('actors')
+
+// Link static folders
+await linkStaticFolder('modules')
 
 info('Setting up files...')
 await setupFiles()

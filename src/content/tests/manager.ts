@@ -11,9 +11,9 @@ document.body.appendChild(TEST_OUTPUT)
 export async function manageTests(
   tests: () => Promise<void>,
 ): Promise<(tests: () => Promise<void>) => Promise<void>> {
-  const config = await fetch(`http://localhost:${TEST_PORT}/config`).then((r) =>
-    r.json(),
-  )
+  const config = (await fetch(`http://localhost:${TEST_PORT}/config`).then(
+    (r) => r.json(),
+  )) as { shouldWatch: boolean }
 
   async function performTests(tests: () => Promise<void>) {
     hold()

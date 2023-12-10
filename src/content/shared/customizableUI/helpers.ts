@@ -1,7 +1,6 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
-
 import curry from 'fnts/curry'
 import { nanoid } from 'nanoid'
 import { type Readable, readable } from 'svelte/store'
@@ -21,7 +20,7 @@ import {
   type TempDropTargetComponent,
   cuiPreviewItems,
 } from '.'
-import type { Tab } from '../../browser/components/tabs/tab'
+import type { Tab } from '../../browser/lib/window/tab'
 
 export const createBlock = (
   direction: BlockDirection = 'horizontal',
@@ -291,5 +290,5 @@ export const fromExportTypeStable = (component: ExportComponent) =>
   fromExportTypeStableInternal('root')(component, 0)
 
 export const customizableUIDynamicPref = dynamicStringPref((json) =>
-  fromExportTypeStable(JSON.parse(json)),
+  fromExportTypeStable(JSON.parse(json) as ExportComponent),
 )

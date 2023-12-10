@@ -13,6 +13,7 @@ export const MENU_ITEM_ACTION_IDS = [
   'selection__copy',
   'link__copy',
   'link__new-tab',
+  'link__new-window',
   'navigation__back',
   'navigation__forward',
   'navigation__reload',

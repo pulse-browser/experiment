@@ -3,7 +3,11 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 import { lazyESModuleGetters } from '../../shared/TypedImportUtilities'
 
+/*eslint sort-keys: "error"*/
+
 export const resource = lazyESModuleGetters({
   E10SUtils: 'resource://gre/modules/E10SUtils.sys.mjs',
   NetUtil: 'resource://gre/modules/NetUtil.sys.mjs',
+  PageThumbs: 'resource://gre/modules/PageThumbs.sys.mjs',
+  WindowTracker: 'resource://app/modules/BrowserWindowTracker.sys.mjs',
 })

@@ -13,8 +13,14 @@ declare module '*.txt' {
 }
 
 declare interface Window {
-  windowApi: typeof import('./browser/lib/globalApi').windowApi
+  windowApi: typeof import('./browser/lib/window/api').windowApi
   browserDOMWindow: nsIBrowserDOMWindowType
+  /**
+   * Arguments that may be passed into a specific window. We control these types
+   *
+   * @see {@link file://./browser/lib/window/arguments.ts}
+   */
+  arguments?: [import('./browser/lib/window/arguments').WindowArguments]
 }
 
 declare interface NodeModule {

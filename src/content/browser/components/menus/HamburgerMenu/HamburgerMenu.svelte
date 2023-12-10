@@ -4,10 +4,11 @@
 
 <script lang="ts">
   import { initDevTools } from '@browser/lib/devtools'
-  import { openTab } from '@browser/lib/globalApi'
   import { resource } from '@browser/lib/resources'
 
   import HamburgerMenuItem from './HamburgerMenuItem.svelte'
+  import { openTab } from '@browser/lib/window/tabs'
+  import { windowApi } from '@browser/lib/window/api'
 
   const openDialogWindowAction = (url: string) => () =>
     Services.ww.openWindow(window, url, '_blank', 'chrome,dialog=yes,all', null)
@@ -15,6 +16,10 @@
 
 <xul:panel class="panel" id="hamburgerMenu">
   <div class="panel__container">
+    <HamburgerMenuItem on:click={() => windowApi.window.new()}>
+      New Window
+    </HamburgerMenuItem>
+
     <HamburgerMenuItem
       on:click={openDialogWindowAction(
         'chrome://browser/content/settings/index.html',

@@ -3,16 +3,14 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 import curry from 'fnts/curry'
 
-import type { MenuItemAction, VisibilityCheck } from '.'
-import type { ContextMenuInfo } from '../../../actors/ContextMenu.types'
+import { resource } from '@browser/lib/resources'
 import {
+  type ContextMenuInfo,
   contextMenuParentActor,
-  openTab,
-  runOnCurrentTab,
-  setCurrentTab,
-} from '../../browser/lib/globalApi'
-import { resource } from '../../browser/lib/resources'
-import { getClipboardHelper } from '../../browser/lib/xul/ccWrapper'
+} from '@browser/lib/window/contextMenu'
+import { getClipboardHelper } from '@browser/lib/xul/ccWrapper'
+
+import type { MenuItemAction, VisibilityCheck } from '.'
 
 const ALWAYS = () => true
 const HAS_TEXT_SELECTION: VisibilityCheck = (info) =>
@@ -38,11 +36,17 @@ const copyProp = onStringValue((value) => {
 })
 
 const openInNewTab = onStringValue((value) => {
-  const tab = openTab(resource.NetUtil.newURI(value))
+  const tab = window.windowApi.tabs.openTab(resource.NetUtil.newURI(value))
   if (Services.prefs.getBoolPref('browser.tabs.newTabFocus')) {
-    queueMicrotask(() => setCurrentTab(tab))
+    queueMicrotask(() => window.windowApi.tabs.setCurrentTab(tab))
   }
 })
+
+const openInNewWindow = onStringValue((initialUrl) =>
+  window.windowApi.window.new({
+    initialUrl: initialUrl,
+  }),
+)
 
 const saveImageUrl = onStringValue((value, info) => {
   if (!info.context.principal)
@@ -96,25 +100,35 @@ export const MENU_ITEM_ACTIONS: MenuItemAction[] = (
       action: openInNewTab('href'),
     },
     {
+      id: 'link__new-window',
+      title: 'Open Link in New Window',
+
+      visible: HAS_HREF,
+      action: openInNewWindow('href'),
+    },
+    {
       id: 'navigation__back',
       title: 'Back',
 
       visible: ALWAYS,
-      action: () => runOnCurrentTab((tab) => tab.goBack()),
+      action: () =>
+        window.windowApi.tabs.runOnCurrentTab((tab) => tab.goBack()),
     },
     {
       id: 'navigation__forward',
       title: 'Forward',
 
       visible: ALWAYS,
-      action: () => runOnCurrentTab((tab) => tab.goForward()),
+      action: () =>
+        window.windowApi.tabs.runOnCurrentTab((tab) => tab.goForward()),
     },
     {
       id: 'navigation__reload',
       title: 'Reload',
 
       visible: ALWAYS,
-      action: () => runOnCurrentTab((tab) => tab.reload()),
+      action: () =>
+        window.windowApi.tabs.runOnCurrentTab((tab) => tab.reload()),
     },
     {
       id: 'navigation__bookmark',

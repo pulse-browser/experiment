@@ -2,16 +2,16 @@
    - License, v. 2.0. If a copy of the MPL was not distributed with this
    - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
 
-<script>
-  import { initDevTools } from '../../lib/devtools'
+<script lang="ts">
+  import { initDevTools } from '@browser/lib/devtools'
+  import Keybinding from './Keybinding.svelte'
   import {
-    closeTab,
     openTab,
     runOnCurrentTab,
+    closeTab,
     setCurrentTabIndex,
     getCurrentTabIndex,
-  } from '../../lib/globalApi'
-  import Keybinding from './Keybinding.svelte'
+  } from '@browser/lib/window/tabs'
 </script>
 
 <xul:keyset>
@@ -26,6 +26,10 @@
   />
 
   <!-- Tabs & Websites --->
+  <Keybinding
+    pref="browser.keybinds.newWindow"
+    on:command={() => window.windowApi.window.new()}
+  />
   <Keybinding pref="browser.keybinds.newTab" on:command={() => openTab()} />
   <Keybinding
     pref="browser.keybinds.closeTab"

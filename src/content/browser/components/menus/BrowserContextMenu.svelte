@@ -2,11 +2,17 @@
    - License, v. 2.0. If a copy of the MPL was not distributed with this
    - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
 
+<!-- This Source Code Form is subject to the terms of the Mozilla Public
+   - License, import { browserContextMenuInfo } from '@browser/lib/tabs';
+ - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
+
 <script lang="ts">
   import type { MenuItem } from '@shared/contextMenus'
-  import { browserContextMenuInfo } from '../../lib/globalApi'
-  import type { ContextMenuInfo } from '../../../../actors/ContextMenu.types'
   import { resolverStore } from '@shared/svelteUtils'
+  import {
+    browserContextMenuInfo,
+    type ContextMenuInfo,
+  } from '@browser/lib/window/contextMenu'
 
   const contextMenusModule = import('@shared/contextMenus')
   const menuItems = resolverStore(

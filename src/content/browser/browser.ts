@@ -7,8 +7,9 @@ import 'remixicon/fonts/remixicon.css'
 import '@shared/styles/window.css'
 
 import App from './Browser.svelte'
-import './lib/globalApi'
 import { initializeShortcuts } from './lib/shortcuts'
+import { initializeWindow } from './lib/window'
+import './lib/window/api'
 
 // TODO: WTF is this and do we care
 // This needs setting up before we create the first remote browser.
@@ -16,6 +17,8 @@ import { initializeShortcuts } from './lib/shortcuts'
 //  .QueryInterface(Ci.nsIInterfaceRequestor)
 //  .getInterface(Ci.nsIAppWindow).XULBrowserWindow = window.XULBrowserWindow
 //window.browserDOMWindow = new nsBrowserAccess()
+
+initializeWindow(window.arguments && window.arguments[0])
 
 new App({
   target: document.body,

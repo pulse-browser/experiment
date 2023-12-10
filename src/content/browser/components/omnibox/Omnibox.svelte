@@ -5,8 +5,8 @@
 <script lang="ts">
   import type { Suggestion } from '@shared/search/suggestions'
   import { resource } from '@browser/lib/resources'
+  import type { Tab } from '@browser/lib/window/tab'
 
-  import type { Tab } from '../tabs/tab'
   import Bookmarks from './Bookmarks.svelte'
 
   const suggestionsModule = import('@shared/search/suggestions')

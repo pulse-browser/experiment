@@ -6,6 +6,7 @@ import MiniCssExtractPlugin from 'mini-css-extract-plugin'
 import { join, resolve } from 'node:path'
 import preprocess from 'svelte-preprocess'
 import sequence from 'svelte-sequential-preprocessor'
+import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer'
 import WebpackLicensePlugin from 'webpack-license-plugin'
 
 const HTML_TEMPLATE_FILE = './src/content/index.html'
@@ -86,16 +87,12 @@ const sharedSettings = (contentFiles, dev) => {
         overlay: false,
       },
     },
-    optimization: dev
-      ? {
-          runtimeChunk: 'single',
-        }
-      : {
-          runtimeChunk: 'single',
-          splitChunks: {
-            chunks: 'all',
-          },
-        },
+    optimization: {
+      runtimeChunk: 'single',
+      splitChunks: {
+        chunks: 'all',
+      },
+    },
 
     module: {
       rules: [
@@ -174,7 +171,8 @@ const sharedSettings = (contentFiles, dev) => {
           },
         ],
       }),
-    ],
+      // dev && new BundleAnalyzerPlugin(),
+    ].filter(Boolean),
 
     experiments: {
       topLevelAwait: true,

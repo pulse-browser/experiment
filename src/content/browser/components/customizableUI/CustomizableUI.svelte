@@ -8,7 +8,7 @@
     ComponentId,
     ExportComponent,
   } from '@shared/customizableUI'
-  import type { Tab } from '../tabs/tab'
+  import type { Tab } from '@browser/lib/window/tab'
 
   import Block from './Block.svelte'
   import IconButton from './IconButton.svelte'
