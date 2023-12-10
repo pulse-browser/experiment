@@ -26,6 +26,10 @@
   />
 
   <!-- Tabs & Websites --->
+  <Keybinding
+    pref="browser.keybinds.newWindow"
+    on:command={() => window.windowApi.window.new()}
+  />
   <Keybinding pref="browser.keybinds.newTab" on:command={() => openTab()} />
   <Keybinding
     pref="browser.keybinds.closeTab"
