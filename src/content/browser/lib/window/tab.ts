@@ -7,6 +7,7 @@ import { type Writable, get, writable } from 'svelte/store'
 import { type BookmarkTreeNode, search } from '@shared/ExtBookmarkAPI'
 import { type ViewableWritable, viewableWritable } from '@shared/svelteUtils'
 
+import { resource } from '../resources'
 import { spinLock } from '../spinlock'
 import { createBrowser, getBrowserRemoteType, setURI } from '../xul/browser'
 import { domContentLoaded } from '../xul/domevents'
@@ -247,6 +248,23 @@ export class Tab {
     const otherFindbar = get(tab.findbar)
     otherFindbar?.remove()
     tab.findbar.set(undefined)
+  }
+
+  public async captureTabToCanvas(
+    canvas: HTMLCanvasElement | null = resource.PageThumbs.createCanvas(window),
+  ) {
+    try {
+      await resource.PageThumbs.captureToCanvas(
+        this.browserElement,
+        canvas,
+        undefined,
+      )
+    } catch (e) {
+      console.error(e)
+      canvas = null
+    }
+
+    return canvas
   }
 }
 

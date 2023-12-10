@@ -152,11 +152,13 @@ export function createTabDrag(tab: Tab) {
   const dropAfter = writable(false)
 
   const dragOverEvent = dragOver(tab, dropBefore, dropAfter)
-  const setDataTransferEvent = (event: DragEvent) => {
+  const setDataTransferEvent = async (event: DragEvent) => {
     event.dataTransfer?.setData(
       TAB_DATA_TYPE,
       JSON.stringify(tab.getDragRepresentation()),
     )
+    const canvas = await tab.captureTabToCanvas()
+    if (canvas) event.dataTransfer?.setDragImage(canvas, 0, 0)
   }
   const dragLeaveEvent = () => {
     dropBefore.set(false)
