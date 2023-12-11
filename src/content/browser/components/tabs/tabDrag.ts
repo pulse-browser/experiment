@@ -17,6 +17,8 @@ import {
 } from '@browser/lib/window/tabs'
 import { getWindowById } from '@browser/lib/window/window'
 
+/* eslint listeners/no-missing-remove-event-listener: 'error' */
+
 export const TAB_DATA_TYPE = 'experiment/tab'
 
 const dragOver = (
@@ -121,8 +123,6 @@ const drop = async (event: DragEvent) => {
 
 const dragEnd = (tabToMove: Tab) => async (event: DragEvent) => {
   if (event.dataTransfer?.dropEffect != 'none') return
-
-  console.log('dropped outside of window!')
 
   // The next window that is created is going to be for the new tab
   const newWindowPromise = waitForEvent(

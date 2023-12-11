@@ -75,6 +75,9 @@ devDependencies:
   eslint:
     specifier: ^8.53.0
     version: 8.53.0
+  eslint-plugin-listeners:
+    specifier: ^1.4.0
+    version: 1.4.0(eslint@8.53.0)
   execa:
     specifier: ^8.0.1
     version: 8.0.1
@@ -1845,6 +1848,15 @@ packages:
   /escape-string-regexp@4.0.0:
     resolution: {integrity: sha512-TtpcNJ3XAzx3Gq8sWRzJaVajRs0uVxA2YAkdb1jm2YkPz4G6egUFAyA3n5vtEIZefPk5Wa4UXbKuS5fKkJWdgA==}
     engines: {node: '>=10'}
+    dev: true
+
+  /eslint-plugin-listeners@1.4.0(eslint@8.53.0):
+    resolution: {integrity: sha512-18zHHjVDeE/AD5UFNQdGI9nWxhnER8OYbgqX9Sfe4tNvHpX4AL5ICwCWDo3i/31l4KAPIT8v8KY1Rl+3POZNDg==}
+    engines: {node: '>=8.10.0'}
+    peerDependencies:
+      eslint: '>=0.8.0'
+    dependencies:
+      eslint: 8.53.0
     dev: true
 
   /eslint-scope@5.1.1:

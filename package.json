@@ -43,6 +43,7 @@
     "copy-webpack-plugin": "^11.0.0",
     "css-loader": "^6.8.1",
     "eslint": "^8.53.0",
+    "eslint-plugin-listeners": "^1.4.0",
     "execa": "^8.0.1",
     "gecko-types": "github:quark-platform/gecko-types",
     "html-webpack-plugin": "^5.5.3",
@@ -123,7 +124,8 @@
       "sourceType": "module"
     },
     "plugins": [
-      "@typescript-eslint"
+      "@typescript-eslint",
+      "listeners"
     ],
     "rules": {
       "@typescript-eslint/triple-slash-reference": "off",
