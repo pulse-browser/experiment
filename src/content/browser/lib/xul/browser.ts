@@ -22,6 +22,7 @@ export function setURI(browser: XULBrowserElement, uri: nsIURIType) {
       // remoteTypeOverride: getBrowserRemoteType(uri),
     })
   } catch (e) {
+    console.log(browser, uri)
     console.error(e)
   }
 }

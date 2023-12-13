@@ -21,7 +21,7 @@ import {
   getSrcFile,
 } from './lib/constants.js'
 import { setupFiles } from './lib/files.js'
-import { linkStaticFolder, linkTscFolder } from './lib/linker.js'
+import { linkFolder, linkStaticFolder, linkTscFolder } from './lib/linker.js'
 import { failure, info } from './lib/logging.js'
 import { downloadReleaseAsset, getLatestRelease } from './lib/releases.js'
 
@@ -86,6 +86,9 @@ await linkTscFolder('actors')
 
 // Link static folders
 await linkStaticFolder('modules')
+await linkStaticFolder('localization', undefined, '')
+await linkStaticFolder('chrome', undefined, '')
+// await linkFolder('extensions', 'chrome/browser/content/browser/extensions')
 
 info('Setting up files...')
 await setupFiles()

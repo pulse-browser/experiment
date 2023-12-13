@@ -10,7 +10,7 @@ export class LinkHandlerParent extends JSWindowActorParent {
 
     switch (aMsg.name) {
       case 'Link:SetIcon':
-        return win.windowApi.setIcon(
+        return win.windowApi.tabs.setIcon(
           this.browsingContext.embedderElement,
           aMsg.data.iconURL,
         )
