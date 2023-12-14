@@ -8,10 +8,10 @@
   import CustomizableUi from './components/customizableUI/CustomizableUI.svelte'
   import { BrowserContextMenu, HamburgerMenu } from './components/menus'
   import Keybindings from './components/keybindings/Keybindings.svelte'
-  import { tabs, selectedTab } from './lib/window/tabs'
+  import { tabs, selectedTabId } from './lib/window/tabs'
 
   let component = customizableUIDynamicPref('browser.uiCustomization.state')
-  $: currentTab = $tabs.find((tab) => tab.getId() == $selectedTab)
+  $: currentTab = $tabs.find((tab) => tab.getId() == $selectedTabId)
 </script>
 
 {#if currentTab}

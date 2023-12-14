@@ -90,7 +90,9 @@
       />
 
       {#each $pageActions as [_extId, pageAction]}
-        <PageAction {pageAction} />
+        {#if pageAction.shouldShow($uri.asciiSpec)}
+          <PageAction {pageAction} />
+        {/if}
       {/each}
 
       <Bookmarks {tab} />

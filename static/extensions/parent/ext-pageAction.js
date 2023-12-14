@@ -22,8 +22,8 @@ this.pageAction = class extends ExtensionAPIPersistent {
     const pageAction = new lazy.EPageActions.PageAction({
       tooltip: options.default_title,
       popupUrl: options.default_popup,
-      showMatches: options.matches,
-      hideMatches: options.exclude_matches,
+      showMatches: options.show_matches,
+      hideMatches: options.hide_matches,
     })
 
     lazy.EPageActions.registerPageAction(extension.id, pageAction)

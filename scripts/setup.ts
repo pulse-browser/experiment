@@ -21,7 +21,7 @@ import {
   getSrcFile,
 } from './lib/constants.js'
 import { setupFiles } from './lib/files.js'
-import { linkFolder, linkStaticFolder, linkTscFolder } from './lib/linker.js'
+import { linkStaticFolder, linkTscFolder } from './lib/linker.js'
 import { failure, info } from './lib/logging.js'
 import { downloadReleaseAsset, getLatestRelease } from './lib/releases.js'
 

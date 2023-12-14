@@ -26,7 +26,7 @@ export type PageActionEvents = {
  * @todo analytics to see how many page actions people have. If there are a few
  *       power users, we might want to implement `pinned`
  */
-export interface PageActionOptions {
+export interface PageActionOptions<PS = MatchPatternSet> {
   /**
    * The tooltip displayed when the user hovers over the action button.
    *
@@ -45,25 +45,29 @@ export interface PageActionOptions {
   /**
    * @key `show_matches`
    */
-  showMatches?: string[]
+  showMatches?: PS
 
   /**
    * @key `hide_matches`
    */
-  hideMatches?: string[]
+  hideMatches?: PS
 }
 
 export class PageAction implements PageActionOptions {
   tooltip?: string
   popupUrl?: string
-  showMatches?: string[]
-  hideMatches?: string[]
+  showMatches: MatchPatternSet
+  hideMatches: MatchPatternSet
 
-  constructor(data: PageActionOptions) {
+  constructor(data: PageActionOptions<string[]>) {
     this.tooltip = data.tooltip
     this.popupUrl = data.popupUrl
-    this.showMatches = data.showMatches
-    this.hideMatches = data.hideMatches
+    this.showMatches = new MatchPatternSet(data.showMatches || [])
+    this.hideMatches = new MatchPatternSet(data.hideMatches || [])
+  }
+
+  shouldShow(url: string) {
+    return this.showMatches.matches(url) && !this.hideMatches.matches(url, true)
   }
 }
 
