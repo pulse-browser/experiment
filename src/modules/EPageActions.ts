@@ -32,11 +32,13 @@ export interface PageActionOptions {
    *
    * @key `default_title`
    */
-  tooltip: string
+  tooltip?: string
 
   /**
    * The url of the popup to show when the icon is clicked. If this url does not
    * exist, clicking the icon will send an event back to the extension.
+   *
+   * @key `default_popup`
    */
   popupUrl?: string
 
@@ -52,10 +54,10 @@ export interface PageActionOptions {
 }
 
 export class PageAction implements PageActionOptions {
-  tooltip: string
-  popupUrl?: string | undefined
-  showMatches?: string[] | undefined
-  hideMatches?: string[] | undefined
+  tooltip?: string
+  popupUrl?: string
+  showMatches?: string[]
+  hideMatches?: string[]
 
   constructor(data: PageActionOptions) {
     this.tooltip = data.tooltip
@@ -65,28 +67,29 @@ export class PageAction implements PageActionOptions {
   }
 }
 
-export const PageActions = {
+export const EPageActions = {
   events: mitt<PageActionEvents>(),
 
+  PageAction,
   pageActions: new Map<string, PageAction>(),
 
   registerPageAction(extensionId: string, pageAction: PageAction) {
-    if (PageActions.pageActions.has(extensionId)) {
-      PageActions.removePageAction(extensionId)
+    if (EPageActions.pageActions.has(extensionId)) {
+      EPageActions.removePageAction(extensionId)
     }
 
-    PageActions.pageActions.set(extensionId, pageAction)
-    PageActions.events.emit('register', {
+    EPageActions.pageActions.set(extensionId, pageAction)
+    EPageActions.events.emit('register', {
       action: pageAction,
       extension: extensionId,
     })
   },
 
   removePageAction(extensionId: string) {
-    const action = PageActions.pageActions.get(extensionId)
+    const action = EPageActions.pageActions.get(extensionId)
     if (!action) return
 
-    PageActions.pageActions.delete(extensionId)
-    PageActions.events.emit('remove', { action, extension: extensionId })
+    EPageActions.pageActions.delete(extensionId)
+    EPageActions.events.emit('remove', { action, extension: extensionId })
   },
 }

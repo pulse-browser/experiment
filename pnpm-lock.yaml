@@ -29,8 +29,8 @@ dependencies:
     specifier: ^5.0.3
     version: 5.0.3
   remixicon:
-    specifier: ^3.5.0
-    version: 3.5.0
+    specifier: ^3.7.0
+    version: 3.7.0
   snarkdown:
     specifier: ^2.0.0
     version: 2.0.0
@@ -3489,8 +3489,8 @@ packages:
     engines: {node: '>= 0.10'}
     dev: true
 
-  /remixicon@3.5.0:
-    resolution: {integrity: sha512-wNzWGKf4frb3tEmgvP5shry0n1OdTjjEk9RHLuRuAhfA50bvEdpKH1XWNUYrHUSjAQQkkdyIm+lf4mOuysIKTQ==}
+  /remixicon@3.7.0:
+    resolution: {integrity: sha512-FFbVLRCaTtsSDe/l9JX+lT/zzm9V3kYbda25lzsy3ML5FHv/bGVKiHwZSlCo/IMhBD1/CK6SGIruyfiq4bbsuQ==}
     dev: false
 
   /renderkid@3.0.0:

@@ -7,6 +7,7 @@ import { lazyESModuleGetters } from '../../shared/TypedImportUtilities'
 
 export const resource = lazyESModuleGetters({
   E10SUtils: 'resource://gre/modules/E10SUtils.sys.mjs',
+  EPageActions: 'resource://app/modules/EPageActions.sys.mjs',
   NetUtil: 'resource://gre/modules/NetUtil.sys.mjs',
   PageThumbs: 'resource://gre/modules/PageThumbs.sys.mjs',
   WindowTracker: 'resource://app/modules/BrowserWindowTracker.sys.mjs',

@@ -21,14 +21,20 @@ declare module 'resource://app/modules/mitt.sys.mjs' {
   export default mitt
 }
 
+declare module 'resource://app/modules/EPageActions.sys.mjs' {
+  export * from './modules/EPageActions'
+}
+
 declare interface MozESMExportFile {
   TypedImportUtils: 'resource://app/modules/TypedImportUtils.sys.mjs'
   WindowTracker: 'resource://app/modules/BrowserWindowTracker.sys.mjs'
+  EPageActions: 'resource://app/modules/EPageActions.sys.mjs'
 }
 
 declare interface MozESMExportType {
   TypedImportUtils: typeof import('./modules/TypedImportUtils')
   WindowTracker: typeof import('./modules/BrowserWindowTracker').WindowTracker
+  EPageActions: typeof import('./modules/EPageActions').EPageActions
 }
 
 declare let Cr: Record<string, nsresult>
@@ -607,4 +613,20 @@ declare module 'resource://gre/modules/PlacesUtils.sys.mjs' {
      */
     function getLogger({ prefix }?: string): object
   }
+}
+
+
+declare module ChromeUtils {
+  /**
+   * Synchronously loads and evaluates the JS module source located at
+   * 'aResourceURI'.
+   *
+   * @param aResourceURI A resource:// URI string to load the module from.
+   * @returns the module's namespace object.
+   *
+   * The implementation maintains a hash of aResourceURI->global obj.
+   * Subsequent invocations of import with 'aResourceURI' pointing to
+   * the same file will not cause the module to be re-evaluated.
+   */
+  function importESModule<T extends import(Path), Path extends string>(path: Path): T
 }

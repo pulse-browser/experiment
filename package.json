@@ -73,7 +73,7 @@
     "fnts": "^2.0.1",
     "mitt": "^3.0.1",
     "nanoid": "^5.0.3",
-    "remixicon": "^3.5.0",
+    "remixicon": "^3.7.0",
     "snarkdown": "^2.0.0"
   },
   "pnpm": {
