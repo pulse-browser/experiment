@@ -28,6 +28,11 @@ this.pageAction = class extends ExtensionAPIPersistent {
 
     lazy.EPageActions.registerPageAction(extension.id, pageAction)
   }
+
+  onShutdown() {
+    const { extension } = this
+    lazy.EPageActions.removePageAction(extension.id)
+  }
 }
 
 // global.pageActionFor = this.pageAction.for
