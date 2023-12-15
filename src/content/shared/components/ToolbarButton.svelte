@@ -6,6 +6,7 @@
   export let disabled = false
   export let button: HTMLButtonElement | undefined = undefined
   export let kind: 'toolbar' | 'page-icon' = 'toolbar'
+  export let tooltip: string | undefined = undefined
 </script>
 
 <button
@@ -13,6 +14,7 @@
   bind:this={button}
   on:click
   {disabled}
+  title={tooltip}
 >
   <slot />
 </button>

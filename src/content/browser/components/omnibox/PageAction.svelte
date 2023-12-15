@@ -49,10 +49,6 @@
       },
     })
 
-    lBrowser.addEventListener('DidChangeBrowserRemoteness', () =>
-      console.log('ChangeRemoteness'),
-    )
-
     await spinLock(() => panel)
     panel.appendChild(lBrowser)
     browser = lBrowser
@@ -95,7 +91,12 @@
   })
 </script>
 
-<ToolbarButton kind="page-icon" bind:button on:click={OPEN_PANEL}>
+<ToolbarButton
+  kind="page-icon"
+  bind:button
+  on:click={OPEN_PANEL}
+  tooltip={pageAction.tooltip}
+>
   <i class="ri-puzzle-line"></i>
 </ToolbarButton>
 
