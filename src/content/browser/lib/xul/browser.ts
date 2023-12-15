@@ -39,19 +39,32 @@ export function getBrowserRemoteType(uri: nsIURIType) {
   )
 }
 
-export function createBrowser({ remoteType }: { remoteType?: string } = {}) {
+export function createBrowser({
+  remoteType,
+  attributes,
+}: {
+  remoteType?: string
+  attributes?: {
+    disableglobalhistory?: string
+    messagemanagergroup?: string
+    ['webextension-view-type']?: string
+  }
+} = {}): XULBrowserElement {
   const browser = document.createXULElement('browser')
   if (remoteType) {
     browser.setAttribute('remoteType', remoteType)
     browser.setAttribute('remote', true)
   }
 
-  for (const attribute in DEFAULT_BROWSER_ATTRIBUTES)
+  const mergedAttributes = {
+    ...DEFAULT_BROWSER_ATTRIBUTES,
+    ...(attributes || {}),
+  }
+
+  for (const attribute in mergedAttributes)
     browser.setAttribute(
       attribute,
-      DEFAULT_BROWSER_ATTRIBUTES[
-        attribute as keyof typeof DEFAULT_BROWSER_ATTRIBUTES
-      ],
+      mergedAttributes[attribute as keyof typeof mergedAttributes],
     )
 
   if (useRemoteTabs) browser.setAttribute('maychangeremoteness', 'true')
