@@ -14,8 +14,13 @@
   import { spinLock } from '@browser/lib/spinlock'
   import { MessageReviver } from '@shared/xul/messageReciver'
   import { onMount } from 'svelte'
+  import {
+    getIconUrlForPreferredSize,
+    pageActionIcons,
+  } from '@browser/lib/modules/EPageActionsBindings'
 
   export let pageAction: PageAction
+  const icons = pageActionIcons(pageAction)
 
   let panel: any
   let browser: XULBrowserElement
@@ -97,7 +102,15 @@
   on:click={OPEN_PANEL}
   tooltip={pageAction.tooltip}
 >
-  <i class="ri-puzzle-line"></i>
+  {#if $icons}
+    <img
+      src={getIconUrlForPreferredSize($icons, 16)}
+      alt="Page action icon"
+      class="icon"
+    />
+  {:else}
+    <i class="ri-puzzle-line icon"></i>
+  {/if}
 </ToolbarButton>
 
 {#if pageAction.popupUrl}
@@ -109,5 +122,12 @@
     --panel-shadow-margin: 0;
     --panel-padding: 0;
     --panel-border-radius: 0.5rem;
+  }
+
+  .icon {
+    width: 1em;
+    height: 1em;
+
+    color: var(--text);
   }
 </style>

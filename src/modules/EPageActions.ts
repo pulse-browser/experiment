@@ -4,7 +4,7 @@
 /// <reference path="../link.d.ts" />
 import mitt from 'resource://app/modules/mitt.sys.mjs'
 
-export type PageActionEvents = {
+export type PageActionsEvents = {
   register: {
     extension: string
     action: PageAction
@@ -51,13 +51,22 @@ export interface PageActionOptions<PS = MatchPatternSet> {
    * @key `hide_matches`
    */
   hideMatches?: PS
+
+  icons?: Record<number, string>
+}
+
+export type PageActionEvents = {
+  updateIcon: Record<number, string> | undefined
 }
 
 export class PageAction implements PageActionOptions {
+  events = mitt<PageActionEvents>()
+
   tooltip?: string
   popupUrl?: string
   showMatches: MatchPatternSet
   hideMatches: MatchPatternSet
+  icons?: Record<number, string>
 
   constructor(data: PageActionOptions<string[]>) {
     this.tooltip = data.tooltip
@@ -69,10 +78,15 @@ export class PageAction implements PageActionOptions {
   shouldShow(url: string) {
     return this.showMatches.matches(url) && !this.hideMatches.matches(url, true)
   }
+
+  setIcons(icons: Record<number, string>) {
+    this.icons = icons
+    this.events.emit('updateIcon', icons)
+  }
 }
 
 export const EPageActions = {
-  events: mitt<PageActionEvents>(),
+  events: mitt<PageActionsEvents>(),
 
   PageAction,
   pageActions: new Map<string, PageAction>(),

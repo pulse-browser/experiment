@@ -10,6 +10,7 @@ const { lazyESModuleGetters } = typedImportUtils
 
 const lazy = lazyESModuleGetters({
   EPageActions: 'resource://app/modules/EPageActions.sys.mjs',
+  ExtensionParent: 'resource://gre/modules/ExtensionParent.sys.mjs',
 })
 
 this.pageAction = class extends ExtensionAPIPersistent {
@@ -25,6 +26,17 @@ this.pageAction = class extends ExtensionAPIPersistent {
       showMatches: options.show_matches,
       hideMatches: options.hide_matches,
     })
+
+    pageAction.setIcons(
+      lazy.ExtensionParent.IconDetails.normalize(
+        {
+          path: options.default_icon || extension.manifest.icons,
+          iconType: 'browserAction',
+          themeIcon: options.theme_icons || extension.theme_icons,
+        },
+        extension,
+      ),
+    )
 
     lazy.EPageActions.registerPageAction(extension.id, pageAction)
   }

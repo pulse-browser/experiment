@@ -28,6 +28,10 @@
     border-radius: 0.5rem;
     width: 2.5rem;
     height: 2.5rem;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
   .toolbar__button--page-icon {
