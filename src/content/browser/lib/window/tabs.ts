@@ -53,7 +53,7 @@ export function getTabById(id: number): Tab | undefined {
   return tabs.readOnce().find((tab) => tab.getId() == id)
 }
 
-function getCurrent(): Tab | undefined {
+export function getCurrentTab(): Tab | undefined {
   return getTabById(internalSelectedTab)
 }
 
@@ -63,7 +63,7 @@ export function setCurrentTab(tab: Tab) {
 }
 
 export function runOnCurrentTab<R>(method: (tab: Tab) => R): R | void {
-  const currentTab = getCurrent()
+  const currentTab = getCurrentTab()
   if (currentTab) return method(currentTab)
 }
 

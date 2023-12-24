@@ -57,6 +57,7 @@ export interface PageActionOptions<PS = MatchPatternSet> {
 
 export type PageActionEvents = {
   updateIcon: Record<number, string> | undefined
+  click: { clickData: { modifiers: string[]; button: number } }
 }
 
 export class PageAction implements PageActionOptions {

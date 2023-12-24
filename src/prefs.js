@@ -108,3 +108,13 @@ pref('browser.download.alwaysOpenPanel', true);
 //   1 - Remove the download from session list, but not history.
 //   2 - Remove the download from both session list and history.
 pref('browser.download.clearHistoryOnDelete', 0);
+
+// =============================================================================
+// Multithreading
+
+pref('browser.tabs.remote.autostart', true);
+pref('browser.tabs.remote.separatePrivilegedContentProcess', true);
+pref('browser.tabs.remote.separatePrivilegedMozillaWebContentProcess', true);
+
+pref('extensions.webextensions.remote', true);
+pref('extensions.webextensions.protocol.remote', true);

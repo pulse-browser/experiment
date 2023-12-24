@@ -18,6 +18,7 @@
     getIconUrlForPreferredSize,
     pageActionIcons,
   } from '@browser/lib/modules/EPageActionsBindings'
+  import { clickModifiersFromEvent } from '@shared/domUtils'
 
   export let pageAction: PageAction
   const icons = pageActionIcons(pageAction)
@@ -41,7 +42,6 @@
       browser.remove()
     }
 
-    console.log(pageAction.popupUrl)
     if (!pageAction.popupUrl) return
     const uri = resource.NetUtil.newURI(pageAction.popupUrl)
 
@@ -80,9 +80,18 @@
     setURI(lBrowser, uri)
   }
 
-  const OPEN_PANEL = async () => {
+  const handleClick = async (event: MouseEvent) => {
+    // Send the event to the extension
+    pageAction.events.emit('click', {
+      clickData: {
+        modifiers: clickModifiersFromEvent(event),
+        button: event.button,
+      },
+    })
+
     await buildPanelBrowser()
-    panel.openPopup(button, 'bottomright topright')
+    // Panel may not exist if there is no popupUrl
+    if (panel) panel.openPopup(button, 'bottomright topright')
   }
 
   onMount(() => () => {
@@ -99,7 +108,7 @@
 <ToolbarButton
   kind="page-icon"
   bind:button
-  on:click={OPEN_PANEL}
+  on:click={handleClick}
   tooltip={pageAction.tooltip}
 >
   {#if $icons}

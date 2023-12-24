@@ -3,6 +3,7 @@
     "url": "chrome://browser/content/extensions/parent/ext-pageAction.js",
     "schema": "chrome://extensions/content/schemas/page_action.json",
     "scopes": ["addon_parent"],
-    "manifest": ["page_action"]
+    "manifest": ["page_action"],
+    "paths": [["pageAction"]]
   }
 }

@@ -15,8 +15,10 @@ export const CHANGES: { file: string; append?: string | string[] }[] = [
   },
   {
     file: 'components/components.manifest',
-    append:
+    append: [
       'category webextension-modules browser chrome://browser/content/extensions/ext-browser.json',
+      'category webextension-scripts c-browser chrome://browser/content/extensions/parent/ext-browser.js',
+    ],
   },
 ]
 

@@ -821,4 +821,116 @@ declare global {
   }
   const LISTENERS: unique symbol
   const ONCE_MAP: unique symbol
+
+  interface TabAttachedEvent {
+    /** The native tab object in the window to which the tab is being attached. This may be a different object than was used to represent the tab in the old window. */
+    tab: NativeTab
+
+    /** The ID of the tab being attached. */
+    tabId: number
+
+    /** The ID of the window to which the tab is being attached. */
+    newWindowId: number
+
+    /** The position of the tab in the tab list of the new window. */
+    newPosition: number
+  }
+
+  interface TabDetachedEvent {
+    /** The native tab object in the window from which the tab is being detached. This may be a different object than will be used to represent the tab in the new window. */
+    tab: NativeTab
+
+    /** The native tab object in the window to which the tab will be attached, and is adopting the contents of this tab. This may be a different object than the tab in the previous window. */
+    adoptedBy: NativeTab
+
+    /** The ID of the tab being detached. */
+    tabId: number
+
+    /** The ID of the window from which the tab is being detached. */
+    oldWindowId: number
+
+    /** The position of the tab in the tab list of the window from which it is being detached. */
+    oldPosition: number
+  }
+
+  interface TabCreatedEvent {
+    /** The native tab object for the tab which is being created. */
+    tab: NativeTab
+  }
+
+  interface TabRemovedEvent {
+    /** The native tab object for the tab which is being removed. */
+    tab: NativeTab
+
+    /** The ID of the tab being removed. */
+    tabId: number
+
+    /** The ID of the window from which the tab is being removed. */
+    windowId: number
+
+    /** True if the tab is being removed because the window is closing. */
+    isWindowClosing: boolean
+  }
+
+  interface BrowserData {
+    /** The numeric ID of the tab that a <browser> belongs to, or -1 if it does not belong to a tab. */
+    tabId: number
+
+    /** The numeric ID of the browser window that a <browser> belongs to, or -1 if it does not belong to a browser window. */
+    windowId: number
+  }
+
+  type NativeTab = any
+  type XULElement = any
+
+  /**
+   * A platform-independent base class for the platform-specific TabTracker
+   * classes, which track the opening and closing of tabs, and manage the mapping
+   * of them between numeric IDs and native tab objects.
+   */
+  abstract class TabTrackerBase extends EventEmitter {
+    protected initialized: boolean
+
+    on(...args: any[]): void
+
+    /**
+     * Called to initialize the tab tracking listeners the first time that an
+     * event listener is added.
+     */
+    protected abstract init(): void
+
+    /**
+     * Returns the numeric ID for the given native tab.
+     *
+     * @param nativeTab The native tab for which to return an ID.
+     * @returns The tab's numeric ID.
+     */
+    abstract getId(nativeTab: NativeTab): number
+
+    /**
+     * Returns the native tab with the given numeric ID.
+     *
+     * @param tabId The numeric ID of the tab to return.
+     * @param default_ The value to return if no tab exists with the given ID.
+     * @returns The native tab.
+     * @throws If no tab exists with the given ID and a default return value is not provided.
+     */
+    abstract getTab(tabId: number, default_?: any): NativeTab
+
+    /**
+     * Returns basic information about the tab and window that the given browser
+     * belongs to.
+     *
+     * @param browser The XUL browser element for which to return data.
+     * @returns Browser data.
+     */
+    abstract getBrowserData(browser: XULElement): BrowserData
+
+    /**
+     * Returns the native tab object for the active tab in the
+     * most-recently focused window, or null if no live tabs currently
+     * exist.
+     */
+    abstract get activeTab(): NativeTab | null
+  }
 }

@@ -6,8 +6,13 @@
 
 /// <reference types="gecko-types" />
 
+/// <reference path="./types/AppConstants.d.ts" />
 /// <reference path="./types/MatchPattern.d.ts" />
 /// <reference path="./types/MessageManager.d.ts" />
+
+declare type LazyImportType<Modules extends Partial<MozESMExportFile>> =
+  | { [Key in keyof Modules]: MozESMExportType[Key] }
+  | {}
 
 declare module 'resource://app/modules/FaviconLoader.sys.mjs' {
   export const FaviconLoader: typeof import('./modules/FaviconLoader').FaviconLoader
@@ -29,12 +34,14 @@ declare module 'resource://app/modules/EPageActions.sys.mjs' {
 }
 
 declare interface MozESMExportFile {
+  AppConstants: 'resource://gre/modules/AppConstants.sys.mjs'
   TypedImportUtils: 'resource://app/modules/TypedImportUtils.sys.mjs'
   WindowTracker: 'resource://app/modules/BrowserWindowTracker.sys.mjs'
   EPageActions: 'resource://app/modules/EPageActions.sys.mjs'
 }
 
 declare interface MozESMExportType {
+  AppConstants: typeof import('resource://gre/modules/AppConstants.sys.mjs').AppConstants
   TypedImportUtils: typeof import('./modules/TypedImportUtils')
   WindowTracker: typeof import('./modules/BrowserWindowTracker').WindowTracker
   EPageActions: typeof import('./modules/EPageActions').EPageActions
@@ -636,4 +643,3 @@ declare module ChromeUtils {
     path: Path,
   ): T
 }
-
