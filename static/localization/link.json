@@ -1,6 +1,5 @@
 [
   "en-US/branding/brand.ftl",
-  "en-US/branding/brand.properties",
   "en-US/browser/components/mozSupportLink.ftl",
   "en-US/browser/appExtensionFields.ftl"
 ]
