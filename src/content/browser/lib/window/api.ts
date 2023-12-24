@@ -11,13 +11,14 @@ import {
 } from './contextMenu'
 import {
   closeTab,
+  getCurrentTab,
   getTabById,
   openTab,
   runOnCurrentTab,
   setCurrentTab,
   tabs,
 } from './tabs'
-import { id } from './window'
+import { id, setId } from './window'
 
 export type WindowTriggers = {
   bookmarkCurrentPage: undefined
@@ -27,8 +28,16 @@ export const windowApi = {
   /**
    * Identify which window this is. This should be used for actions like tab
    * moving that go across windows
+   *
+   * Note: You need to wait for the window watcher to register this window
+   * before you get a valid id
    */
   id,
+
+  /**
+   * Sets the window ID. You should only use this if you are the WindowWatcher
+   */
+  setId,
 
   windowTriggers: mitt<WindowTriggers>(),
   window: {
@@ -50,6 +59,7 @@ export const windowApi = {
     openTab,
     runOnCurrentTab,
     setCurrentTab,
+    getCurrentTab,
     getTabById,
     get tabs() {
       return tabs.readOnce()

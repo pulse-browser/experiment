@@ -8,8 +8,17 @@ import { getArtifactFile } from './constants.js'
 export const CHANGES: { file: string; append?: string | string[] }[] = [
   {
     file: 'chrome/chrome.manifest',
-    append:
+    append: [
+      'locale branding en-US en-US/locale/branding/',
       'resource search-extensions browser/content/browser/search-extensions/ contentaccessible=yes',
+    ],
+  },
+  {
+    file: 'components/components.manifest',
+    append: [
+      'category webextension-modules browser chrome://browser/content/extensions/ext-browser.json',
+      'category webextension-scripts c-browser chrome://browser/content/extensions/parent/ext-browser.js',
+    ],
   },
 ]
 

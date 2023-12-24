@@ -86,6 +86,9 @@ await linkTscFolder('actors')
 
 // Link static folders
 await linkStaticFolder('modules')
+await linkStaticFolder('localization', undefined, '')
+await linkStaticFolder('chrome', undefined, '')
+// await linkFolder('extensions', 'chrome/browser/content/browser/extensions')
 
 info('Setting up files...')
 await setupFiles()

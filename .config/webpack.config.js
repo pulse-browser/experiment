@@ -154,7 +154,7 @@ const sharedSettings = (contentFiles, dev) => {
       }),
       new WebpackLicensePlugin({
         licenseOverrides: {
-          'remixicon@3.5.0': 'Apache-2.0',
+          'remixicon@3.7.0': 'Apache-2.0',
         },
 
         includePackages: () =>

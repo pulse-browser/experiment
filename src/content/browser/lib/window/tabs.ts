@@ -9,8 +9,8 @@ import { resource } from '../resources'
 import { Tab } from './tab'
 
 let internalSelectedTab = -1
-export const selectedTab = writable(-1)
-selectedTab.subscribe((v) => (internalSelectedTab = v))
+export const selectedTabId = writable(-1)
+selectedTabId.subscribe((v) => (internalSelectedTab = v))
 
 const uriPref = (pref: string) => (): nsIURIType =>
   resource.NetUtil.newURI(Services.prefs.getStringPref(pref, 'about:blank'))
@@ -22,7 +22,7 @@ export const tabs = viewableWritable<Tab[]>([])
 export function openTab(uri: nsIURIType = newTabUri()) {
   const newTab = new Tab(uri)
   tabs.update((tabs) => {
-    selectedTab.set(newTab.getId())
+    selectedTabId.set(newTab.getId())
     return [...tabs, newTab]
   })
   return newTab
@@ -39,9 +39,9 @@ export function closeTab(tab: Tab) {
     }
 
     if (filtered[tabIndex]) {
-      selectedTab.set(filtered[tabIndex].getId())
+      selectedTabId.set(filtered[tabIndex].getId())
     } else {
-      selectedTab.set(filtered[tabIndex - 1].getId())
+      selectedTabId.set(filtered[tabIndex - 1].getId())
     }
 
     tab.destroy()
@@ -53,7 +53,7 @@ export function getTabById(id: number): Tab | undefined {
   return tabs.readOnce().find((tab) => tab.getId() == id)
 }
 
-function getCurrent(): Tab | undefined {
+export function getCurrentTab(): Tab | undefined {
   return getTabById(internalSelectedTab)
 }
 
@@ -63,7 +63,7 @@ export function setCurrentTab(tab: Tab) {
 }
 
 export function runOnCurrentTab<R>(method: (tab: Tab) => R): R | void {
-  const currentTab = getCurrent()
+  const currentTab = getCurrentTab()
   if (currentTab) return method(currentTab)
 }
 
@@ -78,7 +78,7 @@ export function setCurrentTabIndex(index: number) {
   if (index < 0) index = allTabs.length - 1
   if (index >= allTabs.length) index = 0
 
-  selectedTab.set(allTabs[index].getId())
+  selectedTabId.set(allTabs[index].getId())
 }
 
 export function moveTabBefore(toMoveId: number, targetId: number) {

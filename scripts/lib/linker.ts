@@ -29,7 +29,11 @@ export async function linkTscFolder(folderName: string) {
   }
 }
 
-export async function linkStaticFolder(folderName: string) {
+export async function linkStaticFolder(
+  folderName: string,
+  outFolderName?: string,
+  ext = '.sys.mjs',
+) {
   const linkFile = await readFile(
     getStaticFile(`${folderName}/link.json`),
     'utf-8',
@@ -37,13 +41,26 @@ export async function linkStaticFolder(folderName: string) {
   const links = JSON.parse(linkFile) as string[]
 
   for (const link of links) {
-    const fileName = `${link}.sys.mjs`
-    const geckoPath = getArtifactFile(`${folderName}/${fileName}`)
+    const fileName = `${link}${ext}`
+    const geckoPath = getArtifactFile(
+      `${outFolderName || folderName}/${fileName}`,
+    )
     const srcFile = getStaticFile(`${folderName}/${fileName}`)
 
     if (existsSync(geckoPath)) await rm(geckoPath)
-    if (!existsSync(dirname(srcFile)))
+    if (!existsSync(dirname(geckoPath)))
       await mkdir(dirname(geckoPath), { recursive: true })
-    await symlink(getStaticFile(`${folderName}/${fileName}`), geckoPath)
+    await symlink(srcFile, geckoPath)
   }
+}
+
+export async function linkFolder(staticName: string, outputName: string) {
+  const staticFolder = getStaticFile(staticName)
+  const geckoFolder = getArtifactFile(outputName)
+
+  if (existsSync(geckoFolder)) await rm(geckoFolder, { recursive: true })
+  if (!existsSync(dirname(geckoFolder)))
+    await mkdir(dirname(geckoFolder), { recursive: true })
+
+  await symlink(staticFolder, geckoFolder)
 }

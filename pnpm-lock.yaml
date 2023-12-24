@@ -8,7 +8,7 @@ patchedDependencies:
   '@melt-ui/svelte@0.64.5':
     hash: aeypykqddydgtdgxoo44wxfeey
     path: patches/@melt-ui__svelte@0.64.5.patch
-  svelte@4.2.1:
+  svelte@4.2.8:
     hash: cm43hmf4gczhssi3isoosy53r4
     path: patches/svelte@4.2.1.patch
   webpack-license-plugin@4.4.2:
@@ -29,8 +29,8 @@ dependencies:
     specifier: ^5.0.3
     version: 5.0.3
   remixicon:
-    specifier: ^3.5.0
-    version: 3.5.0
+    specifier: ^3.7.0
+    version: 3.7.0
   snarkdown:
     specifier: ^2.0.0
     version: 2.0.0
@@ -38,10 +38,10 @@ dependencies:
 devDependencies:
   '@melt-ui/pp':
     specifier: ^0.1.4
-    version: 0.1.4(@melt-ui/svelte@0.64.5)(svelte@4.2.1)
+    version: 0.1.4(@melt-ui/svelte@0.64.5)(svelte@4.2.8)
   '@melt-ui/svelte':
     specifier: ^0.64.0
-    version: 0.64.5(patch_hash=aeypykqddydgtdgxoo44wxfeey)(svelte@4.2.1)
+    version: 0.64.5(patch_hash=aeypykqddydgtdgxoo44wxfeey)(svelte@4.2.8)
   '@tinyhttp/app':
     specifier: ^2.2.1
     version: 2.2.1
@@ -75,12 +75,15 @@ devDependencies:
   eslint:
     specifier: ^8.53.0
     version: 8.53.0
+  eslint-plugin-listeners:
+    specifier: ^1.4.0
+    version: 1.4.0(eslint@8.53.0)
   execa:
     specifier: ^8.0.1
     version: 8.0.1
   gecko-types:
     specifier: github:quark-platform/gecko-types
-    version: github.com/quark-platform/gecko-types/98eca1c9a0ca382b5acfcc956a3934aa3dd08557
+    version: github.com/quark-platform/gecko-types/e4efe38ce26c3617d7a3ecb13491bca2004e0377
   html-webpack-plugin:
     specifier: ^5.5.3
     version: 5.5.3(webpack@5.89.0)
@@ -104,19 +107,19 @@ devDependencies:
     version: 3.2.3(prettier@3.0.3)(typescript@5.2.2)
   prettier-plugin-svelte:
     specifier: ^3.0.3
-    version: 3.0.3(prettier@3.0.3)(svelte@4.2.1)
+    version: 3.0.3(prettier@3.0.3)(svelte@4.2.8)
   style-loader:
     specifier: ^3.3.3
     version: 3.3.3(webpack@5.89.0)
   svelte:
-    specifier: ^4.2.1
-    version: 4.2.1(patch_hash=cm43hmf4gczhssi3isoosy53r4)
+    specifier: ^4.2.8
+    version: 4.2.8(patch_hash=cm43hmf4gczhssi3isoosy53r4)
   svelte-loader:
     specifier: ^3.1.9
-    version: 3.1.9(svelte@4.2.1)
+    version: 3.1.9(svelte@4.2.8)
   svelte-preprocess:
-    specifier: ^5.0.4
-    version: 5.0.4(postcss@8.4.31)(svelte@4.2.1)(typescript@5.2.2)
+    specifier: ^5.1.2
+    version: 5.1.2(postcss@8.4.31)(svelte@4.2.8)(typescript@5.2.2)
   svelte-sequential-preprocessor:
     specifier: ^2.0.1
     version: 2.0.1
@@ -422,19 +425,19 @@ packages:
     resolution: {integrity: sha512-Hcv+nVC0kZnQ3tD9GVu5xSMR4VVYOteQIr/hwFPVEvPdlXqgGEuRjiheChHgdM+JyqdgNcmzZOX/tnl0JOiI7A==}
     dev: true
 
-  /@melt-ui/pp@0.1.4(@melt-ui/svelte@0.64.5)(svelte@4.2.1):
+  /@melt-ui/pp@0.1.4(@melt-ui/svelte@0.64.5)(svelte@4.2.8):
     resolution: {integrity: sha512-zR+Kl3CZJPJBHW8V7YcdQCMI/dVcnW9Ct3yGbVaIywYVStVRS7F9uEDOea3xLLT2WTGodQePzPlUn53yKFu87g==}
     engines: {pnpm: '>=8.6.3'}
     peerDependencies:
       '@melt-ui/svelte': '>= 0.29.0'
       svelte: ^3.55.0 || ^4.0.0 || ^5.0.0-next.1
     dependencies:
-      '@melt-ui/svelte': 0.64.5(patch_hash=aeypykqddydgtdgxoo44wxfeey)(svelte@4.2.1)
+      '@melt-ui/svelte': 0.64.5(patch_hash=aeypykqddydgtdgxoo44wxfeey)(svelte@4.2.8)
       estree-walker: 3.0.3
-      svelte: 4.2.1(patch_hash=cm43hmf4gczhssi3isoosy53r4)
+      svelte: 4.2.8(patch_hash=cm43hmf4gczhssi3isoosy53r4)
     dev: true
 
-  /@melt-ui/svelte@0.64.5(patch_hash=aeypykqddydgtdgxoo44wxfeey)(svelte@4.2.1):
+  /@melt-ui/svelte@0.64.5(patch_hash=aeypykqddydgtdgxoo44wxfeey)(svelte@4.2.8):
     resolution: {integrity: sha512-nPQA2guLuLitpZ6A968eWyGMC2riTKLq4R26hPRLdzP/JHCpd9yvddgMwil8JKbUKjT2dC3i358vUqeUOGxknA==}
     peerDependencies:
       svelte: '>=3 <5'
@@ -445,7 +448,7 @@ packages:
       dequal: 2.0.3
       focus-trap: 7.5.4
       nanoid: 4.0.2
-      svelte: 4.2.1(patch_hash=cm43hmf4gczhssi3isoosy53r4)
+      svelte: 4.2.8(patch_hash=cm43hmf4gczhssi3isoosy53r4)
     dev: true
     patched: true
 
@@ -1845,6 +1848,15 @@ packages:
   /escape-string-regexp@4.0.0:
     resolution: {integrity: sha512-TtpcNJ3XAzx3Gq8sWRzJaVajRs0uVxA2YAkdb1jm2YkPz4G6egUFAyA3n5vtEIZefPk5Wa4UXbKuS5fKkJWdgA==}
     engines: {node: '>=10'}
+    dev: true
+
+  /eslint-plugin-listeners@1.4.0(eslint@8.53.0):
+    resolution: {integrity: sha512-18zHHjVDeE/AD5UFNQdGI9nWxhnER8OYbgqX9Sfe4tNvHpX4AL5ICwCWDo3i/31l4KAPIT8v8KY1Rl+3POZNDg==}
+    engines: {node: '>=8.10.0'}
+    peerDependencies:
+      eslint: '>=0.8.0'
+    dependencies:
+      eslint: 8.53.0
     dev: true
 
   /eslint-scope@5.1.1:
@@ -3356,14 +3368,14 @@ packages:
       typescript: 5.2.2
     dev: true
 
-  /prettier-plugin-svelte@3.0.3(prettier@3.0.3)(svelte@4.2.1):
+  /prettier-plugin-svelte@3.0.3(prettier@3.0.3)(svelte@4.2.8):
     resolution: {integrity: sha512-dLhieh4obJEK1hnZ6koxF+tMUrZbV5YGvRpf2+OADyanjya5j0z1Llo8iGwiHmFWZVG/hLEw/AJD5chXd9r3XA==}
     peerDependencies:
       prettier: ^3.0.0
       svelte: ^3.2.0 || ^4.0.0-next.0
     dependencies:
       prettier: 3.0.3
-      svelte: 4.2.1(patch_hash=cm43hmf4gczhssi3isoosy53r4)
+      svelte: 4.2.8(patch_hash=cm43hmf4gczhssi3isoosy53r4)
     dev: true
 
   /prettier@3.0.3:
@@ -3477,8 +3489,8 @@ packages:
     engines: {node: '>= 0.10'}
     dev: true
 
-  /remixicon@3.5.0:
-    resolution: {integrity: sha512-wNzWGKf4frb3tEmgvP5shry0n1OdTjjEk9RHLuRuAhfA50bvEdpKH1XWNUYrHUSjAQQkkdyIm+lf4mOuysIKTQ==}
+  /remixicon@3.7.0:
+    resolution: {integrity: sha512-FFbVLRCaTtsSDe/l9JX+lT/zzm9V3kYbda25lzsy3ML5FHv/bGVKiHwZSlCo/IMhBD1/CK6SGIruyfiq4bbsuQ==}
     dev: false
 
   /renderkid@3.0.0:
@@ -3956,28 +3968,28 @@ packages:
     resolution: {integrity: sha512-oU+Xv7Dl4kRU2kdFjsoPLfJfnt5hUhsFUZtuzI3Ku/f2iAFZqBoEuXOqK3N9ngD4dxQOmN4OKWPHVi3NeAeAfQ==}
     dev: true
 
-  /svelte-hmr@0.14.12(svelte@4.2.1):
+  /svelte-hmr@0.14.12(svelte@4.2.8):
     resolution: {integrity: sha512-4QSW/VvXuqVcFZ+RhxiR8/newmwOCTlbYIezvkeN6302YFRE8cXy0naamHcjz8Y9Ce3ITTZtrHrIL0AGfyo61w==}
     engines: {node: ^12.20 || ^14.13.1 || >= 16}
     peerDependencies:
       svelte: '>=3.19.0'
     dependencies:
-      svelte: 4.2.1(patch_hash=cm43hmf4gczhssi3isoosy53r4)
+      svelte: 4.2.8(patch_hash=cm43hmf4gczhssi3isoosy53r4)
     dev: true
 
-  /svelte-loader@3.1.9(svelte@4.2.1):
+  /svelte-loader@3.1.9(svelte@4.2.8):
     resolution: {integrity: sha512-RITPqze3TppOhaZF8SEFTDTwFHov17k3UkOjpxyL/No/YVrvckKmXWOEj7QEpsZZZSNQPb28tMZbHEI2xLhJMQ==}
     peerDependencies:
       svelte: ^3.0.0 || ^4.0.0-next.0
     dependencies:
       loader-utils: 2.0.4
-      svelte: 4.2.1(patch_hash=cm43hmf4gczhssi3isoosy53r4)
+      svelte: 4.2.8(patch_hash=cm43hmf4gczhssi3isoosy53r4)
       svelte-dev-helper: 1.1.9
-      svelte-hmr: 0.14.12(svelte@4.2.1)
+      svelte-hmr: 0.14.12(svelte@4.2.8)
     dev: true
 
-  /svelte-preprocess@5.0.4(postcss@8.4.31)(svelte@4.2.1)(typescript@5.2.2):
-    resolution: {integrity: sha512-ABia2QegosxOGsVlsSBJvoWeXy1wUKSfF7SWJdTjLAbx/Y3SrVevvvbFNQqrSJw89+lNSsM58SipmZJ5SRi5iw==}
+  /svelte-preprocess@5.1.2(postcss@8.4.31)(svelte@4.2.8)(typescript@5.2.2):
+    resolution: {integrity: sha512-XF0aliMAcYnP4hLETvB6HRAMnaL09ASYT1Z2I1Gwu0nz6xbdg/dSgAEthtFZJA4AKrNhFDFdmUDO+H9d/6xg5g==}
     engines: {node: '>= 14.10.0'}
     requiresBuild: true
     peerDependencies:
@@ -3985,12 +3997,12 @@ packages:
       coffeescript: ^2.5.1
       less: ^3.11.3 || ^4.0.0
       postcss: ^7 || ^8
-      postcss-load-config: ^2.1.0 || ^3.0.0 || ^4.0.0
+      postcss-load-config: ^2.1.0 || ^3.0.0 || ^4.0.0 || ^5.0.0
       pug: ^3.0.0
       sass: ^1.26.8
       stylus: ^0.55.0
       sugarss: ^2.0.0 || ^3.0.0 || ^4.0.0
-      svelte: ^3.23.0 || ^4.0.0-next.0 || ^4.0.0
+      svelte: ^3.23.0 || ^4.0.0-next.0 || ^4.0.0 || ^5.0.0-next.0
       typescript: '>=3.9.5 || ^4.0.0 || ^5.0.0'
     peerDependenciesMeta:
       '@babel/core':
@@ -4020,7 +4032,7 @@ packages:
       postcss: 8.4.31
       sorcery: 0.11.0
       strip-indent: 3.0.0
-      svelte: 4.2.1(patch_hash=cm43hmf4gczhssi3isoosy53r4)
+      svelte: 4.2.8(patch_hash=cm43hmf4gczhssi3isoosy53r4)
       typescript: 5.2.2
     dev: true
 
@@ -4028,12 +4040,12 @@ packages:
     resolution: {integrity: sha512-N5JqlBni6BzElxmuFrOPxOJnjsxh1cFDACLEVKs8OHBcx8ZNRO1p5SxuQex1m3qbLzAC8G99EHeWcxGkjyKjLQ==}
     engines: {node: '>=16'}
     dependencies:
-      svelte: 4.2.1(patch_hash=cm43hmf4gczhssi3isoosy53r4)
+      svelte: 4.2.8(patch_hash=cm43hmf4gczhssi3isoosy53r4)
       tslib: 2.6.2
     dev: true
 
-  /svelte@4.2.1(patch_hash=cm43hmf4gczhssi3isoosy53r4):
-    resolution: {integrity: sha512-LpLqY2Jr7cRxkrTc796/AaaoMLF/1ax7cto8Ot76wrvKQhrPmZ0JgajiWPmg9mTSDqO16SSLiD17r9MsvAPTmw==}
+  /svelte@4.2.8(patch_hash=cm43hmf4gczhssi3isoosy53r4):
+    resolution: {integrity: sha512-hU6dh1MPl8gh6klQZwK/n73GiAHiR95IkFsesLPbMeEZi36ydaXL/ZAb4g9sayT0MXzpxyZjR28yderJHxcmYA==}
     engines: {node: '>=16'}
     dependencies:
       '@ampproject/remapping': 2.2.1
@@ -4554,8 +4566,8 @@ packages:
     resolution: {integrity: sha512-FSZOvfJVfMWhk/poictNsDBCXq/Z+2Zu2peWs6d8OhWWb9nY++czw95D47hdw06L/kfjasLevwrbUtnXyWLAJw==}
     dev: true
 
-  github.com/quark-platform/gecko-types/98eca1c9a0ca382b5acfcc956a3934aa3dd08557:
-    resolution: {tarball: https://codeload.github.com/quark-platform/gecko-types/tar.gz/98eca1c9a0ca382b5acfcc956a3934aa3dd08557}
+  github.com/quark-platform/gecko-types/e4efe38ce26c3617d7a3ecb13491bca2004e0377:
+    resolution: {tarball: https://codeload.github.com/quark-platform/gecko-types/tar.gz/e4efe38ce26c3617d7a3ecb13491bca2004e0377}
     name: gecko-types
     version: 1.0.0
     dev: true

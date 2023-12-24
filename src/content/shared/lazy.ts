@@ -10,6 +10,7 @@
 import { lazyESModuleGetters } from './TypedImportUtilities'
 
 export const lazy = lazyESModuleGetters({
+  AppConstants: 'resource://gre/modules/AppConstants.sys.mjs',
   PlacesUtils: 'resource://gre/modules/PlacesUtils.sys.mjs',
   Bookmarks: 'resource://gre/modules/Bookmarks.sys.mjs',
   History: 'resource://gre/modules/History.sys.mjs',

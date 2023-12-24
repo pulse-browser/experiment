@@ -11,7 +11,7 @@ const MPL_HEADER = [
 
 const FIXES = [
   {
-    regex: new RegExp('.*\\.(css|((j|t)s))'),
+    regex: new RegExp('.*\\.(css|(m?(j|t)s))'),
     commentOpen: '/* ',
     comment: ' * ',
     commentClose: ' */\n',
@@ -21,6 +21,10 @@ const FIXES = [
     commentOpen: '<!-- ',
     comment: '   - ',
     commentClose: ' -->\n',
+  },
+  {
+    regex: new RegExp('.*\\.(py|ftl)'),
+    comment: '# ',
   },
 ]
 

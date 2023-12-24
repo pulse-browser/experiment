@@ -8,6 +8,8 @@
   import type { Tab } from '@browser/lib/window/tab'
 
   import Bookmarks from './Bookmarks.svelte'
+  import { pageActions } from '@browser/lib/modules/EPageActionsBindings'
+  import PageAction from './PageAction.svelte'
 
   const suggestionsModule = import('@shared/search/suggestions')
 
@@ -86,6 +88,12 @@
           await generateSuggestions()
         }}
       />
+
+      {#each $pageActions as [_extId, pageAction]}
+        {#if pageAction.shouldShow($uri.asciiSpec, tab.getTabId())}
+          <PageAction {pageAction} />
+        {/if}
+      {/each}
 
       <Bookmarks {tab} />
     </div>

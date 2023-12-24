@@ -11,7 +11,7 @@
   import Tab from '@browser/components/tabs/Tab.svelte'
 
   import UiItemBase from './UIItemBase.svelte'
-  import { selectedTab, tabs } from '@browser/lib/window/tabs'
+  import { selectedTabId, tabs } from '@browser/lib/window/tabs'
 
   export let component: ComponentId & TabsComponent
   export let root: Component
@@ -19,7 +19,7 @@
 
 <UiItemBase {component} {root} class="tabs" on:drop={(e) => e.preventDefault()}>
   {#each $tabs as tab (tab.getId())}
-    <Tab {tab} bind:selectedTab={$selectedTab} />
+    <Tab {tab} bind:selectedTab={$selectedTabId} />
   {/each}
 </UiItemBase>
 

@@ -10,7 +10,7 @@
   } from '@shared/customizableUI'
   import UiItemBase from './UIItemBase.svelte'
   import Browser from '../Browser.svelte'
-  import { selectedTab, tabs } from '@browser/lib/window/tabs'
+  import { selectedTabId, tabs } from '@browser/lib/window/tabs'
 
   export let component: ComponentId & BrowserComponent
   export let root: Component
@@ -24,6 +24,6 @@
 
 <UiItemBase {component} {root}>
   {#each sortedBrowers as tab (tab.getId())}
-    <Browser {tab} selectedTab={$selectedTab} />
+    <Browser {tab} selectedTab={$selectedTabId} />
   {/each}
 </UiItemBase>
