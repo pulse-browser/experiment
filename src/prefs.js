@@ -109,6 +109,9 @@ pref('browser.download.alwaysOpenPanel', true);
 //   2 - Remove the download from both session list and history.
 pref('browser.download.clearHistoryOnDelete', 0);
 
+// We do this because we want page actions etc. to have color schemes
+pref('svg.context-properties.content.enabled', true);
+
 // =============================================================================
 // Multithreading
 

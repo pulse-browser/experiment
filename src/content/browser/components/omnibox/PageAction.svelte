@@ -37,6 +37,25 @@
     }
   })
 
+  function setupBrowser(browser) {
+    browser.messageManager.addMessageListener(
+      'Extension:BrowserResized',
+      messageReceiver,
+    )
+
+    browser.messageManager.loadFrameScript(
+      'chrome://extensions/content/ext-browser-content.js',
+      false,
+      true,
+    )
+
+    browser.messageManager.sendAsyncMessage('Extension:InitBrowser', {
+      allowScriptsToClose: true,
+      maxWidth: 800,
+      maxHeight: 600,
+    })
+  }
+
   async function buildPanelBrowser() {
     if (browser) {
       browser.remove()
@@ -49,7 +68,7 @@
       remoteType: getBrowserRemoteType(uri),
       attributes: {
         disableglobalhistory: 'true',
-        messagemanagergroup: 'todo',
+        messagemanagergroup: 'webext-browsers',
         'webextension-view-type': 'popup',
       },
     })
@@ -58,23 +77,11 @@
     panel.appendChild(lBrowser)
     browser = lBrowser
 
-    lBrowser.messageManager.addMessageListener(
-      'Extension:BrowserResized',
-      messageReceiver,
-    )
-
-    lBrowser.messageManager.loadFrameScript(
-      'chrome://extensions/content/ext-browser-content.js',
-      false,
-      true,
-    )
-
-    lBrowser.messageManager.sendAsyncMessage('Extension:InitBrowser', {
-      allowScriptsToClose: true,
-      maxWidth: 800,
-      maxHeight: 600,
-    })
     lBrowser.style.borderRadius = 'inherit'
+    setupBrowser(lBrowser)
+    lBrowser.addEventListener('DidChangeBrowserRemoteness', () =>
+      setupBrowser(lBrowser),
+    )
 
     await spinLock(() => lBrowser.mInitialized)
     setURI(lBrowser, uri)
@@ -138,5 +145,9 @@
     height: 1em;
 
     color: var(--text);
+
+    /* This is firefox's dark mode filter
+       TODO: When we have themes, toggle this correctly */
+    filter: grayscale(100%) brightness(20%) invert();
   }
 </style>
