@@ -69,6 +69,9 @@ export class PageAction implements PageActionOptions {
   hideMatches: MatchPatternSet
   icons?: Record<number, string>
 
+  showTabIds = new Set<number>()
+  hideTabIds = new Set<number>()
+
   constructor(data: PageActionOptions<string[]>) {
     this.tooltip = data.tooltip
     this.popupUrl = data.popupUrl
@@ -76,13 +79,29 @@ export class PageAction implements PageActionOptions {
     this.hideMatches = new MatchPatternSet(data.hideMatches || [])
   }
 
-  shouldShow(url: string) {
-    return this.showMatches.matches(url) && !this.hideMatches.matches(url, true)
+  shouldShow(url: string, tabId: number) {
+    const urlMatch =
+      this.showMatches.matches(url) &&
+      !this.hideMatches.matches(url, true) &&
+      !this.hideTabIds.has(tabId)
+    const idMatch = this.showTabIds.has(tabId)
+
+    return urlMatch || idMatch
   }
 
   setIcons(icons: Record<number, string>) {
     this.icons = icons
     this.events.emit('updateIcon', icons)
+  }
+
+  addShow(id: number) {
+    this.showTabIds.add(id)
+    this.hideTabIds.delete(id)
+  }
+
+  addHide(id: number) {
+    this.hideTabIds.add(id)
+    this.showTabIds.delete(id)
   }
 }
 

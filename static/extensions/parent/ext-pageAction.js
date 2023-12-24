@@ -1,22 +1,29 @@
-/* eslint-disable no-undef */
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+
 // @ts-check
 /// <reference path="../types/index.d.ts" />
 
+/* eslint-disable no-undef */
+// Imports are pulled from ext-browser
+
 this.pageAction = class extends ExtensionAPIPersistent {
-  async onManifestEntry(entryName) {
+  /** @type {import('resource://app/modules/EPageActions.sys.mjs').PageAction | null} */
+  pageAction = null
+
+  async onManifestEntry() {
     const { extension } = this
     const options = extension.manifest.page_action
 
-    console.log(entryName, options, extension)
-
-    const pageAction = new lazy.EPageActions.PageAction({
+    this.pageAction = new lazy.EPageActions.PageAction({
       tooltip: options.default_title,
       popupUrl: options.default_popup,
       showMatches: options.show_matches,
       hideMatches: options.hide_matches,
     })
-
-    pageAction.setIcons(
+    this.pageAction.events.on('click', (v) => this.emit('click', v))
+    this.pageAction.setIcons(
       lazy.ExtensionParent.IconDetails.normalize(
         {
           path: options.default_icon || extension.manifest.icons,
@@ -27,12 +34,7 @@ this.pageAction = class extends ExtensionAPIPersistent {
       ),
     )
 
-    pageAction.events.on('click', (v) => {
-      console.log('Click Value', v)
-      this.emit('click', v)
-    })
-
-    lazy.EPageActions.registerPageAction(extension.id, pageAction)
+    lazy.EPageActions.registerPageAction(extension.id, this.pageAction)
   }
 
   onShutdown() {
@@ -88,6 +90,9 @@ this.pageAction = class extends ExtensionAPIPersistent {
   getAPI(context) {
     return {
       pageAction: {
+        show: (id) => this.pageAction?.addShow(id),
+        hide: (id) => this.pageAction?.addHide(id),
+
         onClicked: new EventManager({
           context,
           module: 'pageAction',

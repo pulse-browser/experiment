@@ -90,7 +90,7 @@
       />
 
       {#each $pageActions as [_extId, pageAction]}
-        {#if pageAction.shouldShow($uri.asciiSpec)}
+        {#if pageAction.shouldShow($uri.asciiSpec, tab.getTabId())}
           <PageAction {pageAction} />
         {/if}
       {/each}
