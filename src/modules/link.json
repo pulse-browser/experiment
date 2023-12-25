@@ -1,7 +1,1 @@
-[
-  "BrowserGlue",
-  "BrowserWindowTracker",
-  "EPageActions",
-  "FaviconLoader",
-  "TypedImportUtils"
-]
+["BrowserGlue", "BrowserWindowTracker", "EPageActions", "TypedImportUtils"]

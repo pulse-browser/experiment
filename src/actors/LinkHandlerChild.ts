@@ -23,9 +23,7 @@ type PageShow = PageTransitionEvent & { type: 'pageshow' }
 type PageHide = PageTransitionEvent & { type: 'pagehide' }
 
 export class LinkHandlerChild extends JSWindowActorChild {
-  iconLoader = new FaviconLoader(
-    this,
-  ) as import('../modules/FaviconLoader.ts').FaviconLoader
+  iconLoader = new FaviconLoader(this)
   loadedTabIcon = false
 
   /**
