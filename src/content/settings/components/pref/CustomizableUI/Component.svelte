@@ -152,4 +152,9 @@
   .component.root {
     height: 100%;
   }
+
+  .component.tabs {
+    display: flex;
+    gap: 0.125rem;
+  }
 </style>

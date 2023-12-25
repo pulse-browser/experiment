@@ -69,13 +69,6 @@ function getOmniboxStyle(
   `
 }
 
-function getTabsStyle(): string {
-  return `
-    display:flex;
-    gap: 0.125rem;
-  `
-}
-
 function getIconButtonStyle(): string {
   return `
     display: flex;
@@ -97,8 +90,6 @@ export function getComponentStyle(
       return getSpacer(component, parentOrientation)
     case 'omnibox':
       return getOmniboxStyle(parentOrientation, preview)
-    case 'tabs':
-      return getTabsStyle()
     case 'icon':
       return getIconButtonStyle()
     default:
