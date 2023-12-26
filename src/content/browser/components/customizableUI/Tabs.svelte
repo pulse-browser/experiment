@@ -11,20 +11,69 @@
   import Tab from '@browser/components/tabs/Tab.svelte'
 
   import UiItemBase from './UIItemBase.svelte'
-  import { selectedTabId, tabs } from '@browser/lib/window/tabs'
+  import { openTab, selectedTabId, tabs } from '@browser/lib/window/tabs'
+  import ToolbarButton from '@shared/components/ToolbarButton.svelte'
+  import { onMount } from 'svelte'
 
   export let component: ComponentId & TabsComponent
   export let root: Component
+
+  let overflow = false
+  let arrowBox: HTMLElement
+
+  onMount(() => {
+    arrowBox.addEventListener('overflow', () => (overflow = true))
+    arrowBox.addEventListener('underflow', () => (overflow = false))
+  })
 </script>
 
 <UiItemBase {component} {root} class="tabs" on:drop={(e) => e.preventDefault()}>
-  {#each $tabs as tab (tab.getId())}
-    <Tab {tab} bind:selectedTab={$selectedTabId} />
-  {/each}
+  <xul:arrowscrollbox
+    bind:this={arrowBox}
+    class="tab-container"
+    orient="horizontal"
+    clicktoscroll="true"
+  >
+    {#each $tabs as tab (tab.getId())}
+      <Tab {tab} bind:selectedTab={$selectedTabId} />
+    {/each}
+
+    {#if !overflow}
+      <ToolbarButton on:click={() => openTab()}>
+        <i class="ri-add-line" />
+      </ToolbarButton>
+    {/if}
+  </xul:arrowscrollbox>
+
+  {#if overflow}
+    <ToolbarButton on:click={() => openTab()}>
+      <i class="ri-add-line" />
+    </ToolbarButton>
+  {/if}
 </UiItemBase>
 
 <style>
   :global(.component.tabs) {
-    overflow: scroll;
+    --tab-max-width: 16rem;
+    --tab-min-width: 4rem;
+
+    display: flex;
+    flex-grow: 1;
+    gap: 0.125rem;
+
+    overflow: hidden;
+  }
+
+  :global(.component.tabs .toolbar__button) {
+    margin: 0.25rem 0;
+  }
+
+  .tab-container {
+    display: flex;
+    flex-grow: 1;
+    flex-wrap: nowrap;
+    align-items: center;
+
+    overflow-x: hidden;
   }
 </style>

@@ -50,6 +50,9 @@
       <img class="tab__icon tab__start-item" src={$icon} alt="favicon" />
     {/if}
     <span>{$title || $uri.asciiSpec}</span>
+
+    <span class="tab__space" />
+
     <button
       class="tab__close"
       on:click={() => closeTab(tab)}
@@ -68,10 +71,15 @@
     margin: 0.25rem 0;
     font-size: 1.25rem;
     border-radius: 0.5rem;
-    max-width: 16rem;
+
+    height: 2rem;
+    max-width: var(--tab-max-width);
+    min-width: var(--tab-min-width);
 
     display: flex;
     align-items: center;
+    flex-grow: 100;
+    flex-shrink: 100;
 
     cursor: default;
   }
@@ -126,6 +134,11 @@
   .tab__icon {
     height: 1.5rem;
     width: 1.5rem;
+  }
+
+  .tab__space {
+    flex-grow: 1;
+    flex-shrink: 1;
   }
 
   .drop-indicator {

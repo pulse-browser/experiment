@@ -1,11 +1,13 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
-// Taken from mozilla-centeral/browser/modules/FaviconLoader.sys.mjs
-/// <reference path="../link.d.ts" />
-import { lazyESModuleGetters } from 'resource://app/modules/TypedImportUtils.sys.mjs'
 
-const lazy = lazyESModuleGetters({
+// This file was taken from mozilla central with only prettier formatting
+// https://hg.mozilla.org/mozilla-central/raw-file/tip/browser/modules/FaviconLoader.sys.mjs
+
+const lazy = {}
+
+ChromeUtils.defineESModuleGetters(lazy, {
   DeferredTask: 'resource://gre/modules/DeferredTask.sys.mjs',
   PromiseUtils: 'resource://gre/modules/PromiseUtils.sys.mjs',
 })
@@ -49,23 +51,19 @@ const MAX_ICON_SIZE = 2048
 const TYPE_ICO = 'image/x-icon'
 const TYPE_SVG = 'image/svg+xml'
 
-function promiseBlobAsDataURL(
-  blob: Blob,
-): Promise<string | ArrayBuffer | null> {
+function promiseBlobAsDataURL(blob) {
   return new Promise((resolve, reject) => {
-    const reader = new FileReader()
+    let reader = new FileReader()
     reader.addEventListener('load', () => resolve(reader.result))
     reader.addEventListener('error', reject)
     reader.readAsDataURL(blob)
   })
 }
 
-function promiseBlobAsOctets(blob: Blob): Promise<number[]> {
+function promiseBlobAsOctets(blob) {
   return new Promise((resolve, reject) => {
-    const reader = new FileReader()
+    let reader = new FileReader()
     reader.addEventListener('load', () => {
-      if (!reader.result || reader.result instanceof ArrayBuffer)
-        return reject()
       resolve(Array.from(reader.result).map((c) => c.charCodeAt(0)))
     })
     reader.addEventListener('error', reject)
@@ -73,19 +71,14 @@ function promiseBlobAsOctets(blob: Blob): Promise<number[]> {
   })
 }
 
-function promiseImage(
-  stream: nsIInputStreamType,
-  type: string,
-): Promise<imgIContainerType> {
+function promiseImage(stream, type) {
   return new Promise((resolve, reject) => {
-    const imgTools: imgIToolsType =
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      (Cc['@mozilla.org/image/tools;1'] as any).getService(Ci.imgITools)
+    let imgTools = Cc['@mozilla.org/image/tools;1'].getService(Ci.imgITools)
 
     imgTools.decodeImageAsync(
       stream,
       type,
-      (image: imgIContainerType, result: nsresult) => {
+      (image, result) => {
         if (!Components.isSuccessCode(result)) {
           reject()
           return
@@ -99,27 +92,13 @@ function promiseImage(
 }
 
 class FaviconLoad {
-  channel: nsIChannelType | null
-  dataBuffer: nsIStorageStreamType | undefined
-  stream: nsIBufferedOutputStreamType | undefined
-  icon: IconInfo
-  _deferred:
-    | GenericDeferred<{
-        expiration: number
-        dataURL: string | ArrayBuffer | null
-        canStoreIcon?: boolean
-      }>
-    | undefined
-
-  constructor(iconInfo: IconInfo) {
+  constructor(iconInfo) {
     this.icon = iconInfo
 
     let securityFlags
-    if ((iconInfo.node as HTMLLinkElement).crossOrigin === 'anonymous') {
+    if (iconInfo.node.crossOrigin === 'anonymous') {
       securityFlags = Ci.nsILoadInfo.SEC_REQUIRE_CORS_INHERITS_SEC_CONTEXT
-    } else if (
-      (iconInfo.node as HTMLLinkElement).crossOrigin === 'use-credentials'
-    ) {
+    } else if (iconInfo.node.crossOrigin === 'use-credentials') {
       securityFlags =
         Ci.nsILoadInfo.SEC_REQUIRE_CORS_INHERITS_SEC_CONTEXT |
         Ci.nsILoadInfo.SEC_COOKIES_INCLUDE
@@ -138,24 +117,19 @@ class FaviconLoad {
       Ci.nsIContentPolicy.TYPE_INTERNAL_IMAGE_FAVICON,
     )
 
-    // Satisfy the TS checker
-    if (!this.channel) return
-
-    // @ts-expect-error Ci is not something that can be instanceof'd
     if (this.channel instanceof Ci.nsIHttpChannel) {
       this.channel.QueryInterface(Ci.nsIHttpChannel)
-      const referrerInfo: nsIReferrerInfoType = Cc[
-        '@mozilla.org/referrer-info;1'
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      ].createInstance(Ci.nsIReferrerInfo) as any
+      let referrerInfo = Cc['@mozilla.org/referrer-info;1'].createInstance(
+        Ci.nsIReferrerInfo,
+      )
       // Sometimes node is a document and sometimes it is an element. We need
       // to set the referrer info correctly either way.
       if (iconInfo.node.nodeType == iconInfo.node.DOCUMENT_NODE) {
-        referrerInfo.initWithDocument(iconInfo.node as Document)
+        referrerInfo.initWithDocument(iconInfo.node)
       } else {
-        referrerInfo.initWithElement(iconInfo.node as HTMLLinkElement)
+        referrerInfo.initWithElement(iconInfo.node)
       }
-      ;(this.channel as nsIHttpChannelType).referrerInfo = referrerInfo
+      this.channel.referrerInfo = referrerInfo
     }
     this.channel.loadFlags |=
       Ci.nsIRequest.LOAD_BACKGROUND |
@@ -167,18 +141,15 @@ class FaviconLoad {
       iconInfo.node.ownerGlobal.document.documentLoadGroup
     this.channel.notificationCallbacks = this
 
-    // @ts-expect-error Ci is not something that can be instanceof'd
     if (this.channel instanceof Ci.nsIHttpChannelInternal) {
-      ;(this.channel as unknown as nsIHttpChannelInternalType).blockAuthPrompt =
-        true
+      this.channel.blockAuthPrompt = true
     }
 
     if (
       Services.prefs.getBoolPref('network.http.tailing.enabled', true) &&
-      // @ts-expect-error Ci is not something that can be instanceof'd
       this.channel instanceof Ci.nsIClassOfService
     ) {
-      ;(this.channel as unknown as nsIClassOfServiceType).addClassFlags(
+      this.channel.addClassFlags(
         Ci.nsIClassOfService.Tail | Ci.nsIClassOfService.Throttleable,
       )
     }
@@ -188,12 +159,12 @@ class FaviconLoad {
     this._deferred = lazy.PromiseUtils.defer()
 
     // Clear the references when we succeed or fail.
-    const cleanup = () => {
+    let cleanup = () => {
       this.channel = null
-      this.dataBuffer = undefined
-      this.stream = undefined
+      this.dataBuffer = null
+      this.stream = null
     }
-    this._deferred?.promise.then(cleanup, cleanup)
+    this._deferred.promise.then(cleanup, cleanup)
 
     this.dataBuffer = new StorageStream(STREAM_SEGMENT_SIZE, PR_UINT32_MAX)
 
@@ -204,12 +175,12 @@ class FaviconLoad {
     )
 
     try {
-      this.channel?.asyncOpen(this as unknown as nsIStreamListenerType)
+      this.channel.asyncOpen(this)
     } catch (e) {
-      this._deferred?.reject(e)
+      this._deferred.reject(e)
     }
 
-    return this._deferred?.promise
+    return this._deferred.promise
   }
 
   cancel() {
@@ -217,25 +188,16 @@ class FaviconLoad {
       return
     }
 
-    // TODO: Cr needs to be implemented by type checkers
     this.channel.cancel(Cr.NS_BINDING_ABORTED)
   }
 
-  onDataAvailable(
-    request: nsIRequestType,
-    inputStream: nsIInputStreamType,
-    offset: long_long,
-    count: long,
-  ) {
-    this.stream?.writeFrom(inputStream, count)
+  onStartRequest(request) {}
+
+  onDataAvailable(request, inputStream, offset, count) {
+    this.stream.writeFrom(inputStream, count)
   }
 
-  asyncOnChannelRedirect(
-    oldChannel: nsIChannelType,
-    newChannel: nsIChannelType,
-    flags: unsigned_long,
-    callback: nsIAsyncVerifyRedirectCallbackType,
-  ) {
+  asyncOnChannelRedirect(oldChannel, newChannel, flags, callback) {
     if (oldChannel == this.channel) {
       this.channel = newChannel
     }
@@ -243,26 +205,26 @@ class FaviconLoad {
     callback.onRedirectVerifyCallback(Cr.NS_OK)
   }
 
-  async onStopRequest(request: nsIRequestType, statusCode: nsresult) {
+  async onStopRequest(request, statusCode) {
     if (request != this.channel) {
       // Indicates that a redirect has occurred. We don't care about the result
       // of the original channel.
       return
     }
 
-    this.stream?.close()
-    this.stream = undefined
+    this.stream.close()
+    this.stream = null
 
     if (!Components.isSuccessCode(statusCode)) {
       if (statusCode == Cr.NS_BINDING_ABORTED) {
-        this._deferred?.reject(
+        this._deferred.reject(
           Components.Exception(
             `Favicon load from ${this.icon.iconUri.spec} was cancelled.`,
             statusCode,
           ),
         )
       } else {
-        this._deferred?.reject(
+        this._deferred.reject(
           Components.Exception(
             `Favicon at "${this.icon.iconUri.spec}" failed to load.`,
             statusCode,
@@ -272,14 +234,12 @@ class FaviconLoad {
       return
     }
 
-    // @ts-expect-error Ci is not something that can be instanceof'd
     if (this.channel instanceof Ci.nsIHttpChannel) {
-      const channel = this.channel as unknown as nsIHttpChannelType
-      if (!channel.requestSucceeded) {
-        this._deferred?.reject(
+      if (!this.channel.requestSucceeded) {
+        this._deferred.reject(
           Components.Exception(
-            `Favicon at "${this.icon.iconUri.spec}" failed to load: ${channel.responseStatusText}.`,
-            { data: { httpStatus: channel.responseStatus } },
+            `Favicon at "${this.icon.iconUri.spec}" failed to load: ${this.channel.responseStatusText}.`,
+            { data: { httpStatus: this.channel.responseStatus } },
           ),
         )
         return
@@ -294,16 +254,14 @@ class FaviconLoad {
       try {
         if (
           this.icon.iconUri.filePath != '/favicon.ico' &&
-          // @ts-expect-error Ci is not something that can be instanceof'd
           this.channel instanceof Ci.nsIHttpChannel &&
-          (this.channel as nsIHttpChannelType).isNoStoreResponse()
+          this.channel.isNoStoreResponse()
         ) {
           canStoreIcon = false
         }
       } catch (ex) {
-        const error = ex as { result: nsresult }
-        if (error.result != Cr.NS_ERROR_NOT_AVAILABLE) {
-          throw error
+        if (ex.result != Cr.NS_ERROR_NOT_AVAILABLE) {
+          throw ex
         }
       }
     }
@@ -314,12 +272,10 @@ class FaviconLoad {
 
     // This stuff isn't available after onStopRequest returns (so don't start
     // any async operations before this!).
-    // @ts-expect-error Ci is not something that can be instanceof'd
     if (this.channel instanceof Ci.nsICacheInfoChannel) {
       try {
         expiration = Math.min(
-          (this.channel as unknown as nsICacheInfoChannelType)
-            .cacheTokenExpirationTime * 1000,
+          this.channel.cacheTokenExpirationTime * 1000,
           expiration,
         )
       } catch (e) {
@@ -328,18 +284,18 @@ class FaviconLoad {
     }
 
     try {
-      const stream = new BinaryInputStream(this.dataBuffer!.newInputStream(0))
-      const buffer = new ArrayBuffer(this.dataBuffer?.length)
+      let stream = new BinaryInputStream(this.dataBuffer.newInputStream(0))
+      let buffer = new ArrayBuffer(this.dataBuffer.length)
       stream.readArrayBuffer(buffer.byteLength, buffer)
 
       let type = this.channel.contentType
       let blob = new Blob([buffer], { type })
 
       if (type != 'image/svg+xml') {
-        const octets = await promiseBlobAsOctets(blob)
-        const sniffer = Cc[
-          '@mozilla.org/image/loader;1'
-        ].createInstance<'nsIContentSniffer'>(Ci.nsIContentSniffer)
+        let octets = await promiseBlobAsOctets(blob)
+        let sniffer = Cc['@mozilla.org/image/loader;1'].createInstance(
+          Ci.nsIContentSniffer,
+        )
         type = sniffer.getMIMETypeFromContent(
           this.channel,
           octets,
@@ -357,7 +313,7 @@ class FaviconLoad {
 
         let image
         try {
-          image = await promiseImage(this.dataBuffer!.newInputStream(0), type)
+          image = await promiseImage(this.dataBuffer.newInputStream(0), type)
         } catch (e) {
           throw Components.Exception(
             `Favicon at "${this.icon.iconUri.spec}" could not be decoded.`,
@@ -373,20 +329,19 @@ class FaviconLoad {
         }
       }
 
-      const dataURL = await promiseBlobAsDataURL(blob)
+      let dataURL = await promiseBlobAsDataURL(blob)
 
-      this._deferred?.resolve({
+      this._deferred.resolve({
         expiration,
         dataURL,
         canStoreIcon,
       })
     } catch (e) {
-      this._deferred?.reject(e)
+      this._deferred.reject(e)
     }
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  getInterface(iid: any) {
+  getInterface(iid) {
     if (iid.equals(Ci.nsIChannelEventSink)) {
       return this
     }
@@ -401,18 +356,18 @@ class FaviconLoad {
  * @param {Array} aSizes An array of strings about size.
  * @return {Number} A width of the icon in pixel.
  */
-function extractIconSize(aSizes: DOMTokenList) {
+function extractIconSize(aSizes) {
   let width = -1
   let sizesType
   const re = /^([1-9][0-9]*)x[1-9][0-9]*$/i
 
   if (aSizes.length) {
-    for (const size of aSizes) {
+    for (let size of aSizes) {
       if (size.toLowerCase() == 'any') {
         sizesType = SIZES_TELEMETRY_ENUM.ANY
         break
       } else {
-        const values = re.exec(size)
+        let values = re.exec(size)
         if (values && values.length > 1) {
           sizesType = SIZES_TELEMETRY_ENUM.DIMENSION
           width = parseInt(values[1])
@@ -447,8 +402,8 @@ function extractIconSize(aSizes: DOMTokenList) {
  * @param {DOMNode} aLink A link dom node.
  * @return {nsIURI} A uri of the icon.
  */
-function getLinkIconURI(aLink: HTMLLinkElement) {
-  const targetDoc = aLink.ownerDocument
+function getLinkIconURI(aLink) {
+  let targetDoc = aLink.ownerDocument
   let uri = Services.io.newURI(aLink.href, targetDoc.characterSet)
   try {
     uri = uri.mutate().setUserPass('').finalize()
@@ -461,7 +416,7 @@ function getLinkIconURI(aLink: HTMLLinkElement) {
 /**
  * Guess a type for an icon based on its declared type or file extension.
  */
-function guessType(icon?: IconInfo) {
+function guessType(icon) {
   // No type with no icon
   if (!icon) {
     return ''
@@ -469,7 +424,7 @@ function guessType(icon?: IconInfo) {
 
   // Use the file extension to guess at a type we're interested in
   if (!icon.type) {
-    const extension = icon.iconUri.filePath.split('.').pop()
+    let extension = icon.iconUri.filePath.split('.').pop()
     switch (extension) {
       case 'ico':
         return TYPE_ICO
@@ -488,7 +443,7 @@ function guessType(icon?: IconInfo) {
  * @param {Array} iconInfos A list of IconInfo objects.
  * @param {integer} preferredWidth The preferred width for tab icons.
  */
-function selectIcons(iconInfos: IconInfo[], preferredWidth: number) {
+function selectIcons(iconInfos, preferredWidth) {
   if (!iconInfos.length) {
     return {
       richIcon: null,
@@ -496,7 +451,7 @@ function selectIcons(iconInfos: IconInfo[], preferredWidth: number) {
     }
   }
 
-  let preferredIcon: IconInfo | undefined = undefined
+  let preferredIcon
   let bestSizedIcon
   // Other links with the "icon" tag are the default icons
   let defaultIcon
@@ -504,7 +459,7 @@ function selectIcons(iconInfos: IconInfo[], preferredWidth: number) {
   // dimension 96x96 or greater
   let largestRichIcon
 
-  for (const icon of iconInfos) {
+  for (let icon of iconInfos) {
     if (!icon.isRichIcon) {
       // First check for svg. If it's not available check for an icon with a
       // size adapt to the current resolution. If both are not available, prefer
@@ -567,14 +522,11 @@ function selectIcons(iconInfos: IconInfo[], preferredWidth: number) {
 }
 
 class IconLoader {
-  actor: JSWindowActorChild
-  _loader: FaviconLoad | undefined
-
-  constructor(actor: JSWindowActorChild) {
+  constructor(actor) {
     this.actor = actor
   }
 
-  async load(iconInfo: IconInfo) {
+  async load(iconInfo) {
     if (this._loader) {
       this._loader.cancel()
     }
@@ -610,7 +562,7 @@ class IconLoader {
 
     try {
       this._loader = new FaviconLoad(iconInfo)
-      const { dataURL, expiration, canStoreIcon } = await this._loader.load()!
+      let { dataURL, expiration, canStoreIcon } = await this._loader.load()
 
       this.actor.sendAsyncMessage('Link:SetIcon', {
         pageURL: iconInfo.pageUri.spec,
@@ -620,11 +572,9 @@ class IconLoader {
         iconURL: dataURL,
         canStoreIcon,
       })
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (e: any) {
+    } catch (e) {
       if (e.result != Cr.NS_BINDING_ABORTED) {
         if (typeof e.data?.wrappedJSObject?.httpStatus !== 'number') {
-          // eslint-disable-next-line no-console
           console.error(e)
         }
 
@@ -635,7 +585,7 @@ class IconLoader {
         })
       }
     } finally {
-      this._loader = undefined
+      this._loader = null
     }
   }
 
@@ -645,20 +595,12 @@ class IconLoader {
     }
 
     this._loader.cancel()
-    this._loader = undefined
+    this._loader = null
   }
 }
 
 export class FaviconLoader {
-  iconInfos: IconInfo[]
-  actor: JSWindowActorChild
-  beforePageShow: boolean
-  richIconLoader: IconLoader
-  tabIconLoader: IconLoader
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  iconTask: any
-
-  constructor(actor: JSWindowActorChild) {
+  constructor(actor) {
     this.actor = actor
     this.iconInfos = []
 
@@ -676,7 +618,6 @@ export class FaviconLoader {
     this.iconTask = new lazy.DeferredTask(
       () => this.loadIcons(),
       FAVICON_PARSING_TIMEOUT,
-      null,
     )
   }
 
@@ -689,9 +630,9 @@ export class FaviconLoader {
       return
     }
 
-    const preferredWidth =
+    let preferredWidth =
       PREFERRED_WIDTH * Math.ceil(this.actor.contentWindow.devicePixelRatio)
-    const { richIcon, tabIcon } = selectIcons(this.iconInfos, preferredWidth)
+    let { richIcon, tabIcon } = selectIcons(this.iconInfos, preferredWidth)
     this.iconInfos = []
 
     if (richIcon) {
@@ -703,8 +644,8 @@ export class FaviconLoader {
     }
   }
 
-  addIconFromLink(aLink: HTMLLinkElement, aIsRichIcon: boolean) {
-    const iconInfo = makeFaviconFromLink(aLink, aIsRichIcon)
+  addIconFromLink(aLink, aIsRichIcon) {
+    let iconInfo = makeFaviconFromLink(aLink, aIsRichIcon)
     if (iconInfo) {
       iconInfo.beforePageShow = this.beforePageShow
       this.iconInfos.push(iconInfo)
@@ -714,7 +655,7 @@ export class FaviconLoader {
     return false
   }
 
-  addDefaultIcon(pageUri: nsIURIType) {
+  addDefaultIcon(pageUri) {
     // Currently ImageDocuments will just load the default favicon, see bug
     // 403651 for discussion.
     this.iconInfos.push({
@@ -747,27 +688,14 @@ export class FaviconLoader {
   }
 }
 
-interface IconInfo {
-  pageUri: nsIURIType
-  iconUri: nsIURIType
-  width: number
-  isRichIcon: boolean
-  type: string
-  node: HTMLLinkElement | Document
-  beforePageShow?: boolean
-}
-
-function makeFaviconFromLink(
-  aLink: HTMLLinkElement,
-  aIsRichIcon: boolean,
-): IconInfo | null {
-  const iconUri = getLinkIconURI(aLink)
+function makeFaviconFromLink(aLink, aIsRichIcon) {
+  let iconUri = getLinkIconURI(aLink)
   if (!iconUri) {
     return null
   }
 
   // Extract the size type and width.
-  const width = extractIconSize(aLink.sizes)
+  let width = extractIconSize(aLink.sizes)
 
   return {
     pageUri: aLink.ownerDocument.documentURIObject,
