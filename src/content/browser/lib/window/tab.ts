@@ -51,11 +51,12 @@ export class Tab {
   public hidden = writable(false)
 
   constructor(uri: nsIURIType) {
-    this.uri = viewableWritable(uri)
-    this.goToUri(uri)
     this.browserElement = createBrowser({
       remoteType: getBrowserRemoteType(uri),
     })
+
+    this.uri = viewableWritable(uri)
+    this.goToUri(uri)
     this.title.set(uri.asciiHost)
 
     this.uri.subscribe(async (uri) =>
@@ -77,6 +78,10 @@ export class Tab {
    */
   public getTabId(): number {
     return this.tabId || 0
+  }
+
+  public getBrowserElement() {
+    return this.browserElement
   }
 
   public getDragRepresentation() {
