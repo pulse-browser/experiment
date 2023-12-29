@@ -10,6 +10,18 @@ const lazy = lazyESModuleGetters({
 
 const JS_PROCESS_ACTORS = {}
 const JS_WINDOW_ACTORS = {
+  ClickHandler: {
+    parent: { esModuleURI: 'resource://app/actors/ClickHandlerParent.sys.mjs' },
+    child: {
+      esModuleURI: 'resource://app/actors/ClickHandlerChild.sys.mjs',
+      events: {
+        chromelinkclick: { capture: true, mozSystemGroup: true },
+      },
+    },
+
+    allFrames: true,
+  },
+
   ContextMenu: {
     parent: {
       esModuleURI: 'resource://app/actors/ContextMenuParent.sys.mjs',
