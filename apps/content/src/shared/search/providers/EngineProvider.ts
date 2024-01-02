@@ -1,9 +1,9 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
-import type { AddonSearchEngine } from 'resource://gre/modules/AddonSearchEngine.sys.mjs'
+import { Deferred } from '@experiment/shared'
 
-import { Deferred } from '@shared/Deferred'
+import type { AddonSearchEngine } from 'resource://gre/modules/AddonSearchEngine.sys.mjs'
 
 import { isUrlLike } from '.'
 import { searchEngineService } from '../engine'

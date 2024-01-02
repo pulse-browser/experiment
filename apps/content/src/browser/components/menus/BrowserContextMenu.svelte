@@ -8,7 +8,7 @@
 
 <script lang="ts">
   import type { MenuItem } from '@shared/contextMenus'
-  import { resolverStore } from '@shared/svelteUtils'
+  import { resolverStore } from '@experiment/shared'
   import {
     browserContextMenuInfo,
     type ContextMenuInfo,

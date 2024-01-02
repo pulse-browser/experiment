@@ -8,7 +8,7 @@ import { isAbsolute, join } from 'node:path'
 import { failure } from './logging.js'
 
 /**
- * Ignores node modules & dist directories
+ * Ignores node modules, dist, and .turbo directories
  */
 export async function walkDirectory(directory: string): Promise<string[]> {
   const output: string[] = []
@@ -21,7 +21,12 @@ export async function walkDirectory(directory: string): Promise<string[]> {
     const directoryContents = await readdir(directory)
 
     for (const file of directoryContents) {
-      if (file.includes('node_modules') || file.includes('dist')) continue
+      if (
+        file.includes('node_modules') ||
+        file.includes('dist') ||
+        file.includes('turbo')
+      )
+        continue
 
       const fullPath = join(directory, file)
       const fStat = await stat(fullPath)

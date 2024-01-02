@@ -1,10 +1,9 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+import { waitForEvent } from '@experiment/shared'
 import type { Action } from 'svelte/action'
 import { type Readable, type Writable, get, writable } from 'svelte/store'
-
-import { waitForEvent } from '@shared/mittUtils'
 
 import { resource } from '@browser/lib/resources'
 import { spinLock } from '@browser/lib/spinlock'

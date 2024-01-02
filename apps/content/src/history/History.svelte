@@ -3,10 +3,7 @@
    - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
 
 <script lang="ts">
-  import {
-    HistoryGroupType,
-    searchableHistoryModel,
-  } from '@shared/xul/PlacesModel'
+  import { HistoryGroupType, searchableHistoryModel } from '@experiment/shared'
   import { readable } from 'svelte/store'
   import HistoryNode from './component/HistoryNode.svelte'
   import { TreeView } from '@shared/components/Tree'

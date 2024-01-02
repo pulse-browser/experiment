@@ -12,8 +12,8 @@
     "script:unit-test": "node ./.scripts/unit-test.js",
     "app:start": "MOZ_ENABLE_WAYLAND=1 ./.store/rt/quark-runtime -no-remote",
     "app:startX": "./.store/rt/quark-runtime -no-remote",
-    "build": "rm -rf dist && concurrently -c auto pnpm:build-*",
-    "dev": "concurrently -c auto pnpm:dev-*",
+    "build": "turbo build",
+    "dev": "turbo dev",
     "rt:slink": "rm --force ./.store/artifact.tar.bz2 && ln -s ../../experiment-runtime/dist/experiment-runtime-1.0.0.en-US.linux-x86_64.tar.bz2 ./.store/artifact.tar.bz2",
     "lint": "eslint .",
     "format": "pnpm lint && pnpm script:license-check --fix && prettier . --write --plugin prettier-plugin-svelte",
@@ -40,6 +40,7 @@
     "prettier": "^3.0.3",
     "prettier-plugin-organize-imports": "^3.2.3",
     "prettier-plugin-svelte": "^3.0.3",
+    "turbo": "^1.11.2",
     "typescript": "^5.2.2"
   },
   "pnpm": {
@@ -66,7 +67,7 @@
     "importOrderSortSpecifiers": true,
     "overrides": [
       {
-        "files": "src/prefs.js",
+        "files": "apps/misc/static/defaults/pref/prefs.js",
         "options": {
           "semi": true,
           "trailingComma": "es5"

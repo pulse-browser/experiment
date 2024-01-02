@@ -1,11 +1,10 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+import { dynamicStringPref } from '@experiment/shared'
 import curry from 'fnts/curry'
 import { nanoid } from 'nanoid'
 import { type Readable, readable } from 'svelte/store'
-
-import { dynamicStringPref } from '@shared/svelteUtils'
 
 import {
   type BlockComponent,
@@ -289,6 +288,7 @@ const fromExportTypeStableInternal =
 export const fromExportTypeStable = (component: ExportComponent) =>
   fromExportTypeStableInternal('root')(component, 0)
 
-export const customizableUIDynamicPref = dynamicStringPref((json) =>
-  fromExportTypeStable(JSON.parse(json) as ExportComponent),
-)
+export const customizableUIDynamicPref = dynamicStringPref((json) => {
+  console.log('test', json)
+  return fromExportTypeStable(JSON.parse(json) as ExportComponent)
+})

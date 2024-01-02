@@ -1,11 +1,11 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+import { type ViewableWritable, viewableWritable } from '@experiment/shared'
 import mitt from 'mitt'
 import { type Writable, get, writable } from 'svelte/store'
 
 import { type BookmarkTreeNode, search } from '@shared/ExtBookmarkAPI'
-import { type ViewableWritable, viewableWritable } from '@shared/svelteUtils'
 
 import { resource } from '../resources'
 import { spinLock } from '../spinlock'

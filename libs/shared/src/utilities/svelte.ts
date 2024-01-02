@@ -1,7 +1,6 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
-
 import {
   type Invalidator,
   type Readable,
@@ -113,11 +112,16 @@ export function resolverStore<T>(
 // NOTE: Autocurrying doesn't infer T correctly
 export const dynamicStringPref =
   <T>(processor: (value: string) => T) =>
-  (pref: string): Readable<T> =>
-    readable(processor(Services.prefs.getStringPref(pref, '')), (set) => {
-      const observer = observable(() =>
-        set(processor(Services.prefs.getStringPref(pref, ''))),
-      )
-      Services.prefs.addObserver(pref, observer)
-      return () => Services.prefs.removeObserver(pref, observer)
-    })
+  (pref: string): Readable<T> => {
+    console.log('dynamicStringPref', pref)
+    return readable(
+      processor(Services.prefs.getStringPref(pref, '')),
+      (set) => {
+        const observer = observable(() =>
+          set(processor(Services.prefs.getStringPref(pref, ''))),
+        )
+        Services.prefs.addObserver(pref, observer)
+        return () => Services.prefs.removeObserver(pref, observer)
+      },
+    )
+  }

@@ -2,7 +2,4 @@
 .store/
 dist/
 node_modules/
-# For some reson, tsc will generate some in place js files
-src/**/*.j*
-!src/prefs.js
-
+**/.turbo

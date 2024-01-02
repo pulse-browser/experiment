@@ -4,7 +4,7 @@
 import mitt from 'mitt'
 import { type Readable, get, readable } from 'svelte/store'
 
-import { lazy } from '../lazy'
+import { lazy } from '../lazy.js'
 
 /**
  * Based on the values defined inside of `historySidebar.js` inside of Firefox

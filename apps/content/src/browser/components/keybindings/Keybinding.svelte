@@ -4,8 +4,8 @@
 
 <script lang="ts">
   import { onMount } from 'svelte'
+  import { observable } from '@experiment/shared'
   import { type Keybind, keybindFromString } from '../../lib/keybinds'
-  import { observable } from '../../../shared/xul/observable'
 
   export let pref: string
   let keybind: Keybind = keybindFromString(

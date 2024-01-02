@@ -3,7 +3,8 @@
    - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
 
 <script lang="ts">
-  import type { PageAction } from 'resource://app/modules/EPageActions.sys.mjs'
+  import type { PageActionImpl } from 'resource://app/modules/EPageActions.sys.mjs'
+  import { MessageReviver } from '@experiment/shared'
   import ToolbarButton from '@shared/components/ToolbarButton.svelte'
   import {
     createBrowser,
@@ -12,7 +13,6 @@
   } from '@browser/lib/xul/browser'
   import { resource } from '@browser/lib/resources'
   import { spinLock } from '@browser/lib/spinlock'
-  import { MessageReviver } from '@shared/xul/messageReciver'
   import { onMount } from 'svelte'
   import {
     getIconUrlForPreferredSize,
@@ -20,7 +20,7 @@
   } from '@browser/lib/modules/EPageActionsBindings'
   import { clickModifiersFromEvent } from '@shared/domUtils'
 
-  export let pageAction: PageAction
+  export let pageAction: PageActionImpl
   const icons = pageActionIcons(pageAction)
 
   let panel: any
