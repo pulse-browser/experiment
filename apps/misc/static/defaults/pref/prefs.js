@@ -108,6 +108,10 @@ pref('browser.download.clearHistoryOnDelete', 0);
 // We do this because we want page actions etc. to have color schemes
 pref('svg.context-properties.content.enabled', true);
 
+// Security page preferences
+// This requires our own testing server, which we don't have
+pref('security.certerrors.mitm.priming.enabled', true);
+
 // =============================================================================
 // Multithreading
 
