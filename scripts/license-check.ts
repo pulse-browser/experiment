@@ -4,20 +4,20 @@
 import { readFileSync } from 'node:fs'
 import { argv } from 'node:process'
 
-import { SCRIPTS_PATH, SRC_PATH, STATIC_PATH } from './lib/constants.js'
+import { SCRIPTS_PATH, getFile } from './lib/constants.js'
 import { walkDirectory } from './lib/fs.js'
 import { autoFix, isValidLicense } from './lib/license.js'
 import { failure } from './lib/logging.js'
 
 const IGNORED_FILES = new RegExp(
-  '.*\\.(json|patch|md|jpeg|png|gif|tiff|ico|txt)',
+  '(.*pnpm-lock\\.yaml)|(.*\\.(json|patch|md|jpeg|png|gif|tiff|ico|txt))',
 )
 
 const shouldFix = argv.includes('--fix')
 const filesToCheck = [
   ...(await walkDirectory(SCRIPTS_PATH)),
-  ...(await walkDirectory(SRC_PATH)),
-  ...(await walkDirectory(STATIC_PATH)),
+  ...(await walkDirectory(getFile('apps'))),
+  ...(await walkDirectory(getFile('libs'))),
 ]
 
 const invalidFiles = filesToCheck

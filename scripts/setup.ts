@@ -12,16 +12,11 @@
  */
 import { execa } from 'execa'
 import { existsSync } from 'fs'
-import { mkdir, rm, symlink } from 'fs/promises'
+import { mkdir, rm } from 'fs/promises'
 
-import {
-  ARTIFACT_RT_PATH,
-  getArtifactFile,
-  getDistFile,
-  getSrcFile,
-} from './lib/constants.js'
+import { ARTIFACT_RT_PATH, getArtifactFile, getFile } from './lib/constants.js'
 import { setupFiles } from './lib/files.js'
-import { linkStaticFolder, linkTscFolder } from './lib/linker.js'
+import { linkContents, linkFolder } from './lib/linker.js'
 import { failure, info } from './lib/logging.js'
 import { downloadReleaseAsset, getLatestRelease } from './lib/releases.js'
 
@@ -68,32 +63,24 @@ await execa('unzip', [omnijar], { cwd: ARTIFACT_RT_PATH })
 await rm(omnijar)
 
 info('Setting up symlinks...')
-const contentDir = getArtifactFile('chrome/browser/content/browser')
-const contentDirDist = getDistFile('browser_content')
-await mkdir(contentDirDist, { recursive: true })
-await rm(contentDir, { recursive: true, force: true })
-await symlink(contentDirDist, contentDir)
+await linkFolder(
+  getFile('apps/content/dist'),
+  getArtifactFile('chrome/browser/content/browser'),
+)
+await linkFolder(
+  getFile('apps/extensions/lib'),
+  getArtifactFile('chrome/browser/content/extensions'),
+)
 
-// Link preference file
-const prefFile = getArtifactFile('defaults/pref/prefs.js')
-const prefFileSrc = getSrcFile('prefs.js')
-await rm(prefFile, { recursive: true, force: true })
-await symlink(prefFileSrc, prefFile)
+await linkContents(getFile('apps/misc/static'), ARTIFACT_RT_PATH)
 
-// Link typescript folders
-await linkTscFolder('modules')
-await linkTscFolder('actors')
-
-// Link static folders
-await linkStaticFolder('modules')
-await linkStaticFolder('localization', undefined, '')
-await linkStaticFolder('chrome', undefined, '')
-// await linkFolder('extensions', 'chrome/browser/content/browser/extensions')
+await linkContents(getFile('apps/actors/lib'), getArtifactFile('actors'))
+await linkContents(getFile('apps/modules/lib'), getArtifactFile('modules'))
 
 info('Setting up files...')
 await setupFiles()
 
 info('')
 info('You are all set up!')
-info('  To start webpack, run `pnpm dev`')
+info('  To start the dev server, run `pnpm dev`')
 info('  To launch the app, run `pnpm app:start`')

@@ -5,8 +5,8 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
-    "_postinstall": "pnpm scripts:build && pnpm script:setup",
-    "scripts:build": "tsc -p ./tsconfigs/tsconfig.scripts.json",
+    "postinstall": "pnpm scripts:build && pnpm script:setup",
+    "scripts:build": "tsc -p ./scripts/tsconfig.json",
     "script:setup": "node ./.scripts/setup.js",
     "script:license-check": "node ./.scripts/license-check.js",
     "script:unit-test": "node ./.scripts/unit-test.js",
@@ -101,7 +101,7 @@
     },
     "ignorePatterns": [
       "src/modules/*.js",
-      "dist/*",
+      "**/dist/*",
       ".scripts/*",
       ".store/*"
     ]

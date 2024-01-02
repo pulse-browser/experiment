@@ -4,20 +4,11 @@
     "target": "es2022",
     "allowArbitraryExtensions": true,
     "paths": {
-      "@shared/*": [
-        "./src/shared/*"
-      ],
-      "@browser/*": [
-        "./src/browser/*"
-      ]
+      "@shared/*": ["./src/shared/*"],
+      "@browser/*": ["./src/browser/*"]
     },
     "skipLibCheck": true
   },
-  "include": [
-    "src/**/*"
-  ],
-  "exclude": [
-    "node_modules/*",
-    "static/*"
-  ]
+  "include": ["src/**/*"],
+  "exclude": ["node_modules/*", "static/*"]
 }

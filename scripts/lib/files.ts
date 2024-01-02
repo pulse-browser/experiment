@@ -11,13 +11,14 @@ export const CHANGES: { file: string; append?: string | string[] }[] = [
     append: [
       'locale branding en-US en-US/locale/branding/',
       'resource search-extensions browser/content/browser/search-extensions/ contentaccessible=yes',
+      'content bextensions browser/content/extensions/',
     ],
   },
   {
     file: 'components/components.manifest',
     append: [
-      'category webextension-modules browser chrome://browser/content/extensions/ext-browser.json',
-      'category webextension-scripts c-browser chrome://browser/content/extensions/parent/ext-browser.js',
+      'category webextension-modules browser chrome://bextensions/content/ext-browser.json',
+      'category webextension-scripts c-browser chrome://bextensions/content/parent/ext-browser.js',
     ],
   },
 ]
