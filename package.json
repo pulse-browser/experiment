@@ -18,7 +18,7 @@
     "lint": "eslint .",
     "format": "pnpm lint && pnpm script:license-check --fix && prettier . --write --plugin prettier-plugin-svelte",
     "data": "concurrently -c auto pnpm:data:*",
-    "data:tld": "wget https://data.iana.org/TLD/tlds-alpha-by-domain.txt -O ./src/content/shared/search/providers/data/tld.txt"
+    "data:tld": "wget https://data.iana.org/TLD/tlds-alpha-by-domain.txt -O ./apps/content/src/shared/search/providers/data/tld.txt"
   },
   "keywords": [],
   "author": "",
