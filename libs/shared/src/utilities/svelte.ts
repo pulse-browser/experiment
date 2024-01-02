@@ -113,7 +113,6 @@ export function resolverStore<T>(
 export const dynamicStringPref =
   <T>(processor: (value: string) => T) =>
   (pref: string): Readable<T> => {
-    console.log('dynamicStringPref', pref)
     return readable(
       processor(Services.prefs.getStringPref(pref, '')),
       (set) => {

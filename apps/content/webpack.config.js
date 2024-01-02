@@ -13,7 +13,6 @@ import WebpackLicensePlugin from 'webpack-license-plugin'
 
 const HTML_TEMPLATE_FILE = './src/index.html'
 
-const getDistFile = (file) => resolve('dist', file)
 const absolutePackage = (file) => resolve('node_modules', file)
 
 /**
