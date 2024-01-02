@@ -6,10 +6,9 @@ import MiniCssExtractPlugin from 'mini-css-extract-plugin'
 import { join, resolve } from 'node:path'
 import preprocess from 'svelte-preprocess'
 import sequence from 'svelte-sequential-preprocessor'
-import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer'
 import WebpackLicensePlugin from 'webpack-license-plugin'
 
-const HTML_TEMPLATE_FILE = './src/content/index.html'
+const HTML_TEMPLATE_FILE = './src/index.html'
 
 const getDistFile = (file) => resolve('dist', file)
 const absolutePackage = (file) => resolve('node_modules', file)
@@ -44,7 +43,7 @@ export default (env, argv) => {
  * @returns The weback config
  */
 const sharedSettings = (contentFiles, dev) => {
-  const srcDir = './src/content'
+  const srcDir = './src'
 
   /** @type {Record<string, string>} */
   const entry = {}
@@ -58,7 +57,7 @@ const sharedSettings = (contentFiles, dev) => {
     name: 'Content',
     entry,
     output: {
-      path: getDistFile('browser_content'),
+      path: resolve('dist'),
       filename: '[name].js',
       publicPath: 'chrome://browser/content/',
       clean: true,
@@ -66,8 +65,8 @@ const sharedSettings = (contentFiles, dev) => {
     resolve: {
       extensions: ['.ts', '.mjs', '.js', '.svelte'],
       alias: {
-        '@shared': resolve('src/content/shared'),
-        '@browser': resolve('src/content/browser'),
+        '@shared': resolve('src/shared'),
+        '@browser': resolve('src/browser'),
       },
     },
     resolveLoader: {
@@ -171,7 +170,6 @@ const sharedSettings = (contentFiles, dev) => {
           },
         ],
       }),
-      // dev && new BundleAnalyzerPlugin(),
     ].filter(Boolean),
 
     experiments: {

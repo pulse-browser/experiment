@@ -4,7 +4,6 @@
 import mitt from 'mitt'
 
 import type { WindowArguments } from '.'
-import type { ContextMenuInfo } from '../../../../actors/ContextMenu.types'
 import {
   browserContextMenuInfo,
   setContextMenuParentActor,

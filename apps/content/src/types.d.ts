@@ -3,6 +3,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 /// <reference types="gecko-types" />
 /// <reference types="svelte" />
+/// <reference types="@browser/link" />
 
 /// <reference path='./contentAreaUtils' />
 /// <reference path='./globalOverlay' />

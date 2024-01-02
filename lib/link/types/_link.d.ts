@@ -10,6 +10,7 @@
 /// <reference path="./globals/MessageManager.d.ts" />
 
 /// <reference path="./interfaces/ClickHandler.d.ts" />
+/// <reference path="./interfaces/ContextMenu.d.ts" />
 /// <reference path="./interfaces/GenericDeferred.d.ts" />
 
 /// <reference path="./modules/AppConstants.d.ts" />

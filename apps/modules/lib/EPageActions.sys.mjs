@@ -15,7 +15,9 @@ export class PageAction {
   popupUrl
   showMatches
   hideMatches
-  /** @type {Record<number, string>} */
+  /**
+   * @type {Record<number, string>}
+   */
   icons
 
   showTabIds = new Set()

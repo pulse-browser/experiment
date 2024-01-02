@@ -3,7 +3,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 import { readable } from 'svelte/store'
 
-import type { PageAction } from 'resource://app/modules/EPageActions.sys.mjs'
+import type { PageActionImpl } from 'resource://app/modules/EPageActions.sys.mjs'
 
 import { resource } from '../resources'
 
@@ -19,7 +19,7 @@ export const pageActions = readable(
   },
 )
 
-export const pageActionIcons = (pageAction: PageAction) =>
+export const pageActionIcons = (pageAction: PageActionImpl) =>
   readable<Record<number, string> | undefined>(pageAction.icons, (set) =>
     pageAction.events.on('updateIcon', set),
   )

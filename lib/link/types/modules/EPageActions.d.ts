@@ -64,6 +64,7 @@ declare module 'resource://app/modules/EPageActions.sys.mjs' {
     popupUrl?: string
     showMatches?: MatchPatternSet
     hideMatches?: MatchPatternSet
+    icons?: Record<number, string>
     showTabIds: Set<number>
     hideTabIds: Set<number>
 

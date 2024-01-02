@@ -4,10 +4,7 @@
 import curry from 'fnts/curry'
 
 import { resource } from '@browser/lib/resources'
-import {
-  type ContextMenuInfo,
-  contextMenuParentActor,
-} from '@browser/lib/window/contextMenu'
+import { contextMenuParentActor } from '@browser/lib/window/contextMenu'
 import { getClipboardHelper } from '@browser/lib/xul/ccWrapper'
 
 import type { MenuItemAction, VisibilityCheck } from '.'

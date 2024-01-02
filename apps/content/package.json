@@ -2,15 +2,18 @@
   "name": "content",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "webpack serve --mode development",
+    "build": "webpack --mode production"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@browser/link": "workspace:*",
     "@melt-ui/pp": "^0.3.0",
+    "@total-typescript/ts-reset": "^0.5.1",
     "@tsconfig/svelte": "^5.0.2",
     "copy-webpack-plugin": "^11.0.0",
     "css-loader": "^6.8.1",
@@ -36,6 +39,7 @@
     "mitt": "^3.0.1",
     "nanoid": "^5.0.4",
     "remixicon": "^4.0.1",
-    "snarkdown": "^2.0.0"
+    "snarkdown": "^2.0.0",
+    "zora": "^5.2.0"
   }
 }

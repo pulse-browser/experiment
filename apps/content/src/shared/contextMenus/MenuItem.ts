@@ -3,7 +3,6 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 import { dynamicStringPref } from '@shared/svelteUtils'
 
-import type { ContextMenuInfo } from '../../../actors/ContextMenu.types'
 import { MENU_ITEM_ACTIONS } from './menuItems'
 
 /**
