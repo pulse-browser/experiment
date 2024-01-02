@@ -2,13 +2,6 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-export interface WindowConfiguration {
-  /**
-   * The initial page to show when the window is opened
-   */
-  initialUrl: string
-}
-
 const defaultWindowConfiguration: WindowConfiguration = {
   initialUrl: Services.prefs.getStringPref(
     'browser.newwindow.default',

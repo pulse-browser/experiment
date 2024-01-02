@@ -12,6 +12,7 @@
 /// <reference path="./globals/Elements.d.ts" />
 /// <reference path="./globals/MatchPattern.d.ts" />
 /// <reference path="./globals/MessageManager.d.ts" />
+/// <reference path="./globals/WindowApi.d.ts" />
 
 /// <reference path="./interfaces/ClickHandler.d.ts" />
 /// <reference path="./interfaces/ContextMenu.d.ts" />

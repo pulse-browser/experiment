@@ -19,26 +19,12 @@ import {
 } from './tabs'
 import { id, setId } from './window'
 
-export type WindowTriggers = {
-  bookmarkCurrentPage: undefined
-}
-
-export const windowApi = {
-  /**
-   * Identify which window this is. This should be used for actions like tab
-   * moving that go across windows
-   *
-   * Note: You need to wait for the window watcher to register this window
-   * before you get a valid id
-   */
+export const windowApi: WindowApi = {
   id,
 
-  /**
-   * Sets the window ID. You should only use this if you are the WindowWatcher
-   */
   setId,
 
-  windowTriggers: mitt<WindowTriggers>(),
+  windowTriggers: mitt(),
   window: {
     /**
      * @todo Move this into BrowserWindowTracker

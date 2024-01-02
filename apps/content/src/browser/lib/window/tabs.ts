@@ -61,7 +61,7 @@ export function setCurrentTab(tab: Tab) {
   setCurrentTabIndex(index)
 }
 
-export function runOnCurrentTab<R>(method: (tab: Tab) => R): R | void {
+export function runOnCurrentTab<R>(method: (tab: Tab) => R): R | undefined {
   const currentTab = getCurrentTab()
   if (currentTab) return method(currentTab)
 }

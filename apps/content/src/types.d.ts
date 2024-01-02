@@ -14,7 +14,6 @@ declare module '*.txt' {
 }
 
 declare interface Window {
-  windowApi: typeof import('./browser/lib/window/api').windowApi
   browserDOMWindow: nsIBrowserDOMWindowType
   /**
    * Arguments that may be passed into a specific window. We control these types
