@@ -1,0 +1,9 @@
+{
+  "name": "actors",
+  "version": "1.0.0",
+  "description": "",
+  "dependencies": {
+    "@browser/link": "workspace:*"
+  },
+  "license": "ISC"
+}

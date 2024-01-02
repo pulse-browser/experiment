@@ -5,7 +5,7 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
-    "postinstall": "pnpm scripts:build && pnpm script:setup",
+    "_postinstall": "pnpm scripts:build && pnpm script:setup",
     "scripts:build": "tsc -p ./tsconfigs/tsconfig.scripts.json",
     "script:setup": "node ./.scripts/setup.js",
     "script:license-check": "node ./.scripts/license-check.js",
@@ -30,57 +30,29 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@melt-ui/pp": "^0.1.4",
-    "@melt-ui/svelte": "^0.64.0",
     "@tinyhttp/app": "^2.2.1",
     "@total-typescript/ts-reset": "^0.5.1",
     "@trivago/prettier-plugin-sort-imports": "^4.3.0",
-    "@tsconfig/svelte": "^5.0.2",
     "@types/node": "^20.8.4",
     "@typescript-eslint/eslint-plugin": "^6.11.0",
     "@typescript-eslint/parser": "^6.11.0",
     "concurrently": "^8.2.1",
-    "copy-webpack-plugin": "^11.0.0",
-    "css-loader": "^6.8.1",
     "eslint": "^8.53.0",
     "eslint-plugin-listeners": "^1.4.0",
     "execa": "^8.0.1",
     "gecko-types": "github:quark-platform/gecko-types",
-    "html-webpack-plugin": "^5.5.3",
     "kleur": "^4.1.5",
-    "mini-css-extract-plugin": "^2.7.6",
     "nodejs-file-downloader": "^4.12.1",
-    "postcss-loader": "^7.3.3",
     "prettier": "^3.0.3",
     "prettier-plugin-organize-imports": "^3.2.3",
     "prettier-plugin-svelte": "^3.0.3",
-    "style-loader": "^3.3.3",
-    "svelte": "^4.2.8",
-    "svelte-loader": "^3.1.9",
-    "svelte-preprocess": "^5.1.2",
-    "svelte-sequential-preprocessor": "^2.0.1",
-    "ts-loader": "^9.5.0",
-    "typescript": "^5.2.2",
-    "webpack": "^5.89.0",
-    "webpack-bundle-analyzer": "^4.10.1",
-    "webpack-cli": "^5.1.4",
-    "webpack-dev-server": "^4.15.1",
-    "webpack-license-plugin": "^4.4.2",
-    "zora": "^5.2.0"
-  },
-  "dependencies": {
-    "@catppuccin/palette": "^0.2.0",
-    "fnts": "^2.0.1",
-    "mitt": "^3.0.1",
-    "nanoid": "^5.0.3",
-    "remixicon": "^3.7.0",
-    "snarkdown": "^2.0.0"
+    "typescript": "^5.2.2"
   },
   "pnpm": {
     "patchedDependencies": {
-      "svelte@4.2.8": "patches/svelte@4.2.1.patch",
-      "webpack-license-plugin@4.4.2": "patches/webpack-license-plugin@4.4.2.patch",
-      "@melt-ui/svelte@0.64.5": "patches/@melt-ui__svelte@0.64.5.patch"
+      "svelte@4.2.8": "apps/content/patches/svelte@4.2.1.patch",
+      "webpack-license-plugin@4.4.2": "apps/content/patches/webpack-license-plugin@4.4.2.patch",
+      "@melt-ui/svelte@0.67.0": "apps/content/patches/@melt-ui__svelte@0.64.5.patch"
     }
   },
   "prettier": {
@@ -130,7 +102,8 @@
     "rules": {
       "@typescript-eslint/triple-slash-reference": "off",
       "no-extra-semi": "off",
-      "no-console": "warn"
+      "no-console": "warn",
+      "no-undef": "off"
     },
     "ignorePatterns": [
       "src/modules/*.js",

@@ -1,0 +1,22 @@
+{
+  "name": "@browser/shared",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "source": "src/index.ts",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "microbundle --external=none --format=modern",
+    "dev": "microbundle watch --external=none --format=modern"
+  },
+  "devDependencies": {
+    "@browser/link": "workspace:*",
+    "microbundle": "^0.15.1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "svelte": "^4.2.8"
+  }
+}

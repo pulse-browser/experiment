@@ -1,0 +1,13 @@
+{
+  "name": "@browser/link",
+  "version": "1.0.0",
+  "description": "",
+  "types": "./types/_link.d.ts",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "gecko-types": "github:quark-platform/gecko-types",
+    "mitt": "^3.0.1"
+  }
+}
