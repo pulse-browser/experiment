@@ -189,7 +189,10 @@ importers:
     dependencies:
       gecko-types:
         specifier: github:quark-platform/gecko-types
-        version: github.com/quark-platform/gecko-types/e4efe38ce26c3617d7a3ecb13491bca2004e0377
+        version: github.com/quark-platform/gecko-types/015f4eddb9a02d5f60ef82bf04e7b78bbb15ffd6
+      gecko-types@latest:
+        specifier: link:quark-platform/gecko-types@latest
+        version: link:quark-platform/gecko-types@latest
       mitt:
         specifier: ^3.0.1
         version: 3.0.1
@@ -7595,7 +7598,14 @@ packages:
     resolution: {integrity: sha512-FSZOvfJVfMWhk/poictNsDBCXq/Z+2Zu2peWs6d8OhWWb9nY++czw95D47hdw06L/kfjasLevwrbUtnXyWLAJw==}
     dev: false
 
+  github.com/quark-platform/gecko-types/015f4eddb9a02d5f60ef82bf04e7b78bbb15ffd6:
+    resolution: {tarball: https://codeload.github.com/quark-platform/gecko-types/tar.gz/015f4eddb9a02d5f60ef82bf04e7b78bbb15ffd6}
+    name: gecko-types
+    version: 1.0.0
+    dev: false
+
   github.com/quark-platform/gecko-types/e4efe38ce26c3617d7a3ecb13491bca2004e0377:
     resolution: {tarball: https://codeload.github.com/quark-platform/gecko-types/tar.gz/e4efe38ce26c3617d7a3ecb13491bca2004e0377}
     name: gecko-types
     version: 1.0.0
+    dev: true

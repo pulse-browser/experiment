@@ -10,6 +10,7 @@
   import Bookmarks from './Bookmarks.svelte'
   import { pageActions } from '@browser/lib/modules/EPageActionsBindings'
   import PageAction from './PageAction.svelte'
+  import ZoomDisplay from './ZoomDisplay.svelte'
 
   const suggestionsModule = import('@shared/search/suggestions')
 
@@ -22,6 +23,7 @@
   let selectedSuggestion = 0
 
   $: uri = tab.uri
+  $: zoom = tab.zoom
 
   async function generateSuggestions() {
     const { suggestions: suggestionsMethod } = await suggestionsModule
@@ -88,6 +90,8 @@
           await generateSuggestions()
         }}
       />
+
+      <ZoomDisplay zoom={$zoom} on:click={() => zoom.set(1)} />
 
       {#each $pageActions as [_extId, pageAction]}
         {#if pageAction.shouldShow($uri.asciiSpec, tab.getTabId())}
