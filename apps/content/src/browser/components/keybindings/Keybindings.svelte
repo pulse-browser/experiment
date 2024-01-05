@@ -43,6 +43,18 @@
     pref="browser.keybinds.previousTab"
     on:command={() => setCurrentTabIndex(getCurrentTabIndex() - 1)}
   />
+
+  <Keybinding
+    pref="browser.keybinds.zoomIn"
+    on:command={() =>
+      runOnCurrentTab((tab) => tab.zoom.update((zoom) => zoom + 0.1))}
+  />
+  <Keybinding
+    pref="browser.keybinds.zoomOut"
+    on:command={() =>
+      runOnCurrentTab((tab) => tab.zoom.update((zoom) => zoom - 0.1))}
+  />
+
   {#each [1, 2, 3, 4, 5, 6, 7, 8] as tabNum}
     <Keybinding
       pref={`browser.keybinds.tab${tabNum}`}

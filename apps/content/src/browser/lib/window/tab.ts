@@ -43,6 +43,8 @@ export class Tab {
   public loading = writable(false)
   public loadingProgress = writable(0)
 
+  public zoom = writable(1)
+
   /**
    * This is used by the omnibox to determine if text input should be focused.
    */
@@ -59,6 +61,11 @@ export class Tab {
     this.goToUri(uri)
     this.title.set(uri.asciiHost)
 
+    this.zoom.subscribe(
+      (newZoom) =>
+        this.browserElement.browsingContext &&
+        (this.browserElement.fullZoom = newZoom),
+    )
     this.uri.subscribe(async (uri) =>
       this.bookmarkInfo.set(
         await search({ url: uri.spec }).then((r) =>
@@ -156,6 +163,9 @@ export class Tab {
       this.uri.set(event.aLocation)
       this.canGoBack.set(this.browserElement.canGoBack)
       this.canGoForward.set(this.browserElement.canGoForward)
+      this.zoom.set(
+        this.browserElement.browsingContext ? this.browserElement.fullZoom : 1,
+      )
     })
 
     this.progressListener.events.on('progressPercent', this.loadingProgress.set)

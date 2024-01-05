@@ -51,6 +51,8 @@ declare interface XULBrowserElement extends HTMLElement {
   canGoForward: boolean
   goForward()
   reload()
+  fullZoom: number
+  browsingContext?: unknown
   loadURI(uri: nsIURIType, params?: LoadURIOptions)
   browserId: number
   mInitialized: boolean

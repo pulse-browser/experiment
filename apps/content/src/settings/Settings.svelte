@@ -75,6 +75,9 @@
       <StringPref pref="browser.keybinds.nextTab">Next tab</StringPref>
       <StringPref pref="browser.keybinds.previousTab">Previous Tab</StringPref>
 
+      <StringPref pref="browser.keybinds.zoomIn">Zoom in</StringPref>
+      <StringPref pref="browser.keybinds.zoomOut">Zoom out</StringPref>
+
       {#each [1, 2, 3, 4, 5, 6, 7, 8] as tabNum}
         <StringPref pref={`browser.keybinds.tab${tabNum}`}
           >Jump to tab {tabNum}</StringPref
