@@ -8,6 +8,7 @@
   "license": "ISC",
   "dependencies": {
     "gecko-types": "github:quark-platform/gecko-types",
+    "gecko-types@latest": "link:quark-platform/gecko-types@latest",
     "mitt": "^3.0.1"
   }
 }

@@ -24,3 +24,4 @@
 /// <reference path="./modules/mitt.d.ts" />
 /// <reference path="./modules/PlacesUtils.d.ts" />
 /// <reference path="./modules/typedImport.d.ts" />
+/// <reference path="./modules/ZoomStore.d.ts" />

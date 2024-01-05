@@ -11,4 +11,5 @@ export const resource = lazyESModuleGetters({
   NetUtil: 'resource://gre/modules/NetUtil.sys.mjs',
   PageThumbs: 'resource://gre/modules/PageThumbs.sys.mjs',
   WindowTracker: 'resource://app/modules/BrowserWindowTracker.sys.mjs',
+  ZoomStore: 'resource://app/modules/ZoomStore.sys.mjs',
 })

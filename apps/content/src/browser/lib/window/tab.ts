@@ -5,6 +5,8 @@ import { type ViewableWritable, viewableWritable } from '@experiment/shared'
 import mitt from 'mitt'
 import { type Writable, get, writable } from 'svelte/store'
 
+import type { ZoomStoreEvents } from 'resource://app/modules/ZoomStore.sys.mjs'
+
 import { type BookmarkTreeNode, search } from '@shared/ExtBookmarkAPI'
 
 import { resource } from '../resources'
@@ -61,11 +63,17 @@ export class Tab {
     this.goToUri(uri)
     this.title.set(uri.asciiHost)
 
-    this.zoom.subscribe(
-      (newZoom) =>
-        this.browserElement.browsingContext &&
-        (this.browserElement.fullZoom = newZoom),
-    )
+    this.zoom.subscribe((newZoom) => {
+      if (
+        !this.browserElement.browsingContext ||
+        this.browserElement.fullZoom === newZoom
+      ) {
+        return
+      }
+
+      this.browserElement.fullZoom = newZoom
+      resource.ZoomStore.setZoomForUri(this.uri.readOnce(), newZoom)
+    })
     this.uri.subscribe(async (uri) =>
       this.bookmarkInfo.set(
         await search({ url: uri.spec }).then((r) =>
@@ -73,6 +81,9 @@ export class Tab {
         ),
       ),
     )
+
+    // Remember to unsubscribe from any listeners you register here!
+    resource.ZoomStore.events.on('setZoom', this.zoomChange)
   }
 
   public getId(): number {
@@ -154,6 +165,13 @@ export class Tab {
     this.useProgressListener()
   }
 
+  zoomChange = (event: ZoomStoreEvents['setZoom']) => {
+    try {
+      if (this.uri.readOnce().host != event.host) return
+      this.zoom.set(event.zoom)
+    } catch {}
+  }
+
   protected useProgressListener() {
     this.progressListener.events.on('locationChange', (event) => {
       if (!event.aWebProgress.isTopLevel) return
@@ -163,9 +181,8 @@ export class Tab {
       this.uri.set(event.aLocation)
       this.canGoBack.set(this.browserElement.canGoBack)
       this.canGoForward.set(this.browserElement.canGoForward)
-      this.zoom.set(
-        this.browserElement.browsingContext ? this.browserElement.fullZoom : 1,
-      )
+
+      this.zoom.set(resource.ZoomStore.getZoomForUri(event.aLocation))
     })
 
     this.progressListener.events.on('progressPercent', this.loadingProgress.set)
@@ -188,6 +205,9 @@ export class Tab {
   }
 
   public destroy() {
+    this.removeEventListeners()
+    resource.ZoomStore.events.off('setZoom', this.zoomChange)
+
     this.browserElement.remove()
   }
 
