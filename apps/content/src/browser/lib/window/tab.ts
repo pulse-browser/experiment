@@ -166,10 +166,8 @@ export class Tab {
   }
 
   zoomChange = (event: ZoomStoreEvents['setZoom']) => {
-    try {
-      if (this.uri.readOnce().host != event.host) return
-      this.zoom.set(event.zoom)
-    } catch {}
+    if (this.uri.readOnce().asciiHost != event.host) return
+    this.zoom.set(event.zoom)
   }
 
   protected useProgressListener() {

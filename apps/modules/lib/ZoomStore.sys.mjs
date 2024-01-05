@@ -1,3 +1,7 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+
 // @ts-check
 /// <reference types="@browser/link" />
 import mitt from 'resource://app/modules/mitt.sys.mjs'
@@ -65,11 +69,7 @@ class ZoomStoreImpl {
    * @returns {number}
    */
   getZoomForUri(uri) {
-    try {
-      return this.zoomPages?.get(uri.host) || 1
-    } catch {
-      return 1
-    }
+    return this.zoomPages?.get(uri.asciiHost) || 1
   }
 
   /**
