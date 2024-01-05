@@ -85,6 +85,7 @@ class ZoomStoreImpl {
 
     if (zoom === 1) {
       this.zoomPages?.delete(uri.host)
+      this.events.emit('setZoom', { host: uri.host, zoom })
       return
     }
 

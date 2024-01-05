@@ -34,6 +34,7 @@ pref('browser.keybinds.nextTab', 'accel+VK_TAB');
 pref('browser.keybinds.previousTab', 'accel+shift+VK_TAB');
 pref('browser.keybinds.zoomIn', 'accel+=');
 pref('browser.keybinds.zoomOut', 'accel+-');
+pref('browser.keybinds.zoomReset', 'accel+0');
 pref('browser.keybinds.tab1', 'accel+1');
 pref('browser.keybinds.tab2', 'accel+2');
 pref('browser.keybinds.tab3', 'accel+3');

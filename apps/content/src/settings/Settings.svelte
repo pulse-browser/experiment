@@ -77,6 +77,7 @@
 
       <StringPref pref="browser.keybinds.zoomIn">Zoom in</StringPref>
       <StringPref pref="browser.keybinds.zoomOut">Zoom out</StringPref>
+      <StringPref pref="browser.keybinds.zoomReset">Reset Zoom</StringPref>
 
       {#each [1, 2, 3, 4, 5, 6, 7, 8] as tabNum}
         <StringPref pref={`browser.keybinds.tab${tabNum}`}
