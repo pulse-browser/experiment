@@ -3,6 +3,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 import { App } from '@tinyhttp/app'
 import { type ExecaChildProcess, execa } from 'execa'
+import { writeFileSync } from 'node:fs'
 import { argv, exit } from 'node:process'
 
 // If you update this port, you should update the port in the test runner
@@ -16,14 +17,17 @@ let testProcess: ExecaChildProcess<string>
 new App()
   .get('/config', (_, res) => void res.send({ shouldWatch }))
   .post('/results', (req, res) => {
+    let result = ''
     req.on('data', (chunk: Buffer) => {
       // eslint-disable-next-line no-console
       console.log(chunk.toString())
+      result += chunk.toString() + '\n'
     })
     req.on('close', () => {
       res.send('ok')
 
       if (!shouldWatch) {
+        writeFileSync('./.store/units.tap', result)
         testProcess?.kill()
         exit()
       }

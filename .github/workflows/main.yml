@@ -76,6 +76,12 @@ jobs:
         with:
           run: pnpm script:unit-test
 
+      - name: Create test summary
+        uses: test-summary/action@v2
+        with:
+          paths: '.store/*.tap'
+        if: always()
+
       - name: De-symlink
         run: rsync .store/rt/ rt_dist/ -a --copy-links
 
