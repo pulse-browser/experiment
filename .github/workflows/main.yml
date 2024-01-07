@@ -78,8 +78,12 @@ jobs:
 
       - name: De-symlink
         run: rsync .store/rt/ rt_dist/ -a --copy-links
+
+      - name: Compress artifact
+        run: tar -cvjSf testing-browser.tar.bz2 rt_dist/
+
       - name: Upload artifact
         uses: actions/upload-artifact@v2
         with:
           name: testing_browser
-          path: rt_dist/
+          path: testing-browser.tar.bz2
