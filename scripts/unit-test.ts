@@ -1,10 +1,12 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+/// <reference path="./scripts.d.ts" />
 import { App } from '@tinyhttp/app'
 import { type ExecaChildProcess, execa } from 'execa'
-import { writeFileSync } from 'node:fs'
+import { createWriteStream } from 'node:fs'
 import { argv, exit } from 'node:process'
+import tapSpec from 'tap-spec'
 
 // If you update this port, you should update the port in the test runner
 const TEST_PORT = 3948
@@ -17,21 +19,17 @@ let testProcess: ExecaChildProcess<string>
 new App()
   .get('/config', (_, res) => void res.send({ shouldWatch }))
   .post('/results', (req, res) => {
-    let result = ''
-    req.on('data', (chunk: Buffer) => {
-      // eslint-disable-next-line no-console
-      console.log(chunk.toString())
-      result += chunk.toString() + '\n'
-    })
-    req.on('close', () => {
-      res.send('ok')
+    // Provide a nice reporter to the console
+    req.pipe(tapSpec()).pipe(process.stdout)
 
-      if (!shouldWatch) {
-        writeFileSync('./.store/units.tap', result)
-        testProcess?.kill()
+    if (!shouldWatch) {
+      req.pipe(createWriteStream('./.store/units.tap')).on('close', () => {
+        testProcess.kill()
         exit()
-      }
-    })
+      })
+    }
+
+    req.on('close', () => res.send('ok'))
   })
   .listen(TEST_PORT)
 
