@@ -188,6 +188,12 @@ importers:
         specifier: workspace:*
         version: link:../../libs/link
 
+  apps/tests:
+    dependencies:
+      '@browser/link':
+        specifier: workspace:*
+        version: link:../../libs/link
+
   libs/link:
     dependencies:
       gecko-types:
@@ -199,6 +205,10 @@ importers:
       mitt:
         specifier: ^3.0.1
         version: 3.0.1
+    devDependencies:
+      zora:
+        specifier: ^5.2.0
+        version: 5.2.0
 
   libs/shared:
     dependencies:
@@ -7709,7 +7719,6 @@ packages:
 
   /zora@5.2.0:
     resolution: {integrity: sha512-FSZOvfJVfMWhk/poictNsDBCXq/Z+2Zu2peWs6d8OhWWb9nY++czw95D47hdw06L/kfjasLevwrbUtnXyWLAJw==}
-    dev: false
 
   github.com/quark-platform/gecko-types/015f4eddb9a02d5f60ef82bf04e7b78bbb15ffd6:
     resolution: {tarball: https://codeload.github.com/quark-platform/gecko-types/tar.gz/015f4eddb9a02d5f60ef82bf04e7b78bbb15ffd6}

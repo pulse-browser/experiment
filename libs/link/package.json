@@ -10,5 +10,8 @@
     "gecko-types": "github:quark-platform/gecko-types",
     "gecko-types@latest": "link:quark-platform/gecko-types@latest",
     "mitt": "^3.0.1"
+  },
+  "devDependencies": {
+    "zora": "^5.2.0"
   }
 }

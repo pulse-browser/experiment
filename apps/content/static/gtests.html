@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Test runner</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+  </head>
+  <body>
+    <h1>Test runner</h1>
+
+    <script type="module">
+      import { TestManager } from 'resource://app/modules/TestManager.sys.mjs'
+      import 'resource://app/modules/tests/integrations/_index.sys.mjs'
+
+      // @ts-check
+      /// <reference types="@browser/link" />
+      console.log('start import')
+
+      console.log('import int')
+
+      console.log('call')
+      TestManager.call()
+    </script>
+  </body>
+</html>
