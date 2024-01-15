@@ -1,3 +1,7 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+
 /// <reference types="@types/firefox-webext-browser" />
 
 declare module 'resource://app/modules/ExtensionTestUtils.sys.mjs' {
@@ -42,6 +46,7 @@ declare module 'resource://app/modules/ExtensionTestUtils.sys.mjs' {
     )
   }
 
+  /* eslint @typescript-eslint/ban-types: 0 */
   export type ExtSerializableScript = string | Function | Array<string>
   export type ExtManifest = {
     files: Record<string, ExtSerializableScript>

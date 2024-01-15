@@ -5,7 +5,6 @@
 import { App } from '@tinyhttp/app'
 import { type ExecaChildProcess, execa } from 'execa'
 import { createWriteStream } from 'node:fs'
-import { Server } from 'node:http'
 import { argv, exit } from 'node:process'
 import tapSpec from 'tap-spec'
 
@@ -48,9 +47,7 @@ function createTestReporter(
 ) {
   return new Promise<void>((resolve) => {
     const app = new App()
-    let server: Server
-
-    server = app
+    const server = app
       .get('/config', (_, res) => void res.send({ shouldWatch }))
       .post('/results', (req, res) => {
         // Provide a nice reporter to the console
