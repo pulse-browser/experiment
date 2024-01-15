@@ -196,6 +196,9 @@ importers:
 
   libs/link:
     dependencies:
+      '@types/firefox-webext-browser':
+        specifier: ^120.0.0
+        version: 120.0.0
       gecko-types:
         specifier: github:quark-platform/gecko-types
         version: github.com/quark-platform/gecko-types/015f4eddb9a02d5f60ef82bf04e7b78bbb15ffd6
@@ -2092,6 +2095,10 @@ packages:
       '@types/qs': 6.9.8
       '@types/serve-static': 1.15.3
     dev: true
+
+  /@types/firefox-webext-browser@120.0.0:
+    resolution: {integrity: sha512-L+tDlwNeq0kQGfAYc2sNfKhRWJz9CNRvlbq9HnLibKUiJ3VTThG8sj7xrJF4CtKpEA9eBAr91Z2nnKIAy+xUJg==}
+    dev: false
 
   /@types/html-minifier-terser@6.1.0:
     resolution: {integrity: sha512-oh/6byDPnL1zeNXFrDXFLyZjkr1MsBG667IM792caf1L2UPOOMf65NFzjUH/ltyfwjAGfs1rsX1eftK0jC/KIg==}

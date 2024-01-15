@@ -28,11 +28,13 @@ function runner(testPage: string) {
   testProcess.on('message', (msg) => console.log(msg.toString()))
 
   // Timeout to ensure that tests actually start
-  setTimeout(() => {
+  const timeout = setTimeout(() => {
     testProcess?.kill()
     console.error('Process timed out')
     exit(1)
   }, 10_000)
+
+  testProcess.on('exit', () => clearTimeout(timeout))
 
   return testProcess
 }
