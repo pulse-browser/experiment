@@ -39,7 +39,11 @@ export function isUrlLike(query: string): boolean {
 export class URLProvider extends Provider {
   public providerPriority = 0
 
-  public async getResults(query: string): Promise<ProviderResult[]> {
+  public async getResults(_query: string) {
+    return []
+  }
+
+  public getFastResults(query: string): ProviderResult[] {
     // Check against chrome urls
     if (
       CHROME_REGEX.test(query) ||

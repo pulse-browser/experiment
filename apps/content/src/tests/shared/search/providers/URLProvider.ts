@@ -9,7 +9,7 @@ export default async function () {
   const urlProvider = new URLProvider()
 
   await test('URLProvider: google.com', async (t) => {
-    const result = await urlProvider.getResults('google.com')
+    const result = urlProvider.getFastResults('google.com')
     t.ok(result, 'result exists')
     t.ok(result.length > 0, 'result has length')
     if (!result.length) return
@@ -18,7 +18,7 @@ export default async function () {
   })
 
   await test('URLProvider: https://google.com', async (t) => {
-    const result = await urlProvider.getResults('https://google.com')
+    const result = urlProvider.getFastResults('https://google.com')
     t.ok(result, 'result exists')
     t.ok(result.length > 0, 'result has length')
     if (!result.length) return
@@ -27,7 +27,7 @@ export default async function () {
   })
 
   await test('URLProvider: google.com/test', async (t) => {
-    const result = await urlProvider.getResults('google.com/test')
+    const result = urlProvider.getFastResults('google.com/test')
     t.ok(result, 'result exists')
     t.ok(result.length > 0, 'result has length')
     if (!result.length) return
@@ -36,7 +36,7 @@ export default async function () {
   })
 
   await test('URLProvider: https://google.com/test', async (t) => {
-    const result = await urlProvider.getResults('https://google.com/test')
+    const result = urlProvider.getFastResults('https://google.com/test')
     t.ok(result, 'result exists')
     t.ok(result.length > 0, 'result has length')
     if (!result.length) return
@@ -45,7 +45,7 @@ export default async function () {
   })
 
   await test('URLProvider: chrome://browser/content/tests/index.html', async (t) => {
-    const result = await urlProvider.getResults(
+    const result = urlProvider.getFastResults(
       'chrome://browser/content/tests/index.html',
     )
     t.ok(result, 'result exists')
@@ -64,25 +64,25 @@ export default async function () {
   })
 
   await test('URLProvider: https://abc.notarealurl', async (t) => {
-    const result = await urlProvider.getResults('https://abc.notarealurl')
+    const result = urlProvider.getFastResults('https://abc.notarealurl')
     t.ok(result, 'result exists')
     t.equal(result.length, 0, 'result has length')
   })
 
   await test('URLProvider: https://abc.notarealurl/test', async (t) => {
-    const result = await urlProvider.getResults('https://abc.notarealurl/test')
+    const result = urlProvider.getFastResults('https://abc.notarealurl/test')
     t.ok(result, 'result exists')
     t.equal(result.length, 0, 'result has length')
   })
 
   await test('URLProvider: text', async (t) => {
-    const result = await urlProvider.getResults('text')
+    const result = urlProvider.getFastResults('text')
     t.ok(result, 'result exists')
     t.equal(result.length, 0, 'result has length')
   })
 
   await test('URLProvider: about:blank', async (t) => {
-    const result = await urlProvider.getResults('about:blank')
+    const result = urlProvider.getFastResults('about:blank')
     t.eq(result.length, 1, 'There should be a result')
     t.eq(result[0].title, 'about:blank', 'The title should be correct')
     t.eq(result[0].url, 'about:blank', 'The url should be correct')

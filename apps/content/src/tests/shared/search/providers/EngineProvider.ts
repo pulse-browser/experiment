@@ -36,6 +36,18 @@ export default async function () {
     t.eq(results[0].priority, ResultPriority.HIGH, 'Should have high priority')
   })
 
+  await test('EngineProvider: fast recommendations', async (t) => {
+    const provider = new EngineProvider()
+    const results = await provider.getFastResults('tes')
+    t.equals(results.length, 1, 'should have a single result')
+    t.equals(
+      results[0].priority,
+      ResultPriority.HIGH,
+      'should have a high priority',
+    )
+    t.equals(results[0].title, 'tes', 'should have the same title')
+  })
+
   for (const engine of SEARCH_ENGINE_IDS) {
     await testProvider(engine)
   }

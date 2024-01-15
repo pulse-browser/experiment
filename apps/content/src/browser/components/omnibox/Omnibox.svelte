@@ -16,7 +16,6 @@
 
   export let tab: Tab
 
-  let showFocus = false
   let inputContent: string = ''
   let inputElement: HTMLInputElement
   let suggestions: Suggestion[] = []
@@ -26,13 +25,21 @@
   $: uri = tab.uri
   $: zoom = tab.zoom
 
-  async function generateSuggestions() {
-    const { suggestions: suggestionsMethod } = await suggestionsModule
-    suggestions = await suggestionsMethod(inputContent)
+  const setSuggestions = (query: string) => (s: Suggestion[]) => {
+    if (query != inputContent) return
+    suggestions = s
     selectedSuggestion = Math.max(
       Math.min(selectedSuggestion, suggestions.length - 1),
       0,
     )
+  }
+
+  async function generateSuggestions() {
+    const { suggestions: suggestionsMethod } = await suggestionsModule
+    const { fast, full } = suggestionsMethod(inputContent)
+
+    fast.then(setSuggestions(inputContent))
+    full.then(setSuggestions(inputContent))
   }
 
   function updateFocus(shouldBeFocused: boolean, url: string) {
@@ -112,7 +119,7 @@
 
     <div
       class="suggestions"
-      hidden={!showFocus}
+      hidden={!$focusedOmnibox}
       id="omnibox__suggestions-list"
       role="listbox"
     >

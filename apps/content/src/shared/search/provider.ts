@@ -35,5 +35,13 @@ export abstract class Provider {
    */
   public abstract providerPriority: number
 
+  /**
+   * Should return results that do not require network queries. Your highest
+   * priority results should be returned from this method
+   */
+  public abstract getFastResults(
+    query: string,
+  ): Promise<ProviderResult[]> | ProviderResult[]
+
   public abstract getResults(query: string): Promise<ProviderResult[]>
 }
