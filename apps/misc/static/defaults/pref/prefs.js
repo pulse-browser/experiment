@@ -116,6 +116,8 @@ pref('svg.context-properties.content.enabled', true);
 // This requires our own testing server, which we don't have
 pref('security.certerrors.mitm.priming.enabled', true);
 
+pref('browser.display.use_system_colors', true);
+
 // =============================================================================
 // Multithreading
 
