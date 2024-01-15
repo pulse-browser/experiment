@@ -143,13 +143,10 @@ export class Tab {
       'pagetitlechanged',
       this.onPageTitleChanged.bind(this),
     )
-
     this.browserElement.removeEventListener(
       'DidChangeBrowserRemoteness',
       this.onDidChangeBrowserRemoteness.bind(this),
     )
-
-    this.progressListener.remove(this.browserElement)
   }
 
   protected onPageTitleChanged() {
@@ -203,9 +200,7 @@ export class Tab {
   }
 
   public destroy() {
-    this.removeEventListeners()
     resource.ZoomStore.events.off('setZoom', this.zoomChange)
-
     this.browserElement.remove()
   }
 
