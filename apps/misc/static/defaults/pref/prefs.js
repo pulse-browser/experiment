@@ -30,6 +30,7 @@ pref('browser.keybinds.chrome.reload', 'accel+alt+shift+R');
 pref('browser.keybinds.newWindow', 'accel+N');
 pref('browser.keybinds.newTab', 'accel+T');
 pref('browser.keybinds.closeTab', 'accel+W');
+pref('browser.keybinds.refreshTab', 'accel+R');
 pref('browser.keybinds.nextTab', 'accel+VK_TAB');
 pref('browser.keybinds.previousTab', 'accel+shift+VK_TAB');
 pref('browser.keybinds.zoomIn', 'accel+=');

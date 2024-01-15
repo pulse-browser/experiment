@@ -71,6 +71,7 @@
     <SubCategory title="Tabs & Websites">
       <StringPref pref="browser.keybinds.newWindow">New Window</StringPref>
       <StringPref pref="browser.keybinds.newTab">New Tab</StringPref>
+      <StringPref pref="browser.keybinds.refreshTab">Refresh Tab</StringPref>
       <StringPref pref="browser.keybinds.closeTab">Close Active Tab</StringPref>
       <StringPref pref="browser.keybinds.nextTab">Next tab</StringPref>
       <StringPref pref="browser.keybinds.previousTab">Previous Tab</StringPref>
