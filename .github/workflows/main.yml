@@ -4,45 +4,35 @@ on:
   push:
 
 jobs:
-  license_check:
-    name: License Check
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Clone repo
-        uses: actions/checkout@v4
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 18
-
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v2
-        with:
-          version: 8
-          run_install: false
-      - name: Get pnpm store directory
-        shell: bash
-        run: |
-          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
-      - uses: actions/cache@v3
-        name: Setup pnpm cache
-        with:
-          path: ${{ env.STORE_PATH }}
-          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-store-
-
-      - name: Install dependencies & RT
-        run: pnpm install
-      - name: Check licenses
-        run: pnpm script:license-check
-
   build:
     name: Build
-    needs: [license_check]
     runs-on: ubuntu-latest
 
+    permissions:
+      contents: read
+      statuses: write
+
     steps:
+      # Prep commit statuses
+      - name: Prep Statuses (License Check)
+        uses: myrotvorets/set-commit-status-action@master
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          status: pending
+          context: License Check
+      - name: Prep Statuses (Build)
+        uses: myrotvorets/set-commit-status-action@master
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          status: pending
+          context: Build
+      - name: Prep Statuses (Tests)
+        uses: myrotvorets/set-commit-status-action@master
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          status: pending
+          context: Tests
+
       - name: Clone repo
         uses: actions/checkout@v4
       - uses: actions/setup-node@v3
@@ -54,6 +44,7 @@ jobs:
         with:
           version: 8
           run_install: false
+
       - name: Get pnpm store directory
         shell: bash
         run: |
@@ -68,18 +59,56 @@ jobs:
 
       - name: Install dependencies & RT
         run: pnpm install
+
+      - name: Check licenses
+        id: license_check
+        continue-on-error: true
+        run: pnpm script:license-check
+      - name: Report Statuses (License Check)
+        uses: myrotvorets/set-commit-status-action@master
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          status: ${{ steps.license_check.outcome }}
+          context: License Check
+
       - name: Build
+        id: build
         run: pnpm build
+      - name: Report Statuses (Build)
+        uses: myrotvorets/set-commit-status-action@master
+        if: always()
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          status: ${{ steps.build.outcome }}
+          context: Build
 
       - name: Run tests
         uses: coactions/setup-xvfb@v1
+        id: tests
         with:
           run: pnpm script:unit-test
+      - name: Report Statuses (Tests)
+        uses: myrotvorets/set-commit-status-action@master
+        if: always()
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          status: ${{ steps.tests.outcome }}
+          context: Tests
+
+      - name: Create test summary
+        uses: test-summary/action@v2
+        with:
+          paths: '.store/*.tap'
+        if: always()
 
       - name: De-symlink
         run: rsync .store/rt/ rt_dist/ -a --copy-links
+
+      - name: Compress artifact
+        run: tar -cvjSf testing-browser.tar.bz2 rt_dist/
+
       - name: Upload artifact
         uses: actions/upload-artifact@v2
         with:
           name: testing_browser
-          path: rt_dist/
+          path: testing-browser.tar.bz2

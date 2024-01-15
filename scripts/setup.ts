@@ -76,6 +76,10 @@ await linkContents(getFile('apps/misc/static'), ARTIFACT_RT_PATH)
 
 await linkContents(getFile('apps/actors/lib'), getArtifactFile('actors'))
 await linkContents(getFile('apps/modules/lib'), getArtifactFile('modules'))
+await linkContents(
+  getFile('apps/tests/integrations'),
+  getArtifactFile('modules/tests/integrations'),
+)
 
 info('Setting up files...')
 await setupFiles()

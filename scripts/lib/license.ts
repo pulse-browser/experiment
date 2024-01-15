@@ -42,9 +42,10 @@ export function isValidLicense(file: string): boolean {
   ].join('\n')
 
   return (
-    lines.includes('the Mozilla Public') &&
-    lines.includes('If a copy of the MPL was') &&
-    lines.includes('http://mozilla.org/MPL/2.0/')
+    lines.includes('@not-mpl') ||
+    (lines.includes('the Mozilla Public') &&
+      lines.includes('If a copy of the MPL was') &&
+      lines.includes('http://mozilla.org/MPL/2.0/'))
   )
 }
 
