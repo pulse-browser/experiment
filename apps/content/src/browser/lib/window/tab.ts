@@ -47,11 +47,7 @@ export class Tab {
 
   public zoom = writable(1)
 
-  /**
-   * This is used by the omnibox to determine if text input should be focused.
-   */
-  public tabJustOpened = true
-
+  public focusedOmnibox = writable(true)
   public hidden = writable(false)
 
   constructor(uri: nsIURIType) {

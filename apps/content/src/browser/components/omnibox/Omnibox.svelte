@@ -22,6 +22,7 @@
   let suggestions: Suggestion[] = []
   let selectedSuggestion = 0
 
+  $: focusedOmnibox = tab.focusedOmnibox
   $: uri = tab.uri
   $: zoom = tab.zoom
 
@@ -34,22 +35,23 @@
     )
   }
 
-  const unbindedSetInputContent = (value: string) => {
-    inputContent = value
-    if (tab.tabJustOpened && inputElement) {
-      inputElement.focus()
-      inputElement.select()
-      tab.tabJustOpened = false
-      return
-    }
+  function updateFocus(shouldBeFocused: boolean, url: string) {
+    inputContent = url
+    if (!inputElement) return
 
-    // Unfocus on spec change
-    if (inputElement && suggestions.length != 0) {
+    const isFocused = document.activeElement === inputElement
+    if (isFocused === shouldBeFocused) return
+
+    if (shouldBeFocused) {
+      inputElement.focus()
+      setTimeout(() => inputElement.select(), 100)
+    } else {
       inputElement.blur()
       suggestions = []
     }
   }
-  $: unbindedSetInputContent($uri.asciiSpec)
+
+  $: updateFocus($focusedOmnibox, $uri.asciiSpec)
 </script>
 
 <div class="container">
@@ -63,16 +65,22 @@
         bind:this={inputElement}
         bind:value={inputContent}
         on:focusin={() => {
-          showFocus = true
+          focusedOmnibox.set(true)
           generateSuggestions()
         }}
         on:blur|capture={() =>
-          setTimeout(() => (showFocus = false) && (suggestions = []), 100)}
+          setTimeout(() => {
+            focusedOmnibox.set(false)
+            suggestions = []
+          }, 100)}
         on:keyup={async (e) => {
-          if (e.key === 'Enter')
+          if (e.key === 'Enter') {
+            focusedOmnibox.set(false)
             return tab.goToUri(
               resource.NetUtil.newURI(suggestions[selectedSuggestion].url),
             )
+          }
+
           if (e.key === 'ArrowDown') {
             e.preventDefault()
             selectedSuggestion = Math.min(
@@ -119,7 +127,7 @@
           aria-selected={index === selectedSuggestion}
           on:click={(_) => {
             tab.goToUri(resource.NetUtil.newURI(suggestion.url))
-            inputElement.blur()
+            focusedOmnibox.set(false)
           }}
         >
           {suggestion.title}
