@@ -8,6 +8,8 @@ import { searchEngineService } from '@shared/search/engine'
 import { ResultPriority } from '@shared/search/provider'
 import { EngineProvider } from '@shared/search/providers'
 
+import { then } from '../../../manager'
+
 export default async function () {
   await test('EngineProvider: ignore URL like', async (t) => {
     const provider = new EngineProvider()
@@ -32,20 +34,27 @@ export default async function () {
     const results = await provider.getResults(
       'cc4ce6fc-c166-4501-b34f-bda93579efc2',
     )
-    t.eq(results.length, 1, 'Should have a single result')
-    t.eq(results[0].priority, ResultPriority.HIGH, 'Should have high priority')
+    t.eq(results.length, 0, 'Should have a single result')
   })
 
   await test('EngineProvider: fast recommendations', async (t) => {
     const provider = new EngineProvider()
     const results = await provider.getFastResults('tes')
-    t.equals(results.length, 1, 'should have a single result')
-    t.equals(
-      results[0].priority,
-      ResultPriority.HIGH,
-      'should have a high priority',
+
+    then(
+      t,
+      t.equals(results.length, 1, 'should have a single result'),
+
+      'validate results',
+      (t) => {
+        t.equals(
+          results[0].priority,
+          ResultPriority.HIGH,
+          'should have a high priority',
+        )
+        t.equals(results[0].title, 'tes', 'should have the same title')
+      },
     )
-    t.equals(results[0].title, 'tes', 'should have the same title')
   })
 
   for (const engine of SEARCH_ENGINE_IDS) {

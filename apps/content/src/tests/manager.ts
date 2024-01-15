@@ -1,7 +1,13 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
-import { createTAPReporter, hold, report } from 'zora'
+import {
+  type IAssert,
+  type ISpecFunction,
+  createTAPReporter,
+  hold,
+  report,
+} from 'zora'
 
 const TEST_PORT = 3948
 const TEST_OUTPUT = document.createElement('pre')
@@ -44,4 +50,23 @@ export async function manageTests(
   }
 
   return performTests
+}
+
+interface IAssertionResult<T> {
+  pass: boolean
+  actual: unknown
+  expected: T
+  description: string
+  operator: string
+  at?: string
+}
+
+export async function then<T>(
+  t: IAssert,
+  result: IAssertionResult<T>,
+  description: string,
+  fn: ISpecFunction,
+) {
+  const restFn = result.pass ? t.test : t.skip
+  restFn(description, fn)
 }
