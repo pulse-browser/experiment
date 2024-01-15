@@ -36,6 +36,10 @@
     on:command={() => runOnCurrentTab(closeTab)}
   />
   <Keybinding
+    pref="browser.keybinds.refreshTab"
+    on:command={() => runOnCurrentTab((tab) => tab.reload())}
+  />
+  <Keybinding
     pref="browser.keybinds.nextTab"
     on:command={() => setCurrentTabIndex(getCurrentTabIndex() + 1)}
   />

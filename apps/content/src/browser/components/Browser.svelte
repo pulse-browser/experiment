@@ -40,7 +40,8 @@
     display: none;
   }
 
-  :global(browser) {
+  .browser-container :global(browser) {
     flex-grow: 1;
+    color-scheme: env(-moz-content-preferred-color-scheme);
   }
 </style>

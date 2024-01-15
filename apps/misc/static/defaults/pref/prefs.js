@@ -30,6 +30,7 @@ pref('browser.keybinds.chrome.reload', 'accel+alt+shift+R');
 pref('browser.keybinds.newWindow', 'accel+N');
 pref('browser.keybinds.newTab', 'accel+T');
 pref('browser.keybinds.closeTab', 'accel+W');
+pref('browser.keybinds.refreshTab', 'accel+R');
 pref('browser.keybinds.nextTab', 'accel+VK_TAB');
 pref('browser.keybinds.previousTab', 'accel+shift+VK_TAB');
 pref('browser.keybinds.zoomIn', 'accel+=');
@@ -114,6 +115,8 @@ pref('svg.context-properties.content.enabled', true);
 // Security page preferences
 // This requires our own testing server, which we don't have
 pref('security.certerrors.mitm.priming.enabled', true);
+
+pref('browser.display.use_system_colors', true);
 
 // =============================================================================
 // Multithreading

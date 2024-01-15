@@ -16,40 +16,49 @@
 
   export let tab: Tab
 
-  let showFocus = false
   let inputContent: string = ''
   let inputElement: HTMLInputElement
   let suggestions: Suggestion[] = []
   let selectedSuggestion = 0
 
+  $: focusedOmnibox = tab.focusedOmnibox
   $: uri = tab.uri
   $: zoom = tab.zoom
 
-  async function generateSuggestions() {
-    const { suggestions: suggestionsMethod } = await suggestionsModule
-    suggestions = await suggestionsMethod(inputContent)
+  const setSuggestions = (query: string) => (s: Suggestion[]) => {
+    if (query != inputContent) return
+    suggestions = s
     selectedSuggestion = Math.max(
       Math.min(selectedSuggestion, suggestions.length - 1),
       0,
     )
   }
 
-  const unbindedSetInputContent = (value: string) => {
-    inputContent = value
-    if (tab.tabJustOpened && inputElement) {
-      inputElement.focus()
-      inputElement.select()
-      tab.tabJustOpened = false
-      return
-    }
+  async function generateSuggestions() {
+    const { suggestions: suggestionsMethod } = await suggestionsModule
+    const { fast, full } = suggestionsMethod(inputContent)
 
-    // Unfocus on spec change
-    if (inputElement && suggestions.length != 0) {
+    fast.then(setSuggestions(inputContent))
+    full.then(setSuggestions(inputContent))
+  }
+
+  function updateFocus(shouldBeFocused: boolean, url: string) {
+    inputContent = url
+    if (!inputElement) return
+
+    const isFocused = document.activeElement === inputElement
+    if (isFocused === shouldBeFocused) return
+
+    if (shouldBeFocused) {
+      inputElement.focus()
+      setTimeout(() => inputElement.select(), 100)
+    } else {
       inputElement.blur()
       suggestions = []
     }
   }
-  $: unbindedSetInputContent($uri.asciiSpec)
+
+  $: updateFocus($focusedOmnibox, $uri.asciiSpec)
 </script>
 
 <div class="container">
@@ -63,16 +72,22 @@
         bind:this={inputElement}
         bind:value={inputContent}
         on:focusin={() => {
-          showFocus = true
+          focusedOmnibox.set(true)
           generateSuggestions()
         }}
         on:blur|capture={() =>
-          setTimeout(() => (showFocus = false) && (suggestions = []), 100)}
+          setTimeout(() => {
+            focusedOmnibox.set(false)
+            suggestions = []
+          }, 100)}
         on:keyup={async (e) => {
-          if (e.key === 'Enter')
+          if (e.key === 'Enter') {
+            focusedOmnibox.set(false)
             return tab.goToUri(
               resource.NetUtil.newURI(suggestions[selectedSuggestion].url),
             )
+          }
+
           if (e.key === 'ArrowDown') {
             e.preventDefault()
             selectedSuggestion = Math.min(
@@ -104,7 +119,7 @@
 
     <div
       class="suggestions"
-      hidden={!showFocus}
+      hidden={!$focusedOmnibox}
       id="omnibox__suggestions-list"
       role="listbox"
     >
@@ -119,7 +134,7 @@
           aria-selected={index === selectedSuggestion}
           on:click={(_) => {
             tab.goToUri(resource.NetUtil.newURI(suggestion.url))
-            inputElement.blur()
+            focusedOmnibox.set(false)
           }}
         >
           {suggestion.title}

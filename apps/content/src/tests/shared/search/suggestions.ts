@@ -7,18 +7,34 @@ import { suggestions } from '@shared/search/suggestions'
 
 export default async function () {
   await test('suggestions: google.com', async (t) => {
-    const results = await suggestions('google.com')
-    t.ok(results.length > 0, 'should return results')
+    const { fast: fastP, full: fullP } = suggestions('google.com')
+    const fast = await fastP
+    const full = await fullP
+
+    t.ok(fast.length > 0, 'fast should return results')
+    t.ok(full.length > 0, 'full should return results')
     t.eq(
-      results[0].url,
+      fast[0].url,
       'https://google.com',
-      'Highest priority result should be url prediction',
+      'Highest priority fast result should be url prediction',
+    )
+    t.eq(
+      full[0].url,
+      'https://google.com',
+      'Highest priority full result should be url prediction',
     )
   })
 
   await test('suggestions: tes', async (t) => {
-    const results = await suggestions('tes')
-    t.ok(results.length > 0, 'should return results')
-    t.truthy(results[0].url, 'should have a url')
+    const { fast: fastP, full: fullP } = suggestions('tes')
+    const fast = await fastP
+    const full = await fullP
+
+    t.ok(fast.length > 0, 'should return results')
+    t.truthy(fast[0].url, 'should have a url')
+    t.truthy(
+      fast.length <= full.length,
+      'full should have the same or more results than fast',
+    )
   })
 }
