@@ -20,6 +20,12 @@ export const tabs = viewableWritable<Tab[]>([])
 
 export function openTab(uri: nsIURIType = newTabUri()) {
   const newTab = new Tab(uri)
+
+  // We only want to focus the omnibox on new tab pages
+  if (uri.asciiSpec != newTabUri().asciiSpec) {
+    newTab.focusedOmnibox.set(false)
+  }
+
   tabs.update((tabs) => {
     selectedTabId.set(newTab.getId())
     return [...tabs, newTab]
