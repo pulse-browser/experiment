@@ -31,7 +31,7 @@ export class EngineProvider extends Provider {
 
   async getFastResults(query: string) {
     if (query == '' || isUrlLike(query)) return []
-
+    
     const engine = await this.engine.promise
     const defaultSearchResult: ProviderResult = {
       title: query,
