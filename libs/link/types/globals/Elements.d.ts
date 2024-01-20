@@ -68,6 +68,8 @@ declare interface XULFindBarElement extends HTMLElement {
   browser: XULBrowserElement
   open()
   close()
+
+  onFindCommand(): void
 }
 
 declare interface XULPanel extends HTMLElement {

@@ -223,8 +223,7 @@ export class Tab {
 
     const findbar = this.findbar.readOnce()
     if (findbar) {
-      if (findbar.hidden) findbar.open()
-      else findbar.close()
+      findbar.onFindCommand()
       return
     }
 
