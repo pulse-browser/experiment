@@ -7,6 +7,7 @@ import 'remixicon/fonts/remixicon.css'
 import '@shared/styles/window.css'
 
 import App from './Browser.svelte'
+import './browser.css'
 import { initializeShortcuts } from './lib/shortcuts'
 import { initializeWindow } from './lib/window'
 import './lib/window/api'

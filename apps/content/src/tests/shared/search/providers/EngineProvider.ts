@@ -57,6 +57,24 @@ export default async function () {
     )
   })
 
+  await test('EngineProvider: fast recomendations ignore URL like', async (t) => {
+    const provider = new EngineProvider()
+    {
+      const results = await provider.getFastResults('http://google.com')
+      t.eq(results, [], 'Should ignore full URLs')
+    }
+    {
+      const results = await provider.getFastResults('google.com')
+      t.eq(results, [], 'Should ignore domains')
+    }
+    {
+      const results = await provider.getFastResults(
+        'chrome://browser/content/tests/index.html',
+      )
+      t.eq(results, [], 'Should ignore chrome URLs')
+    }
+  })
+
   for (const engine of SEARCH_ENGINE_IDS) {
     await testProvider(engine)
   }

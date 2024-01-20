@@ -39,6 +39,7 @@ export function isUrlLike(query: string): boolean {
 export class URLProvider extends Provider {
   public providerPriority = 0
 
+  /* eslint @typescript-eslint/no-unused-vars: 0 */
   public async getResults(_query: string) {
     return []
   }
