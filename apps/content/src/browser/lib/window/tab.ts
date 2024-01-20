@@ -167,7 +167,11 @@ export class Tab {
     this.progressListener.events.on('locationChange', (event) => {
       if (!event.aWebProgress.isTopLevel) return
 
-      this.icon.set(null)
+      const sameLocation =
+        event.aFlags & 0x01 /* LOCATION_CHANGE_SAME_DOCUMENT */
+      if (!sameLocation) {
+        this.icon.set(null)
+      }
 
       this.uri.set(event.aLocation)
       this.canGoBack.set(this.browserElement.canGoBack)
