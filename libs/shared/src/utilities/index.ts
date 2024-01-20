@@ -3,5 +3,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 export * from './deferred.js'
+export * from './fn.js'
 export * from './mitt.js'
+export * from './ring.js'
 export * from './svelte.js'
