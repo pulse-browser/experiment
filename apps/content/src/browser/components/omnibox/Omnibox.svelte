@@ -20,6 +20,7 @@
   let inputElement: HTMLInputElement
   let suggestions: Suggestion[] = []
   let selectedSuggestion = 0
+  let selectionChange = false
 
   $: focusedOmnibox = tab.focusedOmnibox
   $: uri = tab.uri
@@ -73,6 +74,7 @@
         bind:value={inputContent}
         on:focusin={() => {
           focusedOmnibox.set(true)
+          selectionChange = false
           generateSuggestions()
         }}
         on:blur|capture={() =>
@@ -80,6 +82,12 @@
             focusedOmnibox.set(false)
             suggestions = []
           }, 100)}
+        on:mouseup={(_) => {
+          if (!selectionChange) inputElement.select()
+        }}
+        on:selectionchange={() => {
+          selectionChange = true
+        }}
         on:keyup={async (e) => {
           if (e.key === 'Enter') {
             focusedOmnibox.set(false)
