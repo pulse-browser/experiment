@@ -77,11 +77,7 @@
           selectionChange = false
           generateSuggestions()
         }}
-        on:blur|capture={() =>
-          setTimeout(() => {
-            focusedOmnibox.set(false)
-            suggestions = []
-          }, 100)}
+        on:blur|capture={() => setTimeout(() => focusedOmnibox.set(false), 100)}
         on:mouseup={(_) => {
           if (!selectionChange) inputElement.select()
         }}
@@ -127,8 +123,8 @@
 
     <div
       class="suggestions"
-      hidden={!$focusedOmnibox}
       id="omnibox__suggestions-list"
+      hidden={!$focusedOmnibox}
       role="listbox"
     >
       {#each suggestions as suggestion, index}
@@ -192,6 +188,9 @@
     padding: 0.5rem 1rem;
     border-radius: 0.25rem;
     cursor: pointer;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
   }
 
   .suggestion:hover {
