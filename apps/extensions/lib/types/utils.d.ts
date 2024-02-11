@@ -165,7 +165,7 @@ declare global {
     extension: any
     destroy(): void
     onManifestEntry(entry: any): void
-    getAPI(context: any): void
+    getAPI(context: BaseContext): any
   }
   /**
    * Subclass to add APIs commonly used with persistent events.

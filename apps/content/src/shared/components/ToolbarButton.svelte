@@ -7,9 +7,11 @@
   export let button: HTMLButtonElement | undefined = undefined
   export let kind: 'toolbar' | 'page-icon' = 'toolbar'
   export let tooltip: string | undefined = undefined
+  export let id = ''
 </script>
 
 <button
+  {id}
   class={`toolbar__button toolbar__button--${kind}`}
   bind:this={button}
   on:click

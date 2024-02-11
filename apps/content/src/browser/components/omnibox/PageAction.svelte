@@ -113,6 +113,10 @@
 </script>
 
 <ToolbarButton
+  id={`page-action-icon--${pageAction.extensionId
+    .replace('@', '')
+    .replace('}', '')
+    .replace('{', '')}`}
   kind="page-icon"
   bind:button
   on:click={handleClick}
@@ -130,7 +134,14 @@
 </ToolbarButton>
 
 {#if pageAction.popupUrl}
-  <xul:panel bind:this={panel} class="popup"></xul:panel>
+  <xul:panel
+    id={`page-action-panel--${pageAction.extensionId
+      .replace('@', '')
+      .replace('}', '')
+      .replace('{', '')}`}
+    bind:this={panel}
+    class="popup"
+  ></xul:panel>
 {/if}
 
 <style>

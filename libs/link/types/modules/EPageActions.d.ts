@@ -28,6 +28,8 @@ declare module 'resource://app/modules/EPageActions.sys.mjs' {
    *       power users, we might want to implement `pinned`
    */
   export interface PageActionOptions<PS = MatchPatternSet> {
+    extensionId: string
+
     /**
      * The tooltip displayed when the user hovers over the action button.
      *

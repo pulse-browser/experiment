@@ -1,50 +1,13 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
-
 /// <reference types="@types/firefox-webext-browser" />
 
 declare module 'resource://app/modules/ExtensionTestUtils.sys.mjs' {
-  import type { IAssert } from 'zora'
+  import type { IDefaultAssert } from 'resource://app/modules/TestManager.sys.mjs'
+  import type { Extension } from 'resource://gre/modules/Extension.sys.mjs'
 
-  type AddonWrapper = unknown
-  type ContentPage = unknown
-
-  export class ExtensionWrapper {
-    addon: AddonWrapper
-    addonPromise: Promise<AddonWrapper>
-    cleanupFiles: nsIFileType[]
-
-    destroy()
-    attachExtension(extension)
-    clearMessageQueues()
-    handleResult(kind: string, pass, nsg, expected, actual)
-    handleMessage(kind: string, msg, ...args)
-
-    awaitStartup(): Promise<AddonWrapper>
-    awaitBackgroundStarted(): Promise<[AddonWrapper, unknown]>
-    startup(): Promise<void>
-
-    terminateBackground(...args): Promise<unknown>
-    wakeupBackground(): Promise<unknown>
-    sendMessage(...args): Promise<unknown>
-    awaitFInish(msg): Promise<unknown>
-
-    checkMessages(): void
-    checkDuplicateListener(msg): void
-    awaitMessage(msg): Promise<void>
-    onMessage(msg, callback): void
-  }
-
-  export type ExtensionTestAssertions = {
-    getPersistentListeners(extWrapper, apiNs, apiEvent)
-    assertPersistentListeners(
-      extWrapper,
-      apiNs,
-      apiEvent,
-      options: { primed; persisted: boolean; primedListenersCount },
-    )
-  }
+  export type WebExtensionManifest = browser._manifest.WebExtensionManifest
 
   /* eslint @typescript-eslint/ban-types: 0 */
   export type ExtSerializableScript = string | Function | Array<string>
@@ -54,19 +17,33 @@ declare module 'resource://app/modules/ExtensionTestUtils.sys.mjs' {
     manifest: browser._manifest.WebExtensionManifest
   }
 
-  export const ExtensionTestUtils: {
-    getBackgroundServiceWorkerEnabled(): boolean
-    isInBackgroundServiceWorkerTests(): boolean
+  export type ExtensionWrapper = {
+    extension: Extension
+    startup(): Promise<[string, string]>
+    unload(): Promise<unknown>
 
-    testAssertions: ExtensionTestAssertions
-
-    loadExtension(
-      ext: Partial<ExtManifest>,
-      assert: IAssert,
-    ): { extension: ExtensionWrapper; cleanupFn: () => void }
-
-    failOnSchemaWarnings(warningsAsErrors?: boolean): void
+    sendMsg(msg: string): void
+    awaitMsg(msg: string): Promise<void>
   }
+
+  /**
+   * Similar in structure to {@link ExtManifest}, except only allowing strings
+   * to be provided
+   */
+  export type ExtStaticManifest = {
+    files: Record<string, string>
+    background: string
+    manifest: browser._manifest.WebExtensionManifest
+  }
+
+  export interface IExtensionTestUtils {
+    loadExtension(
+      definition: Partial<ExtManifest>,
+      assert: IDefaultAssert,
+    ): ExtensionWrapper
+  }
+
+  const ExtensionTestUtils: IExtensionTestUtils
 }
 
 declare interface MozESMExportFile {

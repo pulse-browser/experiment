@@ -15,6 +15,7 @@ this.pageAction = class extends ExtensionAPIPersistent {
     const options = extension.manifest.page_action
 
     this.pageAction = new lazy.EPageActions.PageAction({
+      extensionId: extension.id,
       tooltip: options.default_title,
       popupUrl: options.default_popup,
       showMatches: options.show_matches,
@@ -67,9 +68,7 @@ this.pageAction = class extends ExtensionAPIPersistent {
      */
     onClicked({ fire }) {
       const callback = async (_name, clickInfo) => {
-        console.log(fire, fire.wakeup, !!fire.wakeup)
         if (fire.wakeup) await fire.wakeup()
-        console.log('fire')
         fire.sync(clickInfo)
       }
 

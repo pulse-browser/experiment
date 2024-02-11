@@ -3,9 +3,13 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 declare module 'resource://app/modules/TestManager.sys.mjs' {
-  import type { ISpecFunction, ITestOptions } from 'zora'
+  import type { ISpecFunction, ITestOptions, IAssert } from 'zora'
 
   export type BrowserTestFunction = (window: Window) => ISpecFunction
+
+  export type IDefaultAssert = IAssert & {
+    onCleanup: (fn: (assert: IDefaultAssert) => Promise<void> | void) => void
+  }
 
   export type Test = {
     name: string
@@ -14,12 +18,16 @@ declare module 'resource://app/modules/TestManager.sys.mjs' {
   }
 
   export interface TestManagerInterface {
-    browserTest(
-      name: string,
-      spec: BrowserTestFunction,
-      options?: ITestOptions,
-    ): void
-    call(): Promise<void>
+    test(
+      description: string,
+      assertFn: (assert: IDefaultAssert) => Promise<void> | void,
+    ): Promise<void>
+    withBrowser(
+      defaultUrl: string,
+      using: (win: Window) => Promise<void>,
+    ): Promise<void>
+
+    report(): Promise<void>
   }
 
   export const TestManager: TestManagerInterface
