@@ -70,6 +70,8 @@ const sharedSettings = (contentFiles, dev) => {
         '@shared': resolve('src/shared'),
         '@browser': resolve('src/browser'),
       },
+      mainFields: ['svelte', 'browser', 'module', 'main'],
+      conditionNames: ['svelte', 'browser', 'import'],
     },
     resolveLoader: {
       modules: ['node_modules'],

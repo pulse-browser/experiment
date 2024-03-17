@@ -41,6 +41,7 @@
     "nanoid": "^5.0.4",
     "remixicon": "^4.0.1",
     "snarkdown": "^2.0.0",
+    "svelte-remixicon": "^2.4.0",
     "zora": "^5.2.0"
   }
 }
