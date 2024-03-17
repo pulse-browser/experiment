@@ -49,6 +49,9 @@ pref('browser.keybinds.findInPage', 'accel+F');
 // Misc. prefs
 pref('browser.tabs.newTabFocus', false);
 
+// TODO:
+pref('app.support.baseURL', 'https://example.com/');
+
 // =======================================================
 // Gecko prefs
 
