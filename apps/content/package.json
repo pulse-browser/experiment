@@ -34,7 +34,6 @@
   },
   "dependencies": {
     "@catppuccin/palette": "^1.0.1",
-    "@experiment/shared": "workspace:*",
     "@melt-ui/svelte": "^0.67.0",
     "fnts": "^2.1.0",
     "mitt": "^3.0.1",

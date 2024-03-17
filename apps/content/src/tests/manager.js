@@ -1,27 +1,28 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
-import {
-  type IAssert,
-  type ISpecFunction,
-  createTAPReporter,
-  hold,
-  report,
-} from 'zora'
+// @ts-check
+import { createTAPReporter, hold, report } from 'zora'
 
 const TEST_PORT = 3948
 const TEST_OUTPUT = document.createElement('pre')
 
 document.body.appendChild(TEST_OUTPUT)
 
-export async function manageTests(
-  tests: () => Promise<void>,
-): Promise<(tests: () => Promise<void>) => Promise<void>> {
-  const config = (await fetch(`http://localhost:${TEST_PORT}/config`).then(
-    (r) => r.json(),
-  )) as { shouldWatch: boolean }
+/**
+ * @param {() => Promise<void>} tests
+ * @returns {Promise<(tests: () => Promise<void>) => Promise<void>>}
+ */
+export async function manageTests(tests) {
+  /** @type {{ shouldWatch: boolean }} */
+  const config = await fetch(`http://localhost:${TEST_PORT}/config`).then((r) =>
+    r.json(),
+  )
 
-  async function performTests(tests: () => Promise<void>) {
+  /**
+   * @param {() => Promise<void>} tests
+   */
+  async function performTests(tests) {
     hold()
     await tests()
 
@@ -52,21 +53,25 @@ export async function manageTests(
   return performTests
 }
 
-interface IAssertionResult<T> {
-  pass: boolean
-  actual: unknown
-  expected: T
-  description: string
-  operator: string
-  at?: string
-}
+/**
+ * @template T
+ * @typedef {Object} IAssertionResult
+ * @property {boolean} pass
+ * @property {unknown} actual
+ * @property {T} expected
+ * @property {string} description
+ * @property {string} operator
+ * @property {string} [at]
+ */
 
-export async function then<T>(
-  t: IAssert,
-  result: IAssertionResult<T>,
-  description: string,
-  fn: ISpecFunction,
-) {
+/**
+ * @template T
+ * @param {import('zora').IAssert} t
+ * @param {IAssertionResult<T>} result
+ * @param {string} description
+ * @param {import('zora').ISpecFunction} fn
+ */
+export async function then(t, result, description, fn) {
   const restFn = result.pass ? t.test : t.skip
   restFn(description, fn)
 }

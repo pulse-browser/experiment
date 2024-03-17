@@ -42,7 +42,7 @@ export default (env, argv) => {
  * Generates a webpack config
  * @param {ContentFile[]} contentFiles The generated files
  * @param {boolean} dev If the application is in development mode
- * @returns The weback config
+ * @returns {import('webpack').Configuration} The weback config
  */
 const sharedSettings = (contentFiles, dev) => {
   const srcDir = './src'
@@ -52,7 +52,7 @@ const sharedSettings = (contentFiles, dev) => {
 
   for (const contentFile of contentFiles) {
     entry[contentFile.folder] =
-      './' + join(srcDir, contentFile.folder, contentFile.folder + '.ts')
+      './' + join(srcDir, contentFile.folder, contentFile.folder + '.js')
   }
 
   return {
@@ -94,6 +94,7 @@ const sharedSettings = (contentFiles, dev) => {
         chunks: 'all',
       },
     },
+    stats: 'minimal',
 
     module: {
       rules: [
