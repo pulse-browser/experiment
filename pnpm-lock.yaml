@@ -88,9 +88,6 @@ importers:
       '@catppuccin/palette':
         specifier: ^1.0.1
         version: 1.0.1
-      '@experiment/shared':
-        specifier: workspace:*
-        version: link:../../libs/shared
       '@melt-ui/svelte':
         specifier: ^0.67.0
         version: 0.67.0(patch_hash=aeypykqddydgtdgxoo44wxfeey)(svelte@4.2.8)
@@ -131,6 +128,9 @@ importers:
       css-loader:
         specifier: ^6.8.1
         version: 6.8.1(webpack@5.89.0)
+      gecko-types:
+        specifier: github:quark-platform/gecko-types
+        version: github.com/quark-platform/gecko-types/4e238b774e4415cbf0ad14b79060f39dd059bd29
       html-webpack-plugin:
         specifier: ^5.6.0
         version: 5.6.0(webpack@5.89.0)
@@ -199,9 +199,6 @@ importers:
       '@types/firefox-webext-browser':
         specifier: ^120.0.0
         version: 120.0.0
-      gecko-types:
-        specifier: github:quark-platform/gecko-types
-        version: github.com/quark-platform/gecko-types/015f4eddb9a02d5f60ef82bf04e7b78bbb15ffd6
       gecko-types@latest:
         specifier: link:quark-platform/gecko-types@latest
         version: link:quark-platform/gecko-types@latest
@@ -209,6 +206,9 @@ importers:
         specifier: ^3.0.1
         version: 3.0.1
     devDependencies:
+      gecko-types:
+        specifier: github:quark-platform/gecko-types
+        version: github.com/quark-platform/gecko-types/4e238b774e4415cbf0ad14b79060f39dd059bd29
       zora:
         specifier: ^5.2.0
         version: 5.2.0
@@ -7727,11 +7727,11 @@ packages:
   /zora@5.2.0:
     resolution: {integrity: sha512-FSZOvfJVfMWhk/poictNsDBCXq/Z+2Zu2peWs6d8OhWWb9nY++czw95D47hdw06L/kfjasLevwrbUtnXyWLAJw==}
 
-  github.com/quark-platform/gecko-types/015f4eddb9a02d5f60ef82bf04e7b78bbb15ffd6:
-    resolution: {tarball: https://codeload.github.com/quark-platform/gecko-types/tar.gz/015f4eddb9a02d5f60ef82bf04e7b78bbb15ffd6}
+  github.com/quark-platform/gecko-types/4e238b774e4415cbf0ad14b79060f39dd059bd29:
+    resolution: {tarball: https://codeload.github.com/quark-platform/gecko-types/tar.gz/4e238b774e4415cbf0ad14b79060f39dd059bd29}
     name: gecko-types
     version: 1.0.0
-    dev: false
+    dev: true
 
   github.com/quark-platform/gecko-types/e4efe38ce26c3617d7a3ecb13491bca2004e0377:
     resolution: {tarball: https://codeload.github.com/quark-platform/gecko-types/tar.gz/e4efe38ce26c3617d7a3ecb13491bca2004e0377}

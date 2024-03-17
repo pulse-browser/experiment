@@ -156,7 +156,7 @@ class FaviconLoad {
   }
 
   load() {
-    this._deferred = lazy.PromiseUtils.defer()
+    this._deferred = Promise.withResolvers()
 
     // Clear the references when we succeed or fail.
     let cleanup = () => {

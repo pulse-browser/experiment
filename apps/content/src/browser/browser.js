@@ -3,5 +3,6 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 // @ts-check
 import BrowserWindow from './BrowserWindow.svelte'
+import './browser.css'
 
 new BrowserWindow({ target: document.body })

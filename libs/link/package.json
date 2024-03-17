@@ -8,11 +8,11 @@
   "license": "ISC",
   "dependencies": {
     "@types/firefox-webext-browser": "^120.0.0",
-    "gecko-types": "github:quark-platform/gecko-types",
     "gecko-types@latest": "link:quark-platform/gecko-types@latest",
     "mitt": "^3.0.1"
   },
   "devDependencies": {
+    "gecko-types": "github:quark-platform/gecko-types",
     "zora": "^5.2.0"
   }
 }

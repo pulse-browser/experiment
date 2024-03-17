@@ -17,6 +17,7 @@
     "@tsconfig/svelte": "^5.0.2",
     "copy-webpack-plugin": "^11.0.0",
     "css-loader": "^6.8.1",
+    "gecko-types": "github:quark-platform/gecko-types",
     "html-webpack-plugin": "^5.6.0",
     "mini-css-extract-plugin": "^2.7.6",
     "postcss-loader": "^7.3.4",

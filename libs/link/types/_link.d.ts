@@ -29,3 +29,5 @@
 /// <reference path="./modules/TestManager.d.ts" />
 /// <reference path="./modules/ZoomStore.d.ts" />
 /// <reference path="./modules/zora.d.ts" />
+
+/// <reference path="./windowApi/WebsiteView.d.ts" />
