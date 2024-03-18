@@ -1,8 +1,9 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
-
 // @ts-check
+import { derived } from 'svelte/store'
+
 import tld from '../data/tld.txt'
 
 /**
@@ -24,9 +25,62 @@ export function getFastAutocomplete(input) {
 }
 
 /**
- * @param {string} input
+ * @param {import('svelte/store').Readable<string>} input
+ * @returns {import('svelte/store').Readable<AutocompleteResult[]>}
  */
-export async function slowAutocomplete() {}
+export function debouncedSlowAutocomplete(input) {
+  let timeout
+  return derived(
+    input,
+    (input, set) => {
+      if (input == '') {
+        return set([])
+      }
+
+      if (timeout) {
+        clearTimeout(timeout)
+      }
+
+      timeout = setTimeout(async () => {
+        let /** @type {AutocompleteResult[]} */ output = []
+
+        slowAutocomplete(input).map((completions) =>
+          completions.then((completions) => {
+            output.push(...completions)
+            set(output)
+          }),
+        )
+      }, 100)
+    },
+    [],
+  )
+}
+
+/**
+ * @param {string} input
+ * @returns {Promise<AutocompleteResult[]>[]}
+ */
+function slowAutocomplete(input) {
+  return [duckduckgoAutocomplete(input)]
+}
+
+/**
+ * @param {string} input
+ * @returns {Promise<AutocompleteResult[]>}
+ */
+async function duckduckgoAutocomplete(input) {
+  const response = await fetch(
+    `https://ac.duckduckgo.com/ac/?q=${input}&type=list&callback=jsonCallback`,
+  )
+  const /** @type {[string, string[]]} */ json = await response.json()
+  const completions = json[1]
+  return completions
+    .filter((comp) => comp != input)
+    .map((comp) => ({
+      display: comp,
+      url: `https://duckduckgo.com/?q=${comp}`,
+    }))
+}
 
 const HTTPS_REGEX =
   /^(?<protocol>https?:\/\/)?(?<domain>(\w+\.)+(?<tld>\w+))(?<path>\/.*)?$/m

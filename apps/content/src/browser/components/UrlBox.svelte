@@ -3,6 +3,8 @@
    - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
 
 <script>
+    import { writable } from 'svelte/store'
+
   // @ts-check
   import * as WebsiteViewApi from '../windowApi/WebsiteView'
   import * as UrlBoxApi from './urlBox'
@@ -10,7 +12,7 @@
   /** @type {WebsiteView} */
   export let view
 
-  let value = ''
+  const value = writable('')
 
   const uri = WebsiteViewApi.locationProperty(
     view,
@@ -25,7 +27,8 @@
   $: port = $uri?.port
   $: file = $uri?.filePath
 
-  $: fastAutocomplete = UrlBoxApi.getFastAutocomplete(value)
+  $: fastAutocomplete = UrlBoxApi.getFastAutocomplete($value)
+  $: slowAutocomplete = UrlBoxApi.debouncedSlowAutocomplete(value)
 </script>
 
 <div>
@@ -36,10 +39,13 @@
   </div>
 
   <div class="input">
-    <input type="text" bind:value />
+    <input type="text" bind:value={$value} />
 
     <div>
       {#each fastAutocomplete as result}
+        <div>{result.url}: {result.display}</div>
+      {/each}
+      {#each $slowAutocomplete as result}
         <div>{result.url}: {result.display}</div>
       {/each}
     </div>
