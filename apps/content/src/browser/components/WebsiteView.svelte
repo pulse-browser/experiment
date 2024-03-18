@@ -17,13 +17,33 @@
   /** @type {HTMLDivElement} */
   let browserContainer
 
-  const uri = WebsiteViewApi.locationProperty(view, (_, event) => event.aLocation.spec, '')
-  const canGoBack = WebsiteViewApi.locationProperty(view, (browser) => browser.canGoBack, false)
-  const canGoForward = WebsiteViewApi.locationProperty(view, (browser) => browser.canGoForward, false)
-
-  onMount(() => 
-    browserContainer.append(view.browser)
+  const canGoBack = WebsiteViewApi.locationProperty(
+    view,
+    (browser) => browser.canGoBack,
+    false,
   )
+  const canGoForward = WebsiteViewApi.locationProperty(
+    view,
+    (browser) => browser.canGoForward,
+    false,
+  )
+
+  const uri = WebsiteViewApi.locationProperty(
+    view,
+    (_, event) => event.aLocation,
+    view.browser.browsingContext?.currentURI,
+  )
+
+  $: scheme = $uri?.scheme
+  $: host = $uri?.host.startsWith('www.')
+    ? $uri.host.replace('www.', '')
+    : $uri?.host
+  $: port = $uri?.port
+  $: file = $uri?.filePath
+
+  $: console.log(scheme, host, port, file)
+
+  onMount(() => browserContainer.append(view.browser))
 </script>
 
 <div class="toolbar">
@@ -33,13 +53,20 @@
   <ToolbarButton on:click={() => view.browser.reload()}>
     <RiRefreshLine />
   </ToolbarButton>
-  <ToolbarButton on:click={() => view.browser.goForward()} disabled={!$canGoForward}>
+  <ToolbarButton
+    on:click={() => view.browser.goForward()}
+    disabled={!$canGoForward}
+  >
     <RiArrowRightLine />
   </ToolbarButton>
 
   <ToolbarSpacer />
 
-  <div>{$uri}</div>
+  <div class="url">
+    <span class="scheme">{scheme}://</span><span class="host">{host}</span
+    >{#if port != -1}<span class="port">:{port}</span
+      >{/if}{#if file != '/'}<span class="file">{file}</span>{/if}
+  </div>
 
   <ToolbarSpacer />
 </div>
@@ -47,6 +74,12 @@
 <div bind:this={browserContainer} class="browserContainer"></div>
 
 <style>
+  .url .scheme,
+  .url .port,
+  .url .file {
+    color: gray;
+  }
+
   .toolbar {
     display: flex;
     align-items: center;

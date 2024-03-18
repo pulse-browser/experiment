@@ -18,5 +18,6 @@
 <button on:click={() => lazy.BrowserToolboxLauncher.init()}
   >Open devtools</button
 >
+<button on:click={() => window.location.reload()}>Reload</button>
 
 <WebsiteView {view} />
