@@ -129,6 +129,7 @@ export function performCursedUrlStyling(inputElement) {
       startIndex = currentIndex
     }
 
+    // Consume path
     if (!inputElement.value.substring(startIndex).includes('/')) {
       return
     }
