@@ -72,6 +72,7 @@ export function create(uri) {
   goTo(view, uri)
   queueMicrotask(async () => {
     await initialized(view)
+    view.windowBrowserId = view.browser.browserId
     registerListeners(view)
   })
 
@@ -93,7 +94,6 @@ function initialized(view) {
 export async function goTo(view, uri) {
   await initialized(view)
 
-  console.debug('Going to', uri)
   view.browser.source = uri.spec
   try {
     view.browser.loadURI(uri, {
@@ -107,16 +107,19 @@ export async function goTo(view, uri) {
 }
 
 /**
+ * @template T
  * @param {WebsiteView} view
+ * @param {(browser: XULBrowserElement, event: WebsiteViewLocationChangeProperties) => T} getter
+ * @param {T} defaultValue
  */
-export function urlState(view) {
-  return readable(view.browser.source, (set) => {
-    const updateUri = (
-      /** @type {{ aWebProgress: nsIWebProgressType; aLocation: nsIURIType; }} */ location,
-    ) => location.aWebProgress.isTopLevel && set(location.aLocation.spec)
+export function locationProperty(view, getter, defaultValue) {
+  return readable(defaultValue, (set) => {
+    const updater = (
+      /** @type {WebsiteViewLocationChangeProperties} */ event,
+    ) => event.aWebProgress.isTopLevel && set(getter(view.browser, event))
 
-    view.events.on('locationChange', updateUri)
-    return () => view.events.off('locationChange', updateUri)
+    view.events.on('locationChange', updater)
+    return () => view.events.off('locationChange', updater)
   })
 }
 

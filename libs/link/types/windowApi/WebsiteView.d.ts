@@ -1,13 +1,15 @@
+declare type WebsiteViewLocationChangeProperties = {
+  aWebProgress: nsIWebProgressType
+  aRequest: nsIRequestType
+  aLocation: nsIURIType
+  aFlags: number
+  id: number
+}
+
 declare type WebsiteViewEvents = {
   loadingChange: boolean
   progressPercent: number
-  locationChange: {
-    aWebProgress: nsIWebProgressType
-    aRequest: nsIRequestType
-    aLocation: nsIURIType
-    aFlags: number
-    id: number
-  }
+  locationChange: WebsiteViewLocationChangeProperties
 }
 
 declare type WebsiteView = {

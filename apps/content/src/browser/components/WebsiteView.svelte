@@ -9,30 +9,31 @@
   } from 'svelte-remixicon'
 
   import * as WebsiteViewApi from '../windowApi/WebsiteView'
-  import { browserImports } from '../browserImports.js'
   import ToolbarButton from './ToolbarButton.svelte'
   import ToolbarSpacer from './ToolbarSpacer.svelte'
 
   /** @type {WebsiteView} */
-  export let browserView
+  export let view
   /** @type {HTMLDivElement} */
   let browserContainer
 
-  const uri = WebsiteViewApi.urlState(browserView)
+  const uri = WebsiteViewApi.locationProperty(view, (_, event) => event.aLocation.spec, '')
+  const canGoBack = WebsiteViewApi.locationProperty(view, (browser) => browser.canGoBack, false)
+  const canGoForward = WebsiteViewApi.locationProperty(view, (browser) => browser.canGoForward, false)
 
   onMount(() => 
-    browserContainer.append(browserView.browser)
+    browserContainer.append(view.browser)
   )
 </script>
 
 <div class="toolbar">
-  <ToolbarButton on:click={() => browserView.browser.goBack()}>
+  <ToolbarButton on:click={() => view.browser.goBack()} disabled={!$canGoBack}>
     <RiArrowLeftLine />
   </ToolbarButton>
-  <ToolbarButton on:click={() => browserView.browser.reload()}>
+  <ToolbarButton on:click={() => view.browser.reload()}>
     <RiRefreshLine />
   </ToolbarButton>
-  <ToolbarButton on:click={() => browserView.browser.goForward()}>
+  <ToolbarButton on:click={() => view.browser.goForward()} disabled={!$canGoForward}>
     <RiArrowRightLine />
   </ToolbarButton>
 
