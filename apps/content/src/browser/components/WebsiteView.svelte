@@ -1,16 +1,19 @@
+<!-- This Source Code Form is subject to the terms of the Mozilla Public
+   - License, v. 2.0. If a copy of the MPL was not distributed with this
+   - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
+
 <script>
   // @ts-check
   import { onMount } from 'svelte'
 
-  import {
-    RiRefreshLine,
-    RiArrowLeftLine,
-    RiArrowRightLine,
-  } from 'svelte-remixicon'
+  import RiRefreshLine from 'svelte-remixicon/RiRefreshLine.svelte'
+  import RiArrowLeftLine from 'svelte-remixicon/RiArrowLeftLine.svelte'
+  import RiArrowRightLine from 'svelte-remixicon/RiArrowRightLine.svelte'
 
   import * as WebsiteViewApi from '../windowApi/WebsiteView'
   import ToolbarButton from './ToolbarButton.svelte'
   import ToolbarSpacer from './ToolbarSpacer.svelte'
+  import UrlBox from './UrlBox.svelte'
 
   /** @type {WebsiteView} */
   export let view
@@ -34,15 +37,6 @@
     view.browser.browsingContext?.currentURI,
   )
 
-  $: scheme = $uri?.scheme
-  $: host = $uri?.host.startsWith('www.')
-    ? $uri.host.replace('www.', '')
-    : $uri?.host
-  $: port = $uri?.port
-  $: file = $uri?.filePath
-
-  $: console.log(scheme, host, port, file)
-
   onMount(() => browserContainer.append(view.browser))
 </script>
 
@@ -62,11 +56,7 @@
 
   <ToolbarSpacer />
 
-  <div class="url">
-    <span class="scheme">{scheme}://</span><span class="host">{host}</span
-    >{#if port != -1}<span class="port">:{port}</span
-      >{/if}{#if file != '/'}<span class="file">{file}</span>{/if}
-  </div>
+  <UrlBox {view} />
 
   <ToolbarSpacer />
 </div>
@@ -74,12 +64,6 @@
 <div bind:this={browserContainer} class="browserContainer"></div>
 
 <style>
-  .url .scheme,
-  .url .port,
-  .url .file {
-    color: gray;
-  }
-
   .toolbar {
     display: flex;
     align-items: center;

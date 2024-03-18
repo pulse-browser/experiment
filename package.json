@@ -18,7 +18,7 @@
     "lint": "eslint .",
     "format": "pnpm lint && pnpm script:license-check --fix && prettier . --write --plugin prettier-plugin-svelte",
     "data": "concurrently -c auto pnpm:data:*",
-    "data:tld": "wget https://data.iana.org/TLD/tlds-alpha-by-domain.txt -O ./apps/content/src/shared/search/providers/data/tld.txt"
+    "data:tld": "wget https://data.iana.org/TLD/tlds-alpha-by-domain.txt -O ./apps/content/src/browser/data/tld.txt"
   },
   "keywords": [],
   "author": "",
@@ -28,8 +28,6 @@
     "@total-typescript/ts-reset": "^0.5.1",
     "@trivago/prettier-plugin-sort-imports": "^4.3.0",
     "@types/node": "^20.8.4",
-    "@typescript-eslint/eslint-plugin": "^6.11.0",
-    "@typescript-eslint/parser": "^6.11.0",
     "concurrently": "^8.2.1",
     "eslint": "^8.53.0",
     "eslint-plugin-listeners": "^1.4.0",
@@ -83,20 +81,16 @@
       "node": true
     },
     "extends": [
-      "eslint:recommended",
-      "plugin:@typescript-eslint/recommended"
+      "eslint:recommended"
     ],
-    "parser": "@typescript-eslint/parser",
     "parserOptions": {
       "ecmaVersion": "latest",
       "sourceType": "module"
     },
     "plugins": [
-      "@typescript-eslint",
       "listeners"
     ],
     "rules": {
-      "@typescript-eslint/triple-slash-reference": "off",
       "no-extra-semi": "off",
       "no-console": "warn",
       "no-undef": "off"
