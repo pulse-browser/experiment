@@ -31,12 +31,6 @@
     false,
   )
 
-  const uri = WebsiteViewApi.locationProperty(
-    view,
-    (_, event) => event.aLocation,
-    view.browser.browsingContext?.currentURI,
-  )
-
   onMount(() => browserContainer.append(view.browser))
 </script>
 

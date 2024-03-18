@@ -65,6 +65,87 @@ function slowAutocomplete(input) {
 }
 
 /**
+ * Uses `nsIEditor` to reduce the emphisis of schema and path
+ * bits and bobs. Heavily based on mozilla's code. I did not
+ * come up with these shenanagans
+ *
+ * @param {HTMLInputElement} inputElement
+ */
+export function performCursedUrlStyling(inputElement) {
+  // @ts-expect-error - shenanagans !== type checking :(
+  const /** @type {nsIEditorType} */ editor = inputElement.editor
+  const /** @type {nsISelectionControllerType} */ controller =
+      editor.selectionController
+
+  /**
+   * Manual currying!
+   */
+  return () => {
+    const textNode = editor.rootElement.firstChild
+    let startIndex = 0,
+      currentIndex = 0
+
+    const strikeOut = controller.getSelection(controller.SELECTION_URLSTRIKEOUT)
+    const secondary = controller.getSelection(controller.SELECTION_URLSECONDARY)
+
+    if (!textNode) {
+      return
+    }
+
+    // Consume the url scheme. No, that doesn't consume the third strike
+    // of resource:///, because the third strike has semantic meaning!
+    if (!inputElement.value.includes('://')) {
+      return
+    }
+    {
+      const isHttp = inputElement.value.startsWith('http://')
+
+      while (inputElement.value[currentIndex] != ':') {
+        currentIndex += 1
+      }
+
+      currentIndex += 3
+
+      const range = document.createRange()
+      range.setStart(textNode, startIndex)
+      range.setEnd(textNode, currentIndex)
+
+      const selection = isHttp ? strikeOut : secondary
+      selection.addRange(range)
+      startIndex = currentIndex
+    }
+
+    if (!inputElement.value.includes('://www.')) {
+      return
+    }
+    {
+      currentIndex += 4
+
+      const range = document.createRange()
+      range.setStart(textNode, startIndex)
+      range.setEnd(textNode, currentIndex)
+
+      secondary.addRange(range)
+      startIndex = currentIndex
+    }
+
+    if (!inputElement.value.substring(startIndex).includes('/')) {
+      return
+    }
+    {
+      while (inputElement.value[startIndex] != '/') {
+        startIndex += 1
+      }
+
+      const range = document.createRange()
+      range.setStart(textNode, startIndex)
+      range.setEnd(textNode, inputElement.value.length)
+      secondary.addRange(range)
+    }
+  }
+}
+
+/**
  * @param {string} input
  * @returns {Promise<AutocompleteResult[]>}
  */

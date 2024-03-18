@@ -44,9 +44,8 @@
   },
   "pnpm": {
     "patchedDependencies": {
-      "svelte@4.2.8": "apps/content/patches/svelte@4.2.1.patch",
-      "webpack-license-plugin@4.4.2": "apps/content/patches/webpack-license-plugin@4.4.2.patch",
-      "@melt-ui/svelte@0.67.0": "apps/content/patches/@melt-ui__svelte@0.64.5.patch"
+      "svelte@4.2.12": "apps/content/patches/svelte@4.2.1.patch",
+      "webpack-license-plugin@4.4.2": "apps/content/patches/webpack-license-plugin@4.4.2.patch"
     }
   },
   "prettier": {

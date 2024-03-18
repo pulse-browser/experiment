@@ -15,7 +15,7 @@
   })
 
   const view = WebsiteViewApi.create(
-    browserImports.NetUtil.newURI('https://google.com/'),
+    browserImports.NetUtil.newURI('https://google.com'),
   )
 </script>
 

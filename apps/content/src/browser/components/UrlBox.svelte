@@ -3,16 +3,18 @@
    - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
 
 <script>
-    import { writable } from 'svelte/store'
 
   // @ts-check
+    import { writable } from 'svelte/store'
+
   import * as WebsiteViewApi from '../windowApi/WebsiteView'
   import * as UrlBoxApi from './urlBox'
+    import { onMount } from 'svelte'
 
   /** @type {WebsiteView} */
   export let view
 
-  const value = writable('')
+  let inputFocused = false
 
   const uri = WebsiteViewApi.locationProperty(
     view,
@@ -20,42 +22,40 @@
     view.browser.browsingContext?.currentURI,
   )
 
-  $: scheme = $uri?.scheme
-  $: host = $uri?.host.startsWith('www.')
-    ? $uri.host.replace('www.', '')
-    : $uri?.host
-  $: port = $uri?.port
-  $: file = $uri?.filePath
+  /** @type {HTMLInputElement} */
+  let input
+  const value = writable('')
+
+  uri.subscribe(newValue => value.set(newValue?.spec || ''))
 
   $: fastAutocomplete = UrlBoxApi.getFastAutocomplete($value)
   $: slowAutocomplete = UrlBoxApi.debouncedSlowAutocomplete(value)
+
+  onMount(() => {
+  uri.subscribe(UrlBoxApi.performCursedUrlStyling(input))
+  })
 </script>
 
-<div>
-  <div class="display">
-    <span class="scheme">{scheme}://</span><span class="host">{host}</span
-    >{#if port != -1}<span class="port">:{port}</span
-      >{/if}{#if file != '/'}<span class="file">{file}</span>{/if}
-  </div>
+<div class="url-box">
+    <input type="text" bind:this={input} bind:value={$value} on:focus={() => inputFocused = true} on:blur={() => inputFocused = false} />
 
-  <div class="input">
-    <input type="text" bind:value={$value} />
-
-    <div>
+    <div hidden={!inputFocused}>
       {#each fastAutocomplete as result}
         <div>{result.url}: {result.display}</div>
       {/each}
+      <div>Suggestions</div>
       {#each $slowAutocomplete as result}
         <div>{result.url}: {result.display}</div>
       {/each}
     </div>
-  </div>
 </div>
 
 <style>
-  .display .scheme,
-  .display .port,
-  .display .file {
-    color: gray;
-  }
+.url-box {
+  flex-grow: 2;
+}
+
+.url-box input {
+  width: 100%;
+}
 </style>
